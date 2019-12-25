@@ -1,0 +1,17 @@
+{% extends "registration/base.html" %}
+
+{% block title %}회원가입{% endblock %}
+{% block page %}signup{% endblock %}
+
+{% block content %}
+<div style="padding-left:50px; padding-top:50px;">
+    <h1>Signup</h1>
+    <hr>
+    <form action="" method="POST">
+        {{ user_form.as_p }}
+        {% csrf_token %}
+        <input class="btn btn-primary" type="submit" value="submit">
+    </form>
+
+</div>
+{% endblock %}
