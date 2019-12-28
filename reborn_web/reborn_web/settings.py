@@ -43,9 +43,9 @@ PROJECT_APPS = [
     'users',
 ]
 
-INSTALLED_APPS = DJANGO_APPS +  PROJECT_APPS
+INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
 
-AUTH_USER_MODEL = "users.User"
+#AUTH_USER_MODEL = "users.User"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -111,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko'
 
 TIME_ZONE = 'Asia/Seoul'
 
