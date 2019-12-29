@@ -40,12 +40,12 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS = [
-    'users',
+    'users.apps.UsersConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
 
-#AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "users.User"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
