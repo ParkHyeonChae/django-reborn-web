@@ -7,6 +7,21 @@ from .models import User
 def index(request):
     return render(request, 'users/index.html', { 'user_id': request.session.get('user_id') })
 
+class RegisterView(FormView):
+    template_name = 'users/register.html'
+    form_class = RegisterForm
+    success_url = '/'
+
+    def form_valid(self, form):
+        user = User(
+            user_id = form.data.get('user_id'),
+            password = make_password(form.data.get('password')),
+            level = '2'
+        )
+        user.save()
+
+        return super().form_valid(form)
+
 class LoginView(FormView):
     template_name = 'users/login.html'
     form_class = LoginForm
