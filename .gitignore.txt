@@ -1,4 +1,0 @@
-### Django ###
-secrets.json
-__pycache__/
-db.sqlite3
