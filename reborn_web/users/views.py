@@ -16,6 +16,11 @@ class RegisterView(FormView):
         user = User(
             user_id = form.data.get('user_id'),
             password = make_password(form.data.get('password')),
+            email = form.data.get('email'),
+            hp = form.data.get('hp'),
+            name = form.data.get('name'),
+            student_id = form.data.get('student_id'),
+            grade = form.data.get('grade'),
             level = '2'
         )
         user.save()
