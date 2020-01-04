@@ -14,7 +14,7 @@
 <div class="row mt-5">
     <div class="col-12">
         <form method="POST" action=".">
-            {% csrf_token %}
+            <!-- {% csrf_token %}
             {% for field in form %}
             <div class="form group">
                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -25,7 +25,12 @@
             <span style="color:red">{{ field.errors }}</span>
             {% endif %}
             {% endfor %}
-            <button type="submit" class="btn btn-primary">회원가입</button>
+            <button type="submit" class="btn btn-primary">회원가입</button> -->
+
+            {{ user_form.as_p }}
+            {% csrf_token %}
+
+            <input class="btn btn-primary" type="submit" value="회원가입">
         </form>
     </div>
 </div>

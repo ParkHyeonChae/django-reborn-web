@@ -7,25 +7,40 @@ from .models import User
 def index(request):
     return render(request, 'users/index.html', { 'user_id': request.session.get('user_id') })
 
-class RegisterView(FormView):
-    template_name = 'users/register.html'
-    form_class = RegisterForm
-    success_url = '/'
+# class RegisterView(FormView):
+#     template_name = 'users/register.html'
+#     form_class = RegisterForm
+#     success_url = '/'
 
-    def form_valid(self, form):
-        user = User(
-            user_id = form.data.get('user_id'),
-            password = make_password(form.data.get('password')),
-            email = form.data.get('email'),
-            hp = form.data.get('hp'),
-            name = form.data.get('name'),
-            student_id = form.data.get('student_id'),
-            grade = form.data.get('grade'),
-            level = '2'
-        )
-        user.save()
+#     def form_valid(self, form):
+#         user = User(
+#             user_id = form.data.get('user_id'),
+#             password = make_password(form.data.get('password')),
+#             email = form.data.get('email'),
+#             hp = form.data.get('hp'),
+#             name = form.data.get('name'),
+#             student_id = form.data.get('student_id'),
+#             grade = form.data.get('grade'),
+#             level = '2'
+#         )
+#         user.save()
 
-        return super().form_valid(form)
+#         return super().form_valid(form)
+
+def register_view(request):
+    if request.method == 'POST':
+        user_form = RegisterForm(request.POST)
+
+        if user_form.is_valid():
+            user = user_form.save(commit=False)
+            user.set_password(user_form.cleaned_data['password'])
+            user.level = 2
+            user.save()
+            return redirect('/users/login')
+    else:
+        user_form = RegisterForm()
+
+    return render(request, 'users/register.html', {'user_form':user_form})
 
 class LoginView(FormView):
     template_name = 'users/login.html'
