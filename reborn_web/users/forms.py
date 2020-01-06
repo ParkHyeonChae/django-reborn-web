@@ -5,16 +5,35 @@ from .models import User
 # ModelForm Test
 
 class RegisterForm(forms.ModelForm):
-    password = forms.CharField(label='비밀번호', widget=forms.PasswordInput)
-    confirm_password = forms.CharField(label='비밀번호 확인', widget=forms.PasswordInput)
+    password = forms.CharField(label='비밀번호', widget=forms.PasswordInput(
+      attrs={'class': 'form-control', 'placeholder': '비밀번호를 입력주세요.'}),  
+    )
+    confirm_password = forms.CharField(label='비밀번호 확인', widget=forms.PasswordInput(
+      attrs={'class': 'form-control', 'placeholder': '비밀번호를 다시 입력주세요.'}),  
+    )
 
     class Meta:
         model = User
-        fields = ['user_id','password', 'confirm_password', 'email', 'hp', 'name', 'student_id', 'grade']
+        fields = ['user_id', 'password', 'confirm_password', 'email', 'hp', 'name', 'student_id', 'grade']
 
         widgets = {
             'user_id': forms.TextInput(
-                attrs={'class': 'form-control', 'style': 'width: 100%', 'placeholder': '아이디를 입력하세요.'}
+                attrs={'class': 'form-control', 'placeholder': '로그인과 사이트 활동에 사용할 아이디를 입력주세요.'}
+            ),
+            'email': forms.EmailInput(
+                attrs={'class': 'form-control', 'placeholder': '비밀번호 분실 시 사용될 이메일을 입력해주세요.'}
+            ),
+            'hp': forms.NumberInput(
+                attrs={'class': 'form-control', 'placeholder': '하이픈(-)을 제외한 번호를 입력해주세요.'}
+            ),
+            'name': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': '각종 행사 참여를 위해 실명을 입력해주세요.'}
+            ),
+            'student_id': forms.NumberInput(
+                attrs={'class': 'form-control', 'placeholder': '학번을 입력주세요.'}
+            ),
+            'grade': forms.Select(
+                attrs={'class': 'form-control'}
             ),
         }
     

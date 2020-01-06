@@ -1,0 +1,25 @@
+{% extends "users/base.html" %}
+
+{% block contents %}
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h1>회원정보수정</h1>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-12">
+        {{ error }}
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-12">
+        <form method="POST" action=".">
+            
+            {% csrf_token %}
+            {{ user_form.as_p }}
+
+            <input class="btn btn-primary" type="submit" value="저장하기">
+        </form>
+    </div>
+</div>
+{% endblock %}
