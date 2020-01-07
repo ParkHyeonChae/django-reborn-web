@@ -3,9 +3,12 @@ from django.views.generic.edit import FormView
 from django.contrib.auth.hashers import make_password
 from .forms import RegisterForm, LoginForm
 from .models import User
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 
 def index(request):
-    return render(request, 'users/index.html', { 'user_id': request.session.get('user_id') })
+    return render(request, 'users/index.html')
 
 # class RegisterView(FormView):
 #     template_name = 'users/register.html'
@@ -36,11 +39,32 @@ def register_view(request):
             user.set_password(user_form.cleaned_data['password'])
             user.level = 2
             user.save()
-            return redirect('/users/login')
+            return redirect('users:login')
     else:
         user_form = RegisterForm()
 
     return render(request, 'users/register.html', {'user_form':user_form})
+
+@login_required
+def profile_update_view(request):
+    if request.method == 'GET':
+        return redirect('/users/profile')
+
+# class LoginView(FormView):
+#     template_name = 'users/login.html'
+#     form_class = LoginForm
+#     success_url = '/'
+
+#     def form_valid(self, form):
+#         self.request.session['user_id'] = form.data.get('user_id')
+
+#         return super().form_valid(form)
+
+# def logout_view(request):
+#     if 'user_id' in request.session:
+#         del(request.session['user_id'])
+
+#     return redirect('/')
 
 class LoginView(FormView):
     template_name = 'users/login.html'
@@ -48,12 +72,26 @@ class LoginView(FormView):
     success_url = '/'
 
     def form_valid(self, form):
-        self.request.session['user_id'] = form.data.get('user_id')
-
+        user_id = form.cleaned_data.get("user_id")
+        password = form.cleaned_data.get("password")
+        user = authenticate(self.request, username=user_id, password=password)
+        if user is not None:
+            login(self.request, user)
         return super().form_valid(form)
 
-def logout(request):
-    if 'user_id' in request.session:
-        del(request.session['user_id'])
 
+# def login_view(request):
+#     if request.method == 'POST':
+#         login_form = AuthenticationForm(request, request.POST)  
+        
+#         if login_form.is_valid():
+#             login(request, login_form.get_user())
+#             return render(request, 'users/index.html')
+#     else:
+#         login_form = LoginForm()
+    
+#     return render(request, 'users/login.html', {'login_form' : login_form})
+
+def logout_view(request):
+    logout(request)
     return redirect('/')

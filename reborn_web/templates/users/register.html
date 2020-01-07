@@ -8,11 +8,6 @@
 </div>
 <div class="row mt-5">
     <div class="col-12">
-        {{ error }}
-    </div>
-</div>
-<div class="row mt-5">
-    <div class="col-12">
         <form method="POST" action=".">
             <!-- {% csrf_token %}
             {% for field in form %}
@@ -20,15 +15,31 @@
                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                 <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}"
                     placeholder="{{ field.label }}" name="{{ field.name }}" />
-            </div><br>
+                </div><br>
             {% if field.errors %}
             <span style="color:red">{{ field.errors }}</span>
             {% endif %}
             {% endfor %}
             <button type="submit" class="btn btn-primary">회원가입</button> -->
-
-            {{ user_form.as_p }}
+            
+            <!-- {{ user_form.as_p }} -->
+            
             {% csrf_token %}
+            {% for field in user_form %}
+            <div class="fieldWrapper">
+                {{ field.label_tag }}
+                {{ field }}
+                <br>
+                {{ field.errors }}
+            </div>
+            {% endfor %}
+
+            <style>
+                .errorlist {
+                    color: red;
+                    font-weight: bold;
+                }
+            </style>
 
             <input class="btn btn-primary" type="submit" value="회원가입">
         </form>

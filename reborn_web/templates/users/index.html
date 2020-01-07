@@ -1,10 +1,19 @@
 {% extends "users/base.html" %}
 {% block contents %}
-로그인 상태 : 
-{{ user_id }}
 
+{% if user.is_authenticated %}
+    <p>이 유저는 로그인 되어 있습니다.</p>
+{% else %}
+    <p>이 유저는 로그아웃 되어 있습니다..</p>
+{% endif %}
+
+로그인 상태 : {{ user.user_id }}
 <br><br>
+<button onclick="location.href='/users/logout'">로그아웃</button>
+<button onclick="location.href='/users/profile'">마이페이지</button>
+
 <button onclick="location.href='/users/login'">로그인</button>
 <button onclick="location.href='/users/register'">회원가입</button>
+
 
 {% endblock %}

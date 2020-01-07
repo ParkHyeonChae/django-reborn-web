@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.hashers import check_password
 from .models import User
+from django.contrib.auth.forms import AuthenticationForm
 
 # ModelForm Test
 
@@ -18,7 +19,7 @@ class RegisterForm(forms.ModelForm):
 
         widgets = {
             'user_id': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': '로그인과 사이트 활동에 사용할 아이디를 입력주세요.'}
+                attrs={'class': 'form-control', 'placeholder': '로그인과 사이트 활동에 사용할 아이디를 입력주세요.',}
             ),
             'email': forms.EmailInput(
                 attrs={'class': 'form-control', 'placeholder': '비밀번호 분실 시 사용될 이메일을 입력해주세요.'}
@@ -150,7 +151,7 @@ class LoginForm(forms.Form):
             try:
                user = User.objects.get(user_id=user_id)
             except User.DoesNotExist:
-                self.add_error('user_id', '아이디가 없습니다.')
+                self.add_error('user_id', '아이디가 존재하지 않습니다.')
                 return
             
             if not check_password(password, user.password):
