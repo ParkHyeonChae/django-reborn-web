@@ -1,6 +1,6 @@
 {% extends "users/base.html" %}
-
 {% block contents %}
+
 <div class="row mt-5">
     <div class="col-12 text-center">
         <h1>회원정보수정</h1>
@@ -9,10 +9,8 @@
 
 <div class="row mt-5">
     <div class="col-12">
-        <form method="POST" action=".">
-            
-            {% csrf_token %}
-            <!-- {{ user_form.as_p }} -->
+        <!-- <form method="POST" action=".">  
+            {% csrf_token %}            
             {% for field in user_form %}
             <div class="fieldWrapper">
                 {{ field.label_tag }}
@@ -32,7 +30,15 @@
             </style>
 
             <input class="btn btn-primary" type="submit" value="저장하기">
+        </form> -->
+
+        <form method="POST">
+            {% csrf_token %}
+            아이디 : {{ user.user_id }}<br><br>
+            {{ user_change_form.as_p }}
+            <input type="submit" value="저장하기"/>
         </form>
+        
     </div>
 </div>
 {% endblock %}

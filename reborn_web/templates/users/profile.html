@@ -20,9 +20,10 @@
         학년 : {{ user.grade }}<br><br>
     </div>
     <div class="col-12">
-        <a href="{url : 'users.profile_update'}">내정보수정</a>&nbsp;&middot;&nbsp;
-        <a href='#'>비밀번호변경</a>&nbsp;&middot;&nbsp;
-        <a href='#'>회원탈퇴</a>  
+        <a href="{% url 'users:profile_update' %}">내정보수정</a>&nbsp;&middot;&nbsp;
+        <a href="#">비밀번호변경</a>&nbsp;&middot;&nbsp;
+        <a href="{% url 'users:profile_delete' %}">회원탈퇴</a> <br>
+        <a href='#'>내가 쓴 글</a>
     </div>
 </div>
 {% endblock %}

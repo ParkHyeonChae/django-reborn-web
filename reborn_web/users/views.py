@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
 from django.contrib.auth.hashers import make_password
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, CustomUserChangeForm
 from .models import User
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
@@ -53,10 +53,23 @@ def profile_view(request):
 
 @login_required
 def profile_update_view(request):
-    if request.method == 'GET':
-        user_form = RegisterForm(request.POST)
-        
-        return render(request, 'users/profile_update.html', {'user_form':user_form})
+    if request.method == 'POST':
+        # user_form = RegisterForm(request.POST)
+        user_change_form = CustomUserChangeForm(request.POST, instance = request.user)
+        if user_change_form.is_valid():
+            user_change_form.save()
+            # return redirect('users:profile')
+            return render(request, 'users/profile.html')
+    else:
+        user_change_form = CustomUserChangeForm(instance = request.user)    
+        return render(request, 'users/profile_update.html', {'user_change_form':user_change_form})
+
+@login_required
+def profile_delete_view(request):
+    if request.method == 'POST':
+        request.user.delete()
+        return redirect('/')
+    return render(request, 'users/profile_delete.html')
 
 # class LoginView(FormView):
 #     template_name = 'users/login.html'

@@ -1,0 +1,18 @@
+{% extends "users/base.html" %}
+{% block contents %}
+
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h1>회원탈퇴</h1>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-12">
+        <form method="POST">
+            {% csrf_token %}
+            <p>정말로 탈퇴하시겠습니까?</p>
+            <input type="submit" value="탈퇴하기" />
+        </form>
+    </div>
+</div>
+{% endblock %}

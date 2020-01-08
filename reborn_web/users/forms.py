@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.hashers import check_password
 from .models import User
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserChangeForm
+from django.contrib.auth import get_user_model
 
 # ModelForm Test
 
@@ -156,3 +157,9 @@ class LoginForm(forms.Form):
             
             if not check_password(password, user.password):
                 self.add_error('password', '비밀번호가 틀렸습니다.')
+
+class CustomUserChangeForm(UserChangeForm):
+    password = None
+    class Meta:
+        model = get_user_model()
+        fields = ['email', 'hp', 'name', 'student_id', 'grade']
