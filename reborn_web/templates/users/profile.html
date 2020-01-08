@@ -3,23 +3,26 @@
 {% block contents %}
 <div class="row mt-5">
     <div class="col-12 text-center">
-        <h1>회원정보수정</h1>
+        <h1>마이페이지</h1>
     </div>
 </div>
 <div class="row mt-5">
     <div class="col-12">
-        {{ error }}
+        {% if user.level == '3' or user.level == '4' %}
+        아이디 : {{ user.user_id }} (관리자)<br>
+        {% else %}
+        아이디 : {{ user.user_id }}<br>
+        {% endif %}
+        이메일 : {{ user.email }}<br>
+        폰번호 : {{ user.hp }}<br>
+        이름 : {{ user.name }}<br>
+        학번 : {{ user.student_id }}<br>
+        학년 : {{ user.grade }}<br><br>
     </div>
-</div>
-<div class="row mt-5">
     <div class="col-12">
-        <form method="POST" action=".">
-            
-            {% csrf_token %}
-            {{ user_form.as_p }}
-
-            <input class="btn btn-primary" type="submit" value="저장하기">
-        </form>
+        <a href="{url : 'users.profile_update'}">내정보수정</a>&nbsp;&middot;&nbsp;
+        <a href='#'>비밀번호변경</a>&nbsp;&middot;&nbsp;
+        <a href='#'>회원탈퇴</a>  
     </div>
 </div>
 {% endblock %}

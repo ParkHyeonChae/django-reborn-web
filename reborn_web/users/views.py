@@ -46,9 +46,17 @@ def register_view(request):
     return render(request, 'users/register.html', {'user_form':user_form})
 
 @login_required
+def profile_view(request):
+    if request.method == 'GET':
+
+        return render(request, 'users/profile.html')
+
+@login_required
 def profile_update_view(request):
     if request.method == 'GET':
-        return redirect('/users/profile')
+        user_form = RegisterForm(request.POST)
+        
+        return render(request, 'users/profile_update.html', {'user_form':user_form})
 
 # class LoginView(FormView):
 #     template_name = 'users/login.html'

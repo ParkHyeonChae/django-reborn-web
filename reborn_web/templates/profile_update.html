@@ -1,0 +1,40 @@
+{% extends "users/base.html" %}
+
+{% block contents %}
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h1>회원정보수정</h1>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <form method="POST" action=".">
+            
+            {% csrf_token %}
+            <!-- {{ user_form.as_p }} -->
+            {% for field in user_form %}
+            <div class="fieldWrapper">
+                {{ field.label_tag }}
+                {{ field }}
+                <br>
+                {% if errors %}
+                {{ field.errors }}
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <style>
+                .errorlist {
+                    color: red;
+                    font-weight: bold;
+                }
+            </style>
+
+            <input class="btn btn-primary" type="submit" value="저장하기">
+        </form>
+    </div>
+</div>
+{% endblock %}
+           
+    
