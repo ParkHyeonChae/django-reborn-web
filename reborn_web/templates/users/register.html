@@ -27,7 +27,7 @@
             {% csrf_token %}
             {% for field in user_form %}
             <div class="fieldWrapper">
-                {{ field.label_tag }}
+                {{ field.label_tag|cut:":"  }}
                 {{ field }}
                 <br>
                 {{ field.errors }}

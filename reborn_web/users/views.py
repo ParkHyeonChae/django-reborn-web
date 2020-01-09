@@ -3,8 +3,8 @@ from django.views.generic.edit import FormView
 from django.contrib.auth.hashers import make_password
 from .forms import RegisterForm, LoginForm, CustomUserChangeForm
 from .models import User
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 
 def index(request):
@@ -61,8 +61,9 @@ def profile_update_view(request):
             # return redirect('users:profile')
             return render(request, 'users/profile.html')
     else:
-        user_change_form = CustomUserChangeForm(instance = request.user)    
-        return render(request, 'users/profile_update.html', {'user_change_form':user_change_form})
+        user_change_form = CustomUserChangeForm(instance = request.user)
+
+    return render(request, 'users/profile_update.html', {'user_change_form':user_change_form})
 
 @login_required
 def profile_delete_view(request):
@@ -70,6 +71,21 @@ def profile_delete_view(request):
         request.user.delete()
         return redirect('/')
     return render(request, 'users/profile_delete.html')
+
+@login_required
+def password_edit_view(request):
+    if request.method == 'POST':
+        password_change_form = PasswordChangeForm(request.user, request.POST)
+        if password_change_form.is_valid():
+            user = password_change_form.save()
+            # update_session_auth_hash(request, user)
+            logout(request)
+            return redirect('users:login')
+    else:
+        password_change_form = PasswordChangeForm(request.user)
+
+    return render(request, 'users/profile_password.html', {'password_change_form':password_change_form})
+
 
 # class LoginView(FormView):
 #     template_name = 'users/login.html'
