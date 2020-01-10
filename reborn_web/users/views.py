@@ -1,11 +1,14 @@
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
 from django.contrib.auth.hashers import make_password
-from .forms import RegisterForm, LoginForm, CustomUserChangeForm
+from .forms import RegisterForm, LoginForm, CustomUserChangeForm, CheckPasswordForm
 from .models import User
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 def index(request):
     return render(request, 'users/index.html')
@@ -68,9 +71,16 @@ def profile_update_view(request):
 @login_required
 def profile_delete_view(request):
     if request.method == 'POST':
-        request.user.delete()
-        return redirect('/')
-    return render(request, 'users/profile_delete.html')
+        user = request.user
+        password_form = CheckPasswordForm(user)
+
+        if password_form.is_valid():
+            request.user.delete()
+            return redirect('/')
+    else:
+        password_form = CheckPasswordForm(user)
+
+    return render(request, 'users/profile_delete.html', {'password_form':password_form})
 
 @login_required
 def password_edit_view(request):
@@ -78,9 +88,10 @@ def password_edit_view(request):
         password_change_form = PasswordChangeForm(request.user, request.POST)
         if password_change_form.is_valid():
             user = password_change_form.save()
-            # update_session_auth_hash(request, user)
-            logout(request)
-            return redirect('users:login')
+            update_session_auth_hash(request, user)
+            # logout(request)
+            messages.success(request, "비밀번호를 성공적으로 변경하였습니다.")
+            return redirect('users:profile')
     else:
         password_change_form = PasswordChangeForm(request.user)
 
