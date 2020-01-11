@@ -1,14 +1,14 @@
 from django.conf import settings
+from django.utils.datastructures import MultiValueDictKeyError
+from django.contrib import messages
+from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
+from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
-from django.contrib.auth.hashers import make_password
-from .forms import RegisterForm, LoginForm, CustomUserChangeForm, CheckPasswordForm
 from .models import User
-from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.contrib.auth.hashers import check_password
+from .forms import RegisterForm, LoginForm, CustomUserChangeForm, CheckPasswordForm
 
 
 def index(request):
@@ -105,17 +105,6 @@ def profile_delete_view(request):
 
     return render(request, 'users/profile_delete.html', {'password_form':password_form})
 
-    # if request.method == 'POST':
-    #     password_form = CheckPasswordForm(request.user, request.POST)
-
-    #     if password_form.is_valid():
-    #         request.user.delete()
-    #         return redirect('/')
-    # else:
-    #     password_form = CheckPasswordForm()
-
-    # return render(request, 'users/profile_delete.html', {'password_form':password_form})
-
 @login_required
 def password_edit_view(request):
     if request.method == 'POST':
@@ -156,9 +145,24 @@ class LoginView(FormView):
     def form_valid(self, form):
         user_id = form.cleaned_data.get("user_id")
         password = form.cleaned_data.get("password")
+
         user = authenticate(self.request, username=user_id, password=password)
         if user is not None:
             login(self.request, user)
+
+            # Session Maintain Test
+
+            remember_session = self.request.POST.get('remember_session', False)
+            if remember_session:
+                settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+                
+            # try:
+            #     remember_session = self.request.POST['remember_session']
+            #     if remember_session:
+            #         settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+            # except MultiValueDictKeyError:
+            #     settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+            
         return super().form_valid(form)
 
 # def login_view(request):
