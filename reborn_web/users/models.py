@@ -42,6 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     GRADE_CHOICES = (
+        ("선택안함", "선택안함"),
         ("1학년", "1학년"),
         ("2학년", "2학년"),
         ("3학년", "3학년"),
@@ -67,6 +68,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     DEPARTMENT_CHOICES = (
+        ("선택안함", "선택안함"),
         ("외부인", "학부생이 아님"),
         ("컴퓨터공학부", "컴퓨터공학부"),
         ("드론IOT시뮬레이션학부", "드론IOT시뮬레이션학부"),

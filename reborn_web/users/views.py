@@ -8,7 +8,7 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
 from .models import User
-from .forms import RegisterForm, LoginForm, CustomUserChangeForm, CheckPasswordForm
+from .forms import CsRegisterForm, RegisterForm, LoginForm, CustomUserChangeForm, CheckPasswordForm
 
 
 def index(request):
@@ -34,21 +34,36 @@ def index(request):
 
 #         return super().form_valid(form)
 
-def register_view(request):
+def cs_register_view(request):
     if request.method == 'POST':
-        user_form = RegisterForm(request.POST)
+        register_form = CsRegisterForm(request.POST)
 
-        if user_form.is_valid():
-            user = user_form.save(commit=False)
-            user.set_password(user_form.cleaned_data['password'])
+        if register_form.is_valid():
+            user = register_form.save(commit=False)
+            user.set_password(register_form.cleaned_data['password'])
             user.level = '2'
             user.department = '컴퓨터공학부'
             user.save()
             return redirect('users:login')
     else:
-        user_form = RegisterForm()
+        register_form = CsRegisterForm()
 
-    return render(request, 'users/register.html', {'user_form':user_form})
+    return render(request, 'users/register_cs.html', {'register_form':register_form})
+
+def register_view(request):
+    if request.method == 'POST':
+        register_form = RegisterForm(request.POST)
+
+        if register_form.is_valid():
+            user = register_form.save(commit=False)
+            user.set_password(register_form.cleaned_data['password'])
+            user.level = '3'
+            user.save()
+            return redirect('users:login')
+    else:
+        register_form = RegisterForm()
+
+    return render(request, 'users/register.html', {'register_form':register_form})
 
 @login_required
 def profile_view(request):

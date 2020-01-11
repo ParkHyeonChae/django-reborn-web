@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 
 # ModelForm Test
 
-class RegisterForm(forms.ModelForm):
+class CsRegisterForm(forms.ModelForm):
     password = forms.CharField(label='비밀번호', widget=forms.PasswordInput(
       attrs={'class': 'form-control', 'placeholder': '비밀번호를 입력주세요.'}),  
     )
@@ -32,7 +32,7 @@ class RegisterForm(forms.ModelForm):
                 attrs={'class': 'form-control', 'placeholder': '각종 행사 참여를 위해 실명을 입력해주세요.'}
             ),
             'student_id': forms.NumberInput(
-                attrs={'class': 'form-control', 'placeholder': '학번을 입력주세요.'}
+                attrs={'class': 'form-control', 'placeholder': '학번을 입력해주세요.'}
             ),
             'grade': forms.Select(
                 attrs={'class': 'form-control'}
@@ -131,6 +131,56 @@ class RegisterForm(forms.ModelForm):
 #                     self.add_error('re_password', '비밀번호가 서로 다릅니다.')
 #             else:
 #                 self.add_error('user_id', '이미 존재하는 아아디입니다.')
+
+class RegisterForm(forms.ModelForm):
+    password = forms.CharField(label='비밀번호', widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'placeholder': '비밀번호를 입력주세요.'}),  
+    )
+    confirm_password = forms.CharField(label='비밀번호 확인', widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'placeholder': '비밀번호를 다시 입력주세요.'}),  
+    )
+    name = forms.CharField(required=False, label='이름 (선택사항)', widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': '각종 행사 참여를 위해 실명을 입력해주세요.'}), 
+    )
+    student_id = forms.IntegerField(required=False, label='학번 (선택사항)', widget=forms.NumberInput(
+        attrs={'class': 'form-control', 'placeholder': '학번을 입력해주세요.'}), 
+    )
+    grade = forms.ChoiceField(choices=User.GRADE_CHOICES, label='학년 (선택사항)', widget=forms.Select(
+        attrs={'class': 'form-control'}),
+    )
+    department = forms.ChoiceField(choices=User.DEPARTMENT_CHOICES, label='학과 (선택사항)', widget=forms.Select(
+        attrs={'class': 'form-control'}),
+    )
+
+    class Meta:
+        model = User
+        fields = ['user_id', 'password', 'confirm_password', 'email', 'hp', 'name', 'student_id', 'grade', 'department']
+
+        widgets = {
+            'user_id': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': '로그인과 사이트 활동에 사용할 아이디를 입력주세요.',}
+            ),
+            'email': forms.EmailInput(
+                attrs={'class': 'form-control', 'placeholder': '비밀번호 분실 시 사용될 이메일을 입력해주세요.'}
+            ),
+            'hp': forms.NumberInput(
+                attrs={'class': 'form-control', 'placeholder': '하이픈(-)을 제외한 번호를 입력해주세요.'}
+            ),
+            # 'grade': forms.Select(
+            #     attrs={'class': 'form-control'}
+            # ),
+            # 'department': forms.Select(
+            #     attrs={'class': 'form-control'}
+            # ),
+        }
+    
+    def clean_confirm_password(self):
+        pw_check = self.cleaned_data
+        if pw_check['password'] != pw_check['confirm_password']:
+            raise forms.ValidationError('비밀번호가 일치하지 않습니다!')
+
+        return pw_check['confirm_password']
+
                 
 class LoginForm(forms.Form):
     user_id = forms.CharField(
@@ -163,9 +213,13 @@ class LoginForm(forms.Form):
 
 class CustomUserChangeForm(UserChangeForm):
     password = None
+    name = forms.CharField(required=False, label='이름', widget=forms.TextInput)        
+    student_id = forms.IntegerField(required=False, label='학번', widget=forms.NumberInput)
+    grade = forms.ChoiceField(choices=User.GRADE_CHOICES, label='학년', widget=forms.Select)
+       
     class Meta:
         model = get_user_model()
-        fields = ['email', 'hp', 'name', 'student_id', 'grade', 'circles']
+        fields = ['email', 'hp', 'name', 'student_id', 'grade']
 
 class CheckPasswordForm(forms.Form):
     password = forms.CharField(

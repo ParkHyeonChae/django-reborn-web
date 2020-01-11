@@ -3,12 +3,26 @@
 {% block contents %}
 <div class="row mt-5">
     <div class="col-12 text-center">
-        <h1>일반회원가입</h1>
+        <h1>컴공회원가입</h1>
     </div>
 </div>
 <div class="row mt-5">
     <div class="col-12">
         <form method="POST" action=".">
+            <!-- {% csrf_token %}
+            {% for field in form %}
+            <div class="form group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}"
+                    placeholder="{{ field.label }}" name="{{ field.name }}" />
+                </div><br>
+            {% if field.errors %}
+            <span style="color:red">{{ field.errors }}</span>
+            {% endif %}
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">회원가입</button> -->
+            
+            <!-- {{ user_form.as_p }} -->
             
             {% csrf_token %}
             {% for field in register_form %}
@@ -33,7 +47,7 @@
 </div>
 
 <script language="javascript">
-    document.getElementsByTagName('option')[8].hidden = 'True';
+    document.getElementsByTagName('option')[1].hidden = 'True';
 </script>
 
 {% endblock %}

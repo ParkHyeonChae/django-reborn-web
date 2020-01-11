@@ -13,13 +13,21 @@
         {% else %}
         아이디 : {{ user.user_id }}<br>
         {% endif %}
-        학과 : {{ user.department }}<br>
+
         이메일 : {{ user.email }}<br>
         폰번호 : {{ user.hp }}<br>
+
+        {% if user.level != '3' %}
         이름 : {{ user.name }}<br>
+        학과 : {{ user.department }}<br>
         학번 : {{ user.student_id }}<br>
         학년 : {{ user.grade }}<br>
-        동아리 : {{ user.circles }}<br><br>
+        {% endif %}
+        
+        {% if user.department == '컴퓨터공학부' %}
+        동아리 : {{ user.circles }}
+        {% endif %}
+        <br><br>
         
     </div>
     <div class="col-12">

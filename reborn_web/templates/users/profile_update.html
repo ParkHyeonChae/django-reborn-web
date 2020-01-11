@@ -35,12 +35,28 @@
         <form method="POST">
             {% csrf_token %}
             아이디 : {{ user.user_id }}<br><br>
+            학과 : {{ user.department }}<br><br>
             {{ user_change_form.as_p }}
+
+            {% if user.department == '컴퓨터공학부' %}
+            <script type="text/javascript">
+                cs_update(this.form)
+
+                function cs_update(form) {
+                    document.getElementsByTagName('option')[0].hidden = 'True';
+                    document.getElementsByName('name')[0].setAttribute('required', 'True')
+                    document.getElementsByName('student_id')[0].setAttribute('required', 'True')
+                }
+            </script>
+            동아리 : {{ user.circles }}
+            {% endif %}<br><br>
+            
             <input type="submit" value="저장하기"/>
         </form>
         
     </div>
 </div>
+
 {% endblock %}
            
     
