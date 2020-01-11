@@ -8,16 +8,19 @@
 </div>
 <div class="row mt-5">
     <div class="col-12">
-        {% if user.level == '3' or user.level == '4' %}
+        {% if user.level == '0' or user.level == '1' %}
         아이디 : {{ user.user_id }} (관리자)<br>
         {% else %}
         아이디 : {{ user.user_id }}<br>
         {% endif %}
+        학과 : {{ user.department }}<br>
         이메일 : {{ user.email }}<br>
         폰번호 : {{ user.hp }}<br>
         이름 : {{ user.name }}<br>
         학번 : {{ user.student_id }}<br>
-        학년 : {{ user.grade }}<br><br>
+        학년 : {{ user.grade }}<br>
+        동아리 : {{ user.circles }}<br><br>
+        
     </div>
     <div class="col-12">
         <a href="{% url 'users:profile_update' %}">내정보수정</a>&nbsp;&middot;&nbsp;

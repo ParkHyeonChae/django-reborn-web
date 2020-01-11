@@ -41,7 +41,8 @@ def register_view(request):
         if user_form.is_valid():
             user = user_form.save(commit=False)
             user.set_password(user_form.cleaned_data['password'])
-            user.level = 2
+            user.level = '2'
+            user.department = '컴퓨터공학부'
             user.save()
             return redirect('users:login')
     else:
@@ -155,7 +156,7 @@ class LoginView(FormView):
             remember_session = self.request.POST.get('remember_session', False)
             if remember_session:
                 settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-                
+
             # try:
             #     remember_session = self.request.POST['remember_session']
             #     if remember_session:

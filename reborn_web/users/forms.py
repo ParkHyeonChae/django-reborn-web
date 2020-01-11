@@ -16,7 +16,7 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['user_id', 'password', 'confirm_password', 'email', 'hp', 'name', 'student_id', 'grade']
+        fields = ['user_id', 'password', 'confirm_password', 'email', 'hp', 'name', 'student_id', 'grade', 'circles']
 
         widgets = {
             'user_id': forms.TextInput(
@@ -35,6 +35,9 @@ class RegisterForm(forms.ModelForm):
                 attrs={'class': 'form-control', 'placeholder': '학번을 입력주세요.'}
             ),
             'grade': forms.Select(
+                attrs={'class': 'form-control'}
+            ),
+            'circles': forms.Select(
                 attrs={'class': 'form-control'}
             ),
         }
@@ -162,7 +165,7 @@ class CustomUserChangeForm(UserChangeForm):
     password = None
     class Meta:
         model = get_user_model()
-        fields = ['email', 'hp', 'name', 'student_id', 'grade']
+        fields = ['email', 'hp', 'name', 'student_id', 'grade', 'circles']
 
 class CheckPasswordForm(forms.Form):
     password = forms.CharField(
