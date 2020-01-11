@@ -166,16 +166,17 @@ class CustomUserChangeForm(UserChangeForm):
 
 class CheckPasswordForm(forms.Form):
     password = forms.CharField(
-        error_messages={
-            'required': '비밀번호를 입력해주세요.'
-        },
-        widget=forms.PasswordInput, label='비밀번호'
+        widget=forms.PasswordInput, label='비밀번호', required=False
     )
     
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+
     def clean(self):
-        # cleaned_data = super().clean()
-        password = self.cleaned_data['password']
-        #user = User.objects.get()
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        confirm_password = self.user.password
         
-        if not check_password(password, user.password):
-            self.add_error('password', '비밀번호가 틀렸습니다.')
+        if not check_password(password, confirm_password):
+            self.add_error('password', '비밀번호가 일치하지 않습니다.')

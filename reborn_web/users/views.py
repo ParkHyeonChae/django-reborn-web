@@ -8,6 +8,7 @@ from django.contrib.auth import login, logout, authenticate, update_session_auth
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.hashers import check_password
 
 
 def index(request):
@@ -68,19 +69,52 @@ def profile_update_view(request):
 
     return render(request, 'users/profile_update.html', {'user_change_form':user_change_form})
 
+# @login_required
+# def profile_delete_view(request):  # form 안쓰고 회원탈퇴 구현
+#     if request.method == 'POST':
+#         password_form = CheckPasswordForm(request.POST)
+#         password = request.user.password
+
+#         if password_form.is_valid():
+#             confirm_password = password_form.cleaned_data.get('password')
+#             check_pw = check_password(confirm_password, password)
+
+#             if check_pw:
+#                 request.user.delete()
+#                 logout(request)
+#                 return redirect('/')
+#             else:
+#                 pass
+#     else:
+#         password_form = CheckPasswordForm()
+
+#     return render(request, 'users/profile_delete.html', {'password_form':password_form})
+
 @login_required
 def profile_delete_view(request):
     if request.method == 'POST':
-        user = request.user
-        password_form = CheckPasswordForm(user)
-
+        password_form = CheckPasswordForm(request.user, request.POST)
+        
         if password_form.is_valid():
             request.user.delete()
+            logout(request)
+            messages.success(request, "회원탈퇴 완료.")
             return redirect('/')
     else:
-        password_form = CheckPasswordForm(user)
+        password_form = CheckPasswordForm(request.user)
 
     return render(request, 'users/profile_delete.html', {'password_form':password_form})
+
+    # if request.method == 'POST':
+    #     password_form = CheckPasswordForm(request.user, request.POST)
+
+    #     if password_form.is_valid():
+    #         request.user.delete()
+    #         return redirect('/')
+    # else:
+    #     password_form = CheckPasswordForm()
+
+    # return render(request, 'users/profile_delete.html', {'password_form':password_form})
 
 @login_required
 def password_edit_view(request):
@@ -126,7 +160,6 @@ class LoginView(FormView):
         if user is not None:
             login(self.request, user)
         return super().form_valid(form)
-
 
 # def login_view(request):
 #     if request.method == 'POST':

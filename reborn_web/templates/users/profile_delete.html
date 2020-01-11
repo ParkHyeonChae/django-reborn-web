@@ -10,12 +10,40 @@
     <div class="col-12">
         <form method="POST">
             {% csrf_token %}
-            {{ password_form.as_p }}
-            {{ password_form.errors }}
-            
-            <p>정말로 탈퇴하시겠습니까?</p>
-            <input type="submit" value="탈퇴하기" />
+
+            {% for field in password_form %}
+            <div class="form group">
+                <label for="{{ field.id_for_label }}">본인인증</label>
+                <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}"
+                    name="{{ field.name }}" placeholder="{{ field.label|add:'를 입력하세요.' }}" />
+            </div><br>
+            {{ field.errors }}
+            {% endfor %}
+
+            <style>
+                .errorlist {
+                    color: red;
+                    font-weight: bold;
+                }
+            </style>
+
+            <p>{{ user.user_id }} 계정이 삭제됩니다.<br>정말로 탈퇴하시겠습니까?</p>
+
+            <input type="checkbox" name="ck" onClick="checkDisable(this.form)">유의사항동의<br>
+            <input class="btn btn-danger" type="submit" name="bt" value="탈퇴하기" disabled="true" />
         </form>
     </div>
 </div>
+
+<script language="javascript">
+    function checkDisable(form) {
+        if (form.ck.checked == true) {
+            form.bt.disabled = false;
+        }
+        else {
+            form.bt.disabled = true;
+        }
+    }
+</script>
+
 {% endblock %}

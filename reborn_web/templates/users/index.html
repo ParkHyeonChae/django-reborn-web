@@ -17,4 +17,14 @@
 <button onclick="location.href='/users/register'">회원가입</button>
 {% endif %}
 
+{% if messages %}
+{% for message in messages %}
+{% if message.tags %}
+<script>
+    alert("{{ message.message }}")
+</script>
+{% endif %}
+{% endfor %}
+{% endif %}
+
 {% endblock %}
