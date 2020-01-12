@@ -34,6 +34,9 @@ def index(request):
 
 #         return super().form_valid(form)
 
+def register_info_view(request):
+    return render(request, 'users/register_info.html')
+
 def cs_register_view(request):
     if request.method == 'POST':
         register_form = CsRegisterForm(request.POST)
