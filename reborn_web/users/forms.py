@@ -3,6 +3,7 @@ from django.contrib.auth.hashers import check_password
 from .models import User
 from django.contrib.auth.forms import AuthenticationForm, UserChangeForm
 from django.contrib.auth import get_user_model
+from .choice import *
 
 # ModelForm Test
 
@@ -139,16 +140,13 @@ class RegisterForm(forms.ModelForm):
     confirm_password = forms.CharField(label='비밀번호 확인', widget=forms.PasswordInput(
         attrs={'class': 'form-control', 'placeholder': '비밀번호를 다시 입력주세요.'}),  
     )
-    name = forms.CharField(required=False, label='이름 (선택사항)', widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': '각종 행사 참여를 위해 실명을 입력해주세요.'}), 
-    )
     student_id = forms.IntegerField(required=False, label='학번 (선택사항)', widget=forms.NumberInput(
         attrs={'class': 'form-control', 'placeholder': '학번을 입력해주세요.'}), 
     )
-    grade = forms.ChoiceField(choices=User.GRADE_CHOICES, label='학년 (선택사항)', widget=forms.Select(
+    grade = forms.ChoiceField(choices=GRADE_CHOICES, label='학년 (선택사항)', widget=forms.Select(
         attrs={'class': 'form-control'}),
     )
-    department = forms.ChoiceField(choices=User.DEPARTMENT_CHOICES, label='학과 (선택사항)', widget=forms.Select(
+    department = forms.ChoiceField(choices=DEPARTMENT_CHOICES, label='학과 (선택사항)', widget=forms.Select(
         attrs={'class': 'form-control'}),
     )
 
@@ -162,6 +160,9 @@ class RegisterForm(forms.ModelForm):
             ),
             'email': forms.EmailInput(
                 attrs={'class': 'form-control', 'placeholder': '비밀번호 분실 시 사용될 이메일을 입력해주세요.'}
+            ),
+            'name': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': '각종 행사 참여를 위해 실명을 입력해주세요.'}
             ),
             'hp': forms.NumberInput(
                 attrs={'class': 'form-control', 'placeholder': '하이픈(-)을 제외한 번호를 입력해주세요.'}
@@ -215,7 +216,7 @@ class CustomUserChangeForm(UserChangeForm):
     password = None
     name = forms.CharField(required=False, label='이름', widget=forms.TextInput)        
     student_id = forms.IntegerField(required=False, label='학번', widget=forms.NumberInput)
-    grade = forms.ChoiceField(choices=User.GRADE_CHOICES, label='학년', widget=forms.Select)
+    grade = forms.ChoiceField(choices=GRADE_CHOICES, label='학년', widget=forms.Select)
        
     class Meta:
         model = get_user_model()
@@ -241,3 +242,37 @@ class CheckPasswordForm(forms.Form):
         if password:
             if not check_password(password, confirm_password):
                 self.add_error('password', '비밀번호가 일치하지 않습니다.')
+
+class RecoveryIdForm(forms.Form):
+    name = forms.CharField(
+        error_messages={
+            'required': '이름을 입력해주세요.'
+        },
+        max_length=32, label='이름'
+    )
+    email = forms.EmailField(
+        error_messages={
+            'required': '이메일을 입력해주세요.'
+        },
+        label='이메일'
+    )
+
+class RecoveryPwForm(forms.Form):
+    user_id = forms.CharField(
+        error_messages={
+            'required': '아아디을 입력해주세요.'
+        },
+        max_length=32, label='아이디'
+    )
+    name2 = forms.CharField(
+        error_messages={
+            'required': '이름을 입력해주세요.'
+        },
+        max_length=32, label='이름'
+    )
+    email2 = forms.EmailField(
+        error_messages={
+            'required': '이메일을 입력해주세요.'
+        },
+        label='이메일'
+    )

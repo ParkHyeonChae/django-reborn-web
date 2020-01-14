@@ -9,6 +9,7 @@ urlpatterns = [
     #path('register/', views.RegisterView.as_view(), name='register'),
     path('login/', views.LoginView.as_view(), name='login'),
     path('logout/', views.logout_view, name='logout'),
+    path('recovery/', views.RecoveryView.as_view(), name='recovery'),
     path('registerinfo/', views.register_info_view, name='register_info'),
     path('register/', views.register_view, name='register'),
     path('csregister/', views.cs_register_view, name='csregister'),

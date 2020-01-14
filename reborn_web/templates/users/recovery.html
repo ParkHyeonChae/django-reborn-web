@@ -1,0 +1,50 @@
+{% extends "users/base.html" %}
+
+{% block contents %}
+
+<script src="http://code.jquery.com/jquery-3.3.1.js"></script>
+
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h1>아이디/비밀번호 찾기</h1>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-12">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% for field in form_id %}
+            <div class="form group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}"
+                    placeholder="{{ field.label }}" name="{{ field.name }}" />
+            </div>
+            <br>
+            {% endfor %}
+            <button type="submit" class="btn btn-dark" name="recovery_id">아이디찾기</button>
+        </form>
+
+        {% if result_id %}
+        회원님의 아이디는 <strong>{{ result_id }}</strong>입니다.
+        {% endif %}
+        <br><br>
+
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form_pw.as_p }}
+            <button type="submit" name="recovery_pw">비밀번호찾기</button>
+        </form>
+    </div>
+</div>
+
+{% if messages %}
+{% for message in messages %}
+{% if message.tags %}
+<script>
+    alert("{{ message.message }}")
+</script>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% endblock %}

@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.utils.datastructures import MultiValueDictKeyError
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib.auth.hashers import make_password, check_password
@@ -7,8 +8,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
+from django.views.generic import View
 from .models import User
-from .forms import CsRegisterForm, RegisterForm, LoginForm, CustomUserChangeForm, CheckPasswordForm
+from .forms import CsRegisterForm, RegisterForm, LoginForm, CustomUserChangeForm, CheckPasswordForm, RecoveryIdForm, RecoveryPwForm
 
 
 def index(request):
@@ -139,22 +141,38 @@ def password_edit_view(request):
 
     return render(request, 'users/profile_password.html', {'password_change_form':password_change_form})
 
+class RecoveryView(View):
+    template_name = 'users/recovery.html'
+    recovery_id = RecoveryIdForm
+    recovery_pw = RecoveryPwForm
 
-# class LoginView(FormView):
-#     template_name = 'users/login.html'
-#     form_class = LoginForm
-#     success_url = '/'
+    def get(self, request):
+        form_id = self.recovery_id(None)
+        form_pw = self.recovery_pw(None)
 
-#     def form_valid(self, form):
-#         self.request.session['user_id'] = form.data.get('user_id')
+        return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw })
+    
+    def post(self, request):
+        if request.method=='POST' and 'recovery_id' in request.POST:
+            form_id = self.recovery_id(None)
+            form_pw = self.recovery_pw(None)
 
-#         return super().form_valid(form)
+            name = request.POST.get('name', '')
+            email = request.POST.get('email', '')
+            
+            try:
+                result_id = User.objects.get(name=name, email=email)
+                return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_id':result_id.user_id })
+            except ObjectDoesNotExist:
+                messages.info(request, "이름 또는 이메일이 일치하지 않습니다.")
+                return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw }) 
 
-# def logout_view(request):
-#     if 'user_id' in request.session:
-#         del(request.session['user_id'])
+        if request.method=='POST' and 'recovery_pw' in request.POST:
+            form_id = self.recovery_id(None)
+            form_pw = self.recovery_pw(None)
+            result_id = "test2"  
 
-#     return redirect('/')
+        return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_id':result_id })
 
 class LoginView(FormView):
     template_name = 'users/login.html'
@@ -183,6 +201,24 @@ class LoginView(FormView):
             #     settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = True
             
         return super().form_valid(form)
+
+
+# class LoginView(FormView):
+#     template_name = 'users/login.html'
+#     form_class = LoginForm
+#     success_url = '/'
+
+#     def form_valid(self, form):
+#         self.request.session['user_id'] = form.data.get('user_id')
+
+#         return super().form_valid(form)
+
+# def logout_view(request):
+#     if 'user_id' in request.session:
+#         del(request.session['user_id'])
+
+#     return redirect('/')
+
 
 # def login_view(request):
 #     if request.method == 'POST':

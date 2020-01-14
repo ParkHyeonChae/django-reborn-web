@@ -461,6 +461,12 @@
             register.disabled = true;
         }
     }
+    window.onload = function() {
+        setTimeout(() => {
+            document.getElementsByName('agreement1')[0].checked = false;
+            document.getElementsByName('agreement2')[0].checked = false;
+        }, 100);
+    }
 </script>
 
 {% endblock %}

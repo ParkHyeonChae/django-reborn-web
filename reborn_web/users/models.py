@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from .choice import *
 
 
 class UserManager(BaseUserManager):
@@ -40,46 +41,6 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     
     objects = UserManager()
-
-    GRADE_CHOICES = (
-        ("선택안함", "선택안함"),
-        ("1학년", "1학년"),
-        ("2학년", "2학년"),
-        ("3학년", "3학년"),
-        ("4학년", "4학년"),
-        ("졸업생", "졸업생"),
-    )
-
-    LEVEL_CHOICES = (
-        ("3", "Lv3_미인증사용자"),
-        ("2", "Lv2_인증사용자"),
-        ("1", "Lv1_관리자"),
-        ("0", "Lv0_개발자"),
-    )
-
-    CIRCLES_CHOICES = (
-        ("미가입", "미가입"),
-        ("NUXPIA", "NUXPIA"),
-        ("NET", "NET"),
-        ("DOT-GABI", "DOT-GABI"),
-        ("IMAGINE", "IMAGINE"),
-        ("P&N", "P&N"),
-        ("MEGA-BRAIN", "MEGA-BRAIN"),
-    )
-
-    DEPARTMENT_CHOICES = (
-        ("선택안함", "선택안함"),
-        ("외부인", "학부생이 아님"),
-        ("컴퓨터공학부", "컴퓨터공학부"),
-        ("드론IOT시뮬레이션학부", "드론IOT시뮬레이션학부"),
-        ("의과대학", "의과대학"),
-        ("문리과대학", "문리과대학"),
-        ("사회과학대학", "사회과학대학"),
-        ("공과대학", "공과대학"),
-        ("보건의료융합대학", "보건의료융합대학"),
-        ("BNIT융합대학", "BNIT융합대학"),
-        ("약학대학", "약학대학"),
-    )
 
     user_id = models.CharField(max_length=32, verbose_name="아이디", unique=True)
     password = models.CharField(max_length=256, verbose_name="비밀번호")

@@ -43,7 +43,7 @@
                 cs_update(this.form)
 
                 function cs_update(form) {
-                    document.getElementsByTagName('option')[0].hidden = 'True';
+                    document.getElementsByTagName('option')[0].remove();
                     document.getElementsByName('name')[0].setAttribute('required', 'True')
                     document.getElementsByName('student_id')[0].setAttribute('required', 'True')
                 }
