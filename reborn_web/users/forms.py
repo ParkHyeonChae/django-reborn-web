@@ -245,34 +245,40 @@ class CheckPasswordForm(forms.Form):
 
 class RecoveryIdForm(forms.Form):
     name = forms.CharField(
-        error_messages={
-            'required': '이름을 입력해주세요.'
-        },
-        max_length=32, label='이름'
+        widget=forms.TextInput,
     )
     email = forms.EmailField(
-        error_messages={
-            'required': '이메일을 입력해주세요.'
-        },
-        label='이메일'
+        widget=forms.EmailInput,
     )
 
-class RecoveryPwForm(forms.Form):
+    class Meta:
+        fields = ['name', 'email']
+
+    def __init__(self, *args, **kwargs):
+        super(RecoveryIdForm, self).__init__(*args, **kwargs)
+        self.fields['name'].label = '이름'
+        self.fields['name'].widget.attrs.update({
+            'placeholder': '이름을 입력해주세요',
+            'class': 'form-control'
+        })
+        self.fields['email'].label = '이메일'
+        self.fields['email'].widget.attrs.update({
+            'placeholder': '이메일을 입력해주세요',
+            'class': 'form-control'
+        })
+
+
+class RecoveryPwForm(RecoveryIdForm):
     user_id = forms.CharField(
-        error_messages={
-            'required': '아아디을 입력해주세요.'
-        },
-        max_length=32, label='아이디'
+        widget=forms.TextInput,
     )
-    name2 = forms.CharField(
-        error_messages={
-            'required': '이름을 입력해주세요.'
-        },
-        max_length=32, label='이름'
-    )
-    email2 = forms.EmailField(
-        error_messages={
-            'required': '이메일을 입력해주세요.'
-        },
-        label='이메일'
-    )
+    class Meta:
+        fields = ['user_id', 'name', 'email']
+
+    def __init__(self, *args, **kwargs):
+        super(RecoveryPwForm, self).__init__(*args, **kwargs)
+        self.fields['user_id'].label = '아이디'
+        self.fields['user_id'].widget.attrs.update({
+            'placeholder': '아이디을 입력해주세요',
+            'class': 'form-control'
+        })
