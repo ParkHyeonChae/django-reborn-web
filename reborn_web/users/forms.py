@@ -260,7 +260,7 @@ class RecoveryIdForm(forms.Form):
         self.fields['name'].widget.attrs.update({
             'placeholder': '이름을 입력해주세요',
             'class': 'form-control',
-            'id': 'form_id',
+            'id': 'form_name',
         })
         self.fields['email'].label = '이메일'
         self.fields['email'].widget.attrs.update({
@@ -270,9 +270,15 @@ class RecoveryIdForm(forms.Form):
         })
 
 
-class RecoveryPwForm(RecoveryIdForm):
+class RecoveryPwForm(forms.Form):
     user_id = forms.CharField(
         widget=forms.TextInput,
+    )
+    name = forms.CharField(
+        widget=forms.TextInput,
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput,
     )
     class Meta:
         fields = ['user_id', 'name', 'email']
@@ -282,5 +288,18 @@ class RecoveryPwForm(RecoveryIdForm):
         self.fields['user_id'].label = '아이디'
         self.fields['user_id'].widget.attrs.update({
             'placeholder': '아이디을 입력해주세요',
-            'class': 'form-control'
+            'class': 'form-control',
+            'id': 'pw_form_id',
+        })
+        self.fields['name'].label = '이름'
+        self.fields['name'].widget.attrs.update({
+            'placeholder': '이름을 입력해주세요',
+            'class': 'form-control',
+            'id': 'pw_form_name',
+        })
+        self.fields['email'].label = '이메일'
+        self.fields['email'].widget.attrs.update({
+            'placeholder': '이메일을 입력해주세요',
+            'class': 'form-control',
+            'id': 'pw_form_email',
         })

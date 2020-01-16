@@ -156,6 +156,13 @@ def ajax_find_id_view(request):
        
     return HttpResponse(json.dumps({"result_id": result_id.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")    
 
+def ajax_find_pw_view(request):
+    user_id = request.POST.get('user_id')
+    name = request.POST.get('name')
+    email = request.POST.get('email')
+    result_pw = User.objects.get(user_id=user_id, name=name, email=email)
+       
+    return HttpResponse(json.dumps({"result_pw": result_pw.password}, cls=DjangoJSONEncoder), content_type = "application/json")    
 
 class RecoveryView(View):
     template_name = 'users/recovery.html'
@@ -163,9 +170,10 @@ class RecoveryView(View):
     recovery_pw = RecoveryPwForm
 
     def get(self, request):
-        form_id = self.recovery_id(None)
-        form_pw = self.recovery_pw(None)
-        return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw })
+        if request.method=='GET':
+            form_id = self.recovery_id(None)
+            form_pw = self.recovery_pw(None)
+            return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw })
     
     # def post(self, request):
     #     form_id = self.recovery_id(None)
@@ -183,21 +191,21 @@ class RecoveryView(View):
 
     #             return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw }) 
 
-    #     if request.method=='POST' and 'recovery_pw' in request.POST:
-    #         user_id = request.POST.get('user_id')
-    #         name = request.POST.get('name')
-    #         email = request.POST.get('email')
-    #         try:
-    #             result_pw = User.objects.get(user_id=user_id, name=name, email=email)
-    #             messages.success(request, "회원님의 이메일로 인증코드를 발송하였습니다.")
+        # if request.method=='POST' and 'recovery_pw' in request.POST:
+        #     user_id = request.POST.get('user_id')
+        #     name = request.POST.get('name')
+        #     email = request.POST.get('email')
+        #     try:
+        #         result_pw = User.objects.get(user_id=user_id, name=name, email=email)
+        #         messages.success(request, "회원님의 이메일로 인증코드를 발송하였습니다.")
 
-    #             return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_pw':result_pw.password })
-    #         except ObjectDoesNotExist:
-    #             messages.info(request, "아이디 또는 회원정보가 일치하지 않습니다.")
+        #         return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_pw':result_pw.password })
+        #     except ObjectDoesNotExist:
+        #         messages.info(request, "아이디 또는 회원정보가 일치하지 않습니다.")
 
-    #             return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw })
+        #         return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw })
 
-    #     return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_id':result_id })
+        # return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_id':result_id })
 
 class LoginView(FormView):
     template_name = 'users/login.html'

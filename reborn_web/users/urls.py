@@ -10,6 +10,8 @@ urlpatterns = [
     path('login/', views.LoginView.as_view(), name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('recovery/', views.RecoveryView.as_view(), name='recovery'),
+    path('recovery/id', views.ajax_find_id_view, name='recover_id'),
+    path('recovery/pw', views.ajax_find_pw_view, name='recover_pw'),
     path('registerinfo/', views.register_info_view, name='register_info'),
     path('register/', views.register_view, name='register'),
     path('csregister/', views.cs_register_view, name='csregister'),
@@ -17,6 +19,4 @@ urlpatterns = [
     path('profile/update/', views.profile_update_view, name='profile_update'),
     path('profile/delete/', views.profile_delete_view, name='profile_delete'),
     path('profile/password/', views.password_edit_view, name='password_edit'),
-
-    path('recovery/id', views.ajax_find_id_view, name='recover_id'),
 ]
