@@ -2,6 +2,8 @@
 
 {% block contents %}
 
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 <div class="row mt-5">
     <div class="col-12 text-center">
         <h1>아이디/비밀번호 찾기</h1>
@@ -11,7 +13,7 @@
     <div class="col-12">  
         <h5><strong>아이디 찾기</strong></h5><br>
 
-        <form action="" method="POST">
+        <form>
             {% csrf_token %}
             <div class="form group">
                 <label>{{ form_id.name.label }}</label>
@@ -20,15 +22,49 @@
                 <label>{{ form_id.email.label }}</label>
                 {{ form_id.email }}
             </div>
-            <br>
-            <button type="submit" class="btn btn-dark" name="recovery_id">아이디찾기</button>
-
+            <!-- <br><button type="submit" class="btn btn-dark" name="recovery_id">아이디찾기</button> -->
         </form>
+        
+        <button id="find_id" class="btn btn-dark" name="recovery_id">아이디찾기</button><br><br>
+        <div id="result_id"></div><br><br>
 
-        {% if result_id %}
+        <script>
+        $(document).ready(function() {
+            $('#find_id').click(function() {
+                var name = $("#form_id").val();
+                var email = $("#form_email").val();
+
+                $.ajax({
+                    type:"POST",
+                    url:"/users/recovery/id",
+                    dataType:"json",
+                    data:{
+                        'name': name,
+                        'email': email,
+                        'csrfmiddlewaretoken': '{{csrf_token}}',
+                    },
+                    success:function(response) {
+                        $('#result_id').replaceWith('<h5><p id="result_id">회원님의 아이디는 <strong>'+response.result_id+'</strong> 입니다.</p></h5>')
+                    },
+                    error: function() {
+                        if (name=="" || email=="") {
+                            alert('아이디와 이메일을 입력해주세요.');
+                        }
+                        else {
+                            alert('입력하신 정보가 일치하지 않거나 존재하지 않습니다.');
+                        }
+                    },
+                });
+            })
+        });
+        </script>
+
+        <!--
+            No AJAX
+        -->
+        <!-- {% if result_id %}
         <h5>회원님의 아이디는 <strong>{{ result_id }}</strong>입니다.</h5>
-        {% endif %}
-        <br><br>
+        {% endif %} -->
         
         <h5><strong>비밀번호 찾기</strong></h5><br>
         <form action="" method="POST">

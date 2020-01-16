@@ -259,12 +259,14 @@ class RecoveryIdForm(forms.Form):
         self.fields['name'].label = '이름'
         self.fields['name'].widget.attrs.update({
             'placeholder': '이름을 입력해주세요',
-            'class': 'form-control'
+            'class': 'form-control',
+            'id': 'form_id',
         })
         self.fields['email'].label = '이메일'
         self.fields['email'].widget.attrs.update({
             'placeholder': '이메일을 입력해주세요',
-            'class': 'form-control'
+            'class': 'form-control',
+            'id': 'form_email' 
         })
 
 

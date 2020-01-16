@@ -13,6 +13,8 @@ from .models import User
 from .forms import CsRegisterForm, RegisterForm, LoginForm, CustomUserChangeForm, CheckPasswordForm, RecoveryIdForm, RecoveryPwForm
 from django.http import HttpResponse
 import json
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 def index(request):
@@ -51,6 +53,7 @@ def cs_register_view(request):
             user.level = '2'
             user.department = '컴퓨터공학부'
             user.save()
+            messages.success(request, "회원가입 성공.")
             return redirect('users:login')
     else:
         register_form = CsRegisterForm()
@@ -66,6 +69,7 @@ def register_view(request):
             user.set_password(register_form.cleaned_data['password'])
             user.level = '3'
             user.save()
+            messages.success(request, "회원가입 성공.")
             return redirect('users:login')
     else:
         register_form = RegisterForm()
@@ -144,6 +148,15 @@ def password_edit_view(request):
 
     return render(request, 'users/profile_password.html', {'password_change_form':password_change_form})
 
+
+def ajax_find_id_view(request):
+    name = request.POST.get('name')
+    email = request.POST.get('email')
+    result_id = User.objects.get(name=name, email=email)
+       
+    return HttpResponse(json.dumps({"result_id": result_id.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")    
+
+
 class RecoveryView(View):
     template_name = 'users/recovery.html'
     recovery_id = RecoveryIdForm
@@ -154,32 +167,37 @@ class RecoveryView(View):
         form_pw = self.recovery_pw(None)
         return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw })
     
-    def post(self, request):
-        form_id = self.recovery_id(None)
-        form_pw = self.recovery_pw(None)
+    # def post(self, request):
+    #     form_id = self.recovery_id(None)
+    #     form_pw = self.recovery_pw(None)
 
-        if request.method=='POST' and 'recovery_id' in request.POST:
-            name = request.POST.get('name')
-            email = request.POST.get('email')
-            try:
-                result_id = User.objects.get(name=name, email=email)
-                return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_id':result_id.user_id })
-            except ObjectDoesNotExist:
-                messages.info(request, "이름 또는 이메일이 일치하지 않습니다.")
-                return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw }) 
+    #     if request.method=='POST' and 'recovery_id' in request.POST:
+    #         name = request.POST.get('name')
+    #         email = request.POST.get('email')
+    #         try:
+    #             result_id = User.objects.get(name=name, email=email)
+                
+    #             return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_id':result_id.user_id })
+    #         except ObjectDoesNotExist:
+    #             messages.info(request, "이름 또는 이메일이 일치하지 않습니다.")
 
-        if request.method=='POST' and 'recovery_pw' in request.POST:
-            user_id = request.POST.get('user_id')
-            name = request.POST.get('name')
-            email = request.POST.get('email')
-            try:
-                result_pw = User.objects.get(user_id=user_id, name=name, email=email)
-                return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_pw':result_pw.password })
-            except ObjectDoesNotExist:
-                messages.info(request, "아이디 또는 회원정보가 일치하지 않습니다.")
-                return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw })
+    #             return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw }) 
 
-        return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_id':result_id })
+    #     if request.method=='POST' and 'recovery_pw' in request.POST:
+    #         user_id = request.POST.get('user_id')
+    #         name = request.POST.get('name')
+    #         email = request.POST.get('email')
+    #         try:
+    #             result_pw = User.objects.get(user_id=user_id, name=name, email=email)
+    #             messages.success(request, "회원님의 이메일로 인증코드를 발송하였습니다.")
+
+    #             return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_pw':result_pw.password })
+    #         except ObjectDoesNotExist:
+    #             messages.info(request, "아이디 또는 회원정보가 일치하지 않습니다.")
+
+    #             return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw })
+
+    #     return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_id':result_id })
 
 class LoginView(FormView):
     template_name = 'users/login.html'

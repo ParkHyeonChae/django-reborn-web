@@ -17,4 +17,6 @@ urlpatterns = [
     path('profile/update/', views.profile_update_view, name='profile_update'),
     path('profile/delete/', views.profile_delete_view, name='profile_delete'),
     path('profile/password/', views.password_edit_view, name='password_edit'),
+
+    path('recovery/id', views.ajax_find_id_view, name='recover_id'),
 ]
