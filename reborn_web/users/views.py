@@ -164,12 +164,31 @@ def ajax_find_pw_view(request):
     result_pw = User.objects.get(user_id=user_id, name=name, email=email)
 
     if result_pw:
+        auth_num = email_auth_num()
         send_mail(
             '[인제대학교 컴퓨터공학부 RE:BORN] 비밀번호 변경 인증메일입니다.',
-            '아래 인증번호를 인증번호 입력란에 입력해주세요 \n\n인증번호 : {} \n\n본인이 아닌것으로 의심되는 경우 홈페이지에서 1:1 문의를 해주세요'.format(email),
+            '아래 인증번호를 인증번호 입력란에 입력해주세요 \n\n인증번호 : {} \n\n본인이 아닌것으로 의심되는 경우 홈페이지에서 1:1 문의를 해주세요'.format(auth_num),
             [email],
         )
-    return HttpResponse(json.dumps({"result_pw": result_pw.password}, cls=DjangoJSONEncoder), content_type = "application/json")    
+    print(auth_num)
+    return HttpResponse(json.dumps({"result_pw": auth_num}, cls=DjangoJSONEncoder), content_type = "application/json")
+
+def auth_confirm_view(request):
+    if request.method=='POST' and 'auth_confirm' in request.POST:
+        # user_id = request.POST.get('user_id')
+        # name = request.POST.get('name')
+        # email = request.POST.get('email')
+        input_auth_num = request.POST.get('input_auth_num')
+        # print(user_id)
+        # print(name)
+        # print(email)
+        print(input_auth_num)
+        # user = authenticate(self.request, username=user_id, password=password)
+        # if user is not None:
+        #     login(self.request, user)
+        password_change_form = PasswordChangeForm(request.user, request.POST)
+        return render(request, 'users/profile_password.html', {'password_change_form':password_change_form})
+
 
 class RecoveryView(View):
     template_name = 'users/recovery.html'
@@ -182,6 +201,20 @@ class RecoveryView(View):
             form_pw = self.recovery_pw(None)
             return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw })
     
+    # def post(self, request):
+    #     if request.method=='POST' and 'auth_confirm' in request.POST:
+    #         user_id = request.POST.get('user_id')
+    #         name = request.POST.get('name')
+    #         email = request.POST.get('email')
+    #         print(user_id)
+    #         print(name)
+    #         print(email)
+    #         # user = authenticate(self.request, username=user_id, password=password)
+    #         # if user is not None:
+    #         #     login(self.request, user)
+    #         password_change_form = PasswordChangeForm(request.user, request.POST)
+    #         return render(request, 'users/profile_password.html', {'password_change_form':password_change_form})
+
     # def post(self, request):
     #     form_id = self.recovery_id(None)
     #     form_pw = self.recovery_pw(None)
