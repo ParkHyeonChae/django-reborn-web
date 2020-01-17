@@ -15,7 +15,7 @@ from django.http import HttpResponse
 import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
-from django.core.mail import EmailMessage
+from .helper import send_mail, email_auth_num
 
 
 def index(request):
@@ -162,15 +162,13 @@ def ajax_find_pw_view(request):
     name = request.POST.get('name')
     email = request.POST.get('email')
     result_pw = User.objects.get(user_id=user_id, name=name, email=email)
+
     if result_pw:
-        # 인증 토큰 생성 함수
-        # 이메일 송신 함수
-        auth_email = EmailMessage(
+        send_mail(
             '[인제대학교 컴퓨터공학부 RE:BORN] 비밀번호 변경 인증메일입니다.',
-            '아래 인증번호를 인증번호 입력란에 입력해주세요',
-            to = [email]
+            '아래 인증번호를 인증번호 입력란에 입력해주세요 \n\n인증번호 : {} \n\n본인이 아닌것으로 의심되는 경우 홈페이지에서 1:1 문의를 해주세요'.format(email),
+            [email],
         )
-        auth_email.send()
     return HttpResponse(json.dumps({"result_pw": result_pw.password}, cls=DjangoJSONEncoder), content_type = "application/json")    
 
 class RecoveryView(View):
