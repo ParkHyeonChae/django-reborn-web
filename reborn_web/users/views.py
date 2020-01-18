@@ -7,6 +7,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.edit import FormView
 from django.views.generic import View
 from .models import User
@@ -157,6 +158,7 @@ def ajax_find_id_view(request):
        
     return HttpResponse(json.dumps({"result_id": result_id.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")    
 
+@csrf_exempt
 def ajax_find_pw_view(request):
     user_id = request.POST.get('user_id')
     name = request.POST.get('name')
@@ -165,8 +167,8 @@ def ajax_find_pw_view(request):
 
     if result_pw:
         auth_num = email_auth_num()
-        # login(request, result_pw)
-        # # result_pw.is_active = False
+        login(request, result_pw)
+        # result_pw.is_active = False
         result_pw.auth = auth_num 
         result_pw.save()
 
@@ -176,14 +178,17 @@ def ajax_find_pw_view(request):
             [email],
         )
     print(auth_num)
-    return HttpResponse(json.dumps({"result_pw": result_pw.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")
+    return HttpResponse(json.dumps({"result": result_pw.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")
 
+@csrf_exempt
 def auth_confirm_view(request):
     # if request.method=='POST' and 'auth_confirm' in request.POST:
+    user_id = request.POST.get('user_id')
     input_auth_num = request.POST.get('input_auth_num')
-    user = User.objects.get(auth=input_auth_num)
 
-    return HttpResponse(json.dumps({"result_id": user.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")
+    user = User.objects.get(user_id=user_id, auth=input_auth_num)
+
+    return HttpResponse(json.dumps({"result": user.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")
 
         # try:
         #     user = User.objects.get(auth=input_auth_num)

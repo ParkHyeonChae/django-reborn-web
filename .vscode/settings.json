@@ -1,4 +1,4 @@
 {
     "git.ignoreLimitWarning": true,
-    "python.pythonPath": "C:\\Users\\park1\\AppData\\Local\\Programs\\Python\\Python37\\python.exe"
+    "python.pythonPath": "django_env\\Scripts\\python.exe"
 }
