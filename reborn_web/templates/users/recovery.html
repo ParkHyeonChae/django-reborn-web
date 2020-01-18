@@ -87,6 +87,9 @@
         <div style="float:left" id="loading"></div><br><br>
 
         <div id="result_pw"></div><br><br>
+        {% if error %}
+        {{ error }}
+        {% endif %}
 
         <script type="text/javascript">
             $(document).ready(function () {
@@ -111,8 +114,31 @@
                             alert('회원님의 이메일로 인증코드를 발송하였습니다.');
                             // $('#result_pw').replaceWith('<h5><p id="result_pw">회원님의 비밀번호는 <strong>'+response.result_pw+'</strong> 입니다.</p></h5>')
                             $('#result_pw').replaceWith(
-                                '<br><form action="{% url "users:recovery_auth" %}" method="POST">{% csrf_token %}<input type="text" name="input_auth_num" placeholder="인증번호를 입력해주세요." class="form-control" /><br><button type="submit" name="auth_confirm" class="btn btn-danger">인증확인</button></form>'
+                                // '<br><form action="{% url "users:recovery_auth" %}" method="POST"><input type="text" name="input_auth_num" placeholder="인증번호를 입력해주세요." class="form-control" /><br><button type="submit" name="auth_confirm" class="btn btn-danger">인증확인</button></form>'
+                                '<br><input type="text" id="input_auth_num" placeholder="인증번호를 입력해주세요." class="form-control" /><br><button type="submit" name="auth_confirm" id="id_auth_confirm" class="btn btn-danger">인증확인</button>'
                             )
+
+                            $(document).ready(function () {
+                                $('#id_auth_confirm').click(function () {
+                                    var input_auth_num = $("#input_auth_num").val();
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/users/recovery/auth",
+                                        dataType: "json",
+                                        data: {
+                                            'input_auth_num': input_auth_num,
+                                            'csrfmiddlewaretoken': '{{csrf_token}}',
+                                        },
+                                        success: function (response) {
+                                            location.href = "/users/profile/password/";
+                                        },
+                                        error: function () {
+                                            alert('인증번호가 일치하지 않습니다.');
+                                        },
+                                    });
+                                })
+                            })
                         },
                         error: function () {
                             $('#loading_end').remove()

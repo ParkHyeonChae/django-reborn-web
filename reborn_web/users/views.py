@@ -165,29 +165,37 @@ def ajax_find_pw_view(request):
 
     if result_pw:
         auth_num = email_auth_num()
+        # login(request, result_pw)
+        # # result_pw.is_active = False
+        result_pw.auth = auth_num 
+        result_pw.save()
+
         send_mail(
-            '[인제대학교 컴퓨터공학부 RE:BORN] 비밀번호 변경 인증메일입니다.',
+            '[인제대학교 컴퓨터공학부 RE:BORN] 비밀번호 찾기 인증메일입니다.',
             '아래 인증번호를 인증번호 입력란에 입력해주세요 \n\n인증번호 : {} \n\n본인이 아닌것으로 의심되는 경우 홈페이지에서 1:1 문의를 해주세요'.format(auth_num),
             [email],
         )
     print(auth_num)
-    return HttpResponse(json.dumps({"result_pw": auth_num}, cls=DjangoJSONEncoder), content_type = "application/json")
+    return HttpResponse(json.dumps({"result_pw": result_pw.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")
 
 def auth_confirm_view(request):
-    if request.method=='POST' and 'auth_confirm' in request.POST:
-        # user_id = request.POST.get('user_id')
-        # name = request.POST.get('name')
-        # email = request.POST.get('email')
-        input_auth_num = request.POST.get('input_auth_num')
-        # print(user_id)
-        # print(name)
-        # print(email)
-        print(input_auth_num)
-        # user = authenticate(self.request, username=user_id, password=password)
-        # if user is not None:
-        #     login(self.request, user)
-        password_change_form = PasswordChangeForm(request.user, request.POST)
-        return render(request, 'users/profile_password.html', {'password_change_form':password_change_form})
+    # if request.method=='POST' and 'auth_confirm' in request.POST:
+    input_auth_num = request.POST.get('input_auth_num')
+    user = User.objects.get(auth=input_auth_num)
+
+    return HttpResponse(json.dumps({"result_id": user.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")
+
+        # try:
+        #     user = User.objects.get(auth=input_auth_num)
+        #     return render(request, 'users/password_reset.html')
+        # except ObjectDoesNotExist:
+        #     error = "인증번호가 일치하지 않습니다."
+        #     # messages.info(request, "인증번호가 일치하지 않습니다.")
+        #     return HttpResponse(error)
+        #     # return render(request, 'users/recovery.html')
+
+        # password_change_form = PasswordChangeForm(request.user, request.POST)
+        # return render(request, 'users/profile_password.html', {'password_change_form':password_change_form})
 
 
 class RecoveryView(View):

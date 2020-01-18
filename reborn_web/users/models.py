@@ -5,7 +5,7 @@ from .choice import *
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, user_id, password, email, hp, name, student_id, grade, department, circles, **extra_fields):
+    def create_user(self, user_id, password, email, hp, name, student_id, grade, department, circles, auth, **extra_fields):
         if not user_id:
             raise ValueError('user_id Required!')
 
@@ -18,6 +18,7 @@ class UserManager(BaseUserManager):
             grade = grade,
             department = department,
             circles = circles,
+            auth = auth,
             **extra_fields
         )
 
@@ -25,9 +26,9 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, user_id, password, email=None, hp=None, name=None, student_id=None, grade=None, department=None, circles=None):
+    def create_superuser(self, user_id, password, email=None, hp=None, name=None, student_id=None, grade=None, department=None, circles=None, auth=None):
 
-        user = self.create_user(user_id, password, email, hp, name, student_id, grade)
+        user = self.create_user(user_id, password, email, hp, name, student_id, grade, department, circles, auth)
 
         user.is_superuser = True
         user.is_staff = True
@@ -52,6 +53,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     level = models.CharField(choices=LEVEL_CHOICES, max_length=18, verbose_name="등급", default=3)
     circles = models.CharField(choices=CIRCLES_CHOICES, max_length=18, verbose_name="동아리", null=True)
     department = models.CharField(choices=DEPARTMENT_CHOICES, max_length=24, verbose_name="학과", null=True)
+    auth = models.CharField(max_length=32, verbose_name="인증번호", null=True, unique=True)
     date_joined = models.DateTimeField(auto_now_add=True, verbose_name='가입일', null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
