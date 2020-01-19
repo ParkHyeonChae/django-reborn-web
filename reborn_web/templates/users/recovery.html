@@ -85,7 +85,8 @@
         </div>
         <div style="float:left" id="loading"></div><br><br>
 
-        <div id="result_pw"></div><br><br>
+        <div id="result_pw"></div>
+        <div id="timeset" style="font-size: 22px; font-weight: bold; float: left; margin-left: 20px;"></div><br><br>
 
         <script type="text/javascript">
             $(document).ready(function () {
@@ -111,8 +112,42 @@
                             // $('#result_pw').replaceWith('<h5><p id="result_pw">회원님의 비밀번호는 <strong>'+response.result_pw+'</strong> 입니다.</p></h5>')
                             $('#result_pw').replaceWith(
                                 // '<br><form action="{% url "users:recovery_auth" %}" method="POST"><input type="text" name="input_auth_num" placeholder="인증번호를 입력해주세요." class="form-control" /><br><button type="submit" name="auth_confirm" class="btn btn-danger">인증확인</button></form>'
-                                '<br><input type="text" id="input_auth_num" placeholder="인증번호를 입력해주세요." class="form-control" /><br><button type="submit" name="auth_confirm" id="id_auth_confirm" class="btn btn-danger">인증확인</button>'
+                                '<br><input type="text" id="input_auth_num" placeholder="인증번호를 입력해주세요." class="form-control" /><br><div style="float: left;><button type="submit" name="auth_confirm" id="id_auth_confirm" class="btn btn-danger">인증확인</button></div>'
                             )
+                            
+                            function countdown( elementName, minutes, seconds ) {
+                                var elementName, endTime, hours, mins, msLeft, time;
+                                
+                                function twoDigits( n ) {
+                                    return (n <= 9 ? "0" + n : n);
+                                }
+                            
+                                function updateTimer() {
+                                    msLeft = endTime - (+new Date);
+                                    if ( msLeft < 1000 ) {
+                                        alert("인증시간이 초과되었습니다.");
+                                        $("" + elementName).remove();
+                                        cert_ok = false;
+                                        certificationNum = false;
+                                        
+                                        location.href = "{% url 'users:recovery' %}"
+                                        
+                                    } else {
+                                        time = new Date( msLeft );
+                                        hours = time.getUTCHours();
+                                        mins = time.getUTCMinutes();
+                                        $("" + elementName).html((hours ? hours + ':' + twoDigits( mins ) : twoDigits(mins))
+                                        + ':' + twoDigits( time.getUTCSeconds()));
+                                        setTimeout( updateTimer, time.getUTCMilliseconds() + 500 );
+                                    }
+                                }
+
+                                endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
+                                updateTimer();
+                            }
+                            
+                            countdown("#timeset", 3, 0);
+
                             var user = response.result
 
                             $(document).ready(function () {

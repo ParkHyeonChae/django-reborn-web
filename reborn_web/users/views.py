@@ -186,6 +186,7 @@ def auth_confirm_view(request):
     input_auth_num = request.POST.get('input_auth_num')
     user = User.objects.get(user_id=user_id, auth=input_auth_num)
     login(request, user)
+    # user.is_active = False
     user.auth = ""
     user.save()
     
@@ -239,7 +240,7 @@ class RecoveryView(View):
             form_id = self.recovery_id(None)
             form_pw = self.recovery_pw(None)
             return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw })
-    
+
     # def post(self, request):
     #     if request.method=='POST' and 'auth_confirm' in request.POST:
     #         user_id = request.POST.get('user_id')
