@@ -7,11 +7,12 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.edit import FormView
 from django.views.generic import View
+# from django.contrib.auth.views import PasswordResetConfirmView
 from .models import User
-from .forms import CsRegisterForm, RegisterForm, LoginForm, CustomUserChangeForm, CheckPasswordForm, RecoveryIdForm, RecoveryPwForm
+from .forms import CsRegisterForm, RegisterForm, LoginForm, CustomUserChangeForm, CheckPasswordForm, RecoveryIdForm, RecoveryPwForm, CustomSetPasswordForm
 from django.http import HttpResponse
 import json
 from django.core import serializers
@@ -158,7 +159,7 @@ def ajax_find_id_view(request):
        
     return HttpResponse(json.dumps({"result_id": result_id.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")    
 
-@csrf_exempt
+
 def ajax_find_pw_view(request):
     user_id = request.POST.get('user_id')
     name = request.POST.get('name')
@@ -167,8 +168,6 @@ def ajax_find_pw_view(request):
 
     if result_pw:
         auth_num = email_auth_num()
-        login(request, result_pw)
-        # result_pw.is_active = False
         result_pw.auth = auth_num 
         result_pw.save()
 
@@ -180,14 +179,16 @@ def ajax_find_pw_view(request):
     print(auth_num)
     return HttpResponse(json.dumps({"result": result_pw.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")
 
-@csrf_exempt
+
 def auth_confirm_view(request):
     # if request.method=='POST' and 'auth_confirm' in request.POST:
     user_id = request.POST.get('user_id')
     input_auth_num = request.POST.get('input_auth_num')
-
     user = User.objects.get(user_id=user_id, auth=input_auth_num)
-
+    login(request, user)
+    user.auth = ""
+    user.save()
+    
     return HttpResponse(json.dumps({"result": user.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")
 
         # try:
@@ -202,6 +203,31 @@ def auth_confirm_view(request):
         # password_change_form = PasswordChangeForm(request.user, request.POST)
         # return render(request, 'users/profile_password.html', {'password_change_form':password_change_form})
 
+
+
+# class AuthPwResetView(ForView):
+#     success_url = 'users:login'
+#     template_name = 'users/password_reset.html'
+#     form_class = CustomSetPasswordForm
+
+#     def form_valid(self, form):
+#         messages.info(self.request, '비밀번호를 변경 하였습니다.')
+#         return super().form_valid(form)
+
+@login_required
+def auth_pw_reset_view(request):
+    if request.method == 'POST':
+        reset_password_form = CustomSetPasswordForm(request.user, request.POST)
+        
+        if reset_password_form.is_valid():
+            user = reset_password_form.save()
+            messages.success(request, "비밀번호 변경완료! 변경된 비밀번호로 로그인하세요.")
+            logout(request)
+            return redirect('users:login')
+    else:
+        reset_password_form = CustomSetPasswordForm(request.user)
+
+    return render(request, 'users/password_reset.html', {'form':reset_password_form})
 
 class RecoveryView(View):
     template_name = 'users/recovery.html'

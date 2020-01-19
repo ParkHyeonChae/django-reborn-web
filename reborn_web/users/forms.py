@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.hashers import check_password
 from .models import User
-from django.contrib.auth.forms import AuthenticationForm, UserChangeForm
+from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, SetPasswordForm
 from django.contrib.auth import get_user_model
 from .choice import *
 
@@ -302,4 +302,18 @@ class RecoveryPwForm(forms.Form):
             'placeholder': '이메일을 입력해주세요',
             'class': 'form-control',
             'id': 'pw_form_email',
+        })
+
+class CustomSetPasswordForm(SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super(CustomSetPasswordForm, self).__init__(*args, **kwargs)
+        self.fields['new_password1'].label = '새 비밀번호'
+        self.fields['new_password1'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': '새 비밀번호',
+        })
+        self.fields['new_password2'].label = '비밀번호 확인'
+        self.fields['new_password2'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': '새 비밀번호 확인',
         })

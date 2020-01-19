@@ -43,8 +43,7 @@
                         },
                         success: function (response) {
                             $('#result_id').replaceWith(
-                                '<h5><p id="result_id">회원님의 아이디는 <strong>' + response
-                                .result_id + '</strong> 입니다.</p></h5>')
+                                '<h5><p id="result_id">회원님의 아이디는 <strong>' + response.result_id + '</strong> 입니다.</p></h5>')
                         },
                         error: function () {
                             if (name == "" || email == "") {
@@ -87,9 +86,6 @@
         <div style="float:left" id="loading"></div><br><br>
 
         <div id="result_pw"></div><br><br>
-        {% if error %}
-        {{ error }}
-        {% endif %}
 
         <script type="text/javascript">
             $(document).ready(function () {
@@ -133,10 +129,15 @@
                                             'csrfmiddlewaretoken': '{{csrf_token}}',
                                         },
                                         success: function (response) {
-                                            location.href = "/users/profile/password/";
+                                            // location.href = "/users/profile/password/";
+                                            location.href = "{% url 'users:recovery_pw_reset' %}";
                                         },
                                         error: function () {
-                                            alert('인증번호가 일치하지 않습니다.');
+                                            if ($('#input_auth_num').val()=="") {
+                                                alert('회원님의 이메일로 전송된 인증번호를 입력해주세요.');
+                                            } else {
+                                                alert('인증번호가 일치하지 않습니다.');
+                                            }
                                         },
                                     });
                                 })
@@ -159,6 +160,7 @@
         <h5>회원님의 비밀번호는 <strong>{{ result_pw }}</strong>입니다.</h5>
         {% endif %}
         <br><br> -->
+
 
     </div>
 </div>
