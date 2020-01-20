@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.shortcuts import render, redirect
 # from django.views.decorators.csrf import csrf_exempt
-from django.views.generic.edit import FormView
+from django.views.generic import CreateView, FormView
 from django.views.generic import View
 # from django.contrib.auth.views import PasswordResetConfirmView
 from .models import User
@@ -18,66 +18,95 @@ import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from .helper import send_mail, email_auth_num
+from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect, Http404
 
 
 def index(request):
     return render(request, 'users/index.html')
 
-# class RegisterView(FormView):
-#     template_name = 'users/register.html'
-#     form_class = RegisterForm
-#     success_url = '/'
-
-#     def form_valid(self, form):
-#         user = User(
-#             user_id = form.data.get('user_id'),
-#             password = make_password(form.data.get('password')),
-#             email = form.data.get('email'),
-#             hp = form.data.get('hp'),
-#             name = form.data.get('name'),
-#             student_id = form.data.get('student_id'),
-#             grade = form.data.get('grade'),
-#             level = '2'
-#         )
-#         user.save()
-
-#         return super().form_valid(form)
-
 def register_info_view(request):
     return render(request, 'users/register_info.html')
 
-def cs_register_view(request):
-    if request.method == 'POST':
-        register_form = CsRegisterForm(request.POST)
+# def cs_register_view(request):
+#     if request.method == 'POST':
+#         register_form = CsRegisterForm(request.POST)
 
-        if register_form.is_valid():
-            user = register_form.save(commit=False)
-            user.set_password(register_form.cleaned_data['password'])
-            user.level = '2'
-            user.department = '컴퓨터공학부'
-            user.save()
-            messages.success(request, "회원가입 성공.")
-            return redirect('users:login')
-    else:
-        register_form = CsRegisterForm()
+#         if register_form.is_valid():
+#             user = register_form.save(commit=False)
+#             user.set_password(register_form.cleaned_data['password'])
+#             user.level = '2'
+#             user.department = '컴퓨터공학부'
+#             user.save()
+#             messages.success(request, "회원가입 성공.")
+#             return redirect('users:login')
+#     else:
+#         register_form = CsRegisterForm()
 
-    return render(request, 'users/register_cs.html', {'register_form':register_form})
+#     return render(request, 'users/register_cs.html', {'register_form':register_form})
 
-def register_view(request):
-    if request.method == 'POST':
-        register_form = RegisterForm(request.POST)
+# def register_view(request):
+#     if request.method == 'POST':
+#         register_form = RegisterForm(request.POST)
 
-        if register_form.is_valid():
-            user = register_form.save(commit=False)
-            user.set_password(register_form.cleaned_data['password'])
-            user.level = '3'
-            user.save()
-            messages.success(request, "회원가입 성공.")
-            return redirect('users:login')
-    else:
-        register_form = RegisterForm()
+#         if register_form.is_valid():
+#             user = register_form.save(commit=False)
+#             user.set_password(register_form.cleaned_data['password'])
+#             user.level = '3'
+#             user.save()
+#             messages.success(request, "회원가입 성공.")
+#             return redirect('users:login')
+#     else:
+#         register_form = RegisterForm()
 
-    return render(request, 'users/register.html', {'register_form':register_form})
+#     return render(request, 'users/register.html', {'register_form':register_form})
+
+#----------------------------------------------------------------------------------------------
+# 회원가입 뷰 수정 TEST
+
+
+class CsRegisterView(CreateView):
+    model = User
+    template_name = 'users/register_cs.html'
+    form_class = CsRegisterForm
+
+    def get(self, request, *args, **kwargs):
+        url = settings.LOGIN_REDIRECT_URL
+        if request.user.is_authenticated:
+            if url == request.path:
+                raise ValueError(
+                    "Redirection loop for authenticated user detected. Check that "
+                    "your LOGIN_REDIRECT_URL doesn't point to a login page."
+                )
+            return HttpResponseRedirect(url)
+        return super().get(request, *args, **kwargs)
+
+    def get_success_url(self):
+        messages.success(self.request, "회원가입 성공.")
+        # messages.success(self.request, '회원님의 입력한 Email 주소로 인증 메일이 발송되었습니다. 메일을 확인하시고 로그인 해주세요!')
+        return settings.LOGIN_URL
+
+    def form_valid(self, form):
+        self.object = form.save()
+
+        # 회원가입 인증 메일 발송
+        # send_mail(
+        #     '[Buy & Sell] {}님의 회원가입 인증메일 입니다.'.format(self.object.username),
+        #     [self.object.email],
+        #     html=render_to_string('accounts/user_activate_email.html', {
+        #         'user': self.object,
+        #         'uid': urlsafe_base64_encode(force_bytes(self.object.id)).decode('utf-8'),
+        #         'domain': self.request.META['HTTP_HOST'],
+        #         'token': default_token_generator.make_token(self.object),
+        #     }),
+        # )
+        return redirect(self.get_success_url())
+
+class RegisterView(CsRegisterView):
+    template_name = 'users/register.html'
+    form_class = RegisterForm
+
+ #------------------------------------------------------------------------------------------------       
 
 @login_required
 def profile_view(request):

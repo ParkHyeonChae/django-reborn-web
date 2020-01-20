@@ -53,7 +53,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     level = models.CharField(choices=LEVEL_CHOICES, max_length=18, verbose_name="등급", default=3)
     circles = models.CharField(choices=CIRCLES_CHOICES, max_length=18, verbose_name="동아리", null=True)
     department = models.CharField(choices=DEPARTMENT_CHOICES, max_length=24, verbose_name="학과", null=True)
-    auth = models.CharField(max_length=32, verbose_name="인증번호", null=True, unique=True)
+    auth = models.CharField(max_length=32, verbose_name="인증번호", null=True)
     date_joined = models.DateTimeField(auto_now_add=True, verbose_name='가입일', null=True, blank=True)
 
     is_active = models.BooleanField(default=True)

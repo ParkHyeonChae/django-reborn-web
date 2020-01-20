@@ -1,54 +1,54 @@
 from django import forms
 from django.contrib.auth.hashers import check_password
 from .models import User
-from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, SetPasswordForm
+from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, SetPasswordForm, UserCreationForm
 from django.contrib.auth import get_user_model
 from .choice import *
 
 # ModelForm Test
 
-class CsRegisterForm(forms.ModelForm):
-    password = forms.CharField(label='비밀번호', widget=forms.PasswordInput(
-      attrs={'class': 'form-control', 'placeholder': '비밀번호를 입력주세요.'}),  
-    )
-    confirm_password = forms.CharField(label='비밀번호 확인', widget=forms.PasswordInput(
-      attrs={'class': 'form-control', 'placeholder': '비밀번호를 다시 입력주세요.'}),  
-    )
+# class CsRegisterForm(forms.ModelForm):
+#     password = forms.CharField(label='비밀번호', widget=forms.PasswordInput(
+#       attrs={'class': 'form-control', 'placeholder': '비밀번호를 입력주세요.'}),
+#     )
+#     confirm_password = forms.CharField(label='비밀번호 확인', widget=forms.PasswordInput(
+#       attrs={'class': 'form-control', 'placeholder': '비밀번호를 다시 입력주세요.'}),  
+#     )
 
-    class Meta:
-        model = User
-        fields = ['user_id', 'password', 'confirm_password', 'email', 'hp', 'name', 'student_id', 'grade', 'circles']
+#     class Meta:
+#         model = User
+#         fields = ['user_id', 'password', 'confirm_password', 'email', 'hp', 'name', 'student_id', 'grade', 'circles']
 
-        widgets = {
-            'user_id': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': '로그인과 사이트 활동에 사용할 아이디를 입력주세요.',}
-            ),
-            'email': forms.EmailInput(
-                attrs={'class': 'form-control', 'placeholder': '비밀번호 분실 시 사용될 이메일을 입력해주세요.'}
-            ),
-            'hp': forms.NumberInput(
-                attrs={'class': 'form-control', 'placeholder': '하이픈(-)을 제외한 번호를 입력해주세요.'}
-            ),
-            'name': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': '각종 행사 참여를 위해 실명을 입력해주세요.'}
-            ),
-            'student_id': forms.NumberInput(
-                attrs={'class': 'form-control', 'placeholder': '학번을 입력해주세요.'}
-            ),
-            'grade': forms.Select(
-                attrs={'class': 'form-control'}
-            ),
-            'circles': forms.Select(
-                attrs={'class': 'form-control'}
-            ),
-        }
+#         widgets = {
+#             'user_id': forms.TextInput(
+#                 attrs={'class': 'form-control', 'placeholder': '로그인과 사이트 활동에 사용할 아이디를 입력주세요.',}
+#             ),
+#             'email': forms.EmailInput(
+#                 attrs={'class': 'form-control', 'placeholder': '비밀번호 분실 시 사용될 이메일을 입력해주세요.'}
+#             ),
+#             'hp': forms.NumberInput(
+#                 attrs={'class': 'form-control', 'placeholder': '하이픈(-)을 제외한 번호를 입력해주세요.'}
+#             ),
+#             'name': forms.TextInput(
+#                 attrs={'class': 'form-control', 'placeholder': '각종 행사 참여를 위해 실명을 입력해주세요.'}
+#             ),
+#             'student_id': forms.NumberInput(
+#                 attrs={'class': 'form-control', 'placeholder': '학번을 입력해주세요.'}
+#             ),
+#             'grade': forms.Select(
+#                 attrs={'class': 'form-control'}
+#             ),
+#             'circles': forms.Select(
+#                 attrs={'class': 'form-control'}
+#             ),
+#         }
     
-    def clean_confirm_password(self):
-        pw_check = self.cleaned_data
-        if pw_check['password'] != pw_check['confirm_password']:
-            raise forms.ValidationError('비밀번호가 일치하지 않습니다!')
+#     def clean_confirm_password(self):
+#         pw_check = self.cleaned_data
+#         if pw_check['password'] != pw_check['confirm_password']:
+#             raise forms.ValidationError('비밀번호가 일치하지 않습니다!')
 
-        return pw_check['confirm_password']
+#         return pw_check['confirm_password']
 
     # def phonenumber_valid(self):
     #     number = self.cleaned_data
@@ -133,54 +133,54 @@ class CsRegisterForm(forms.ModelForm):
 #             else:
 #                 self.add_error('user_id', '이미 존재하는 아아디입니다.')
 
-class RegisterForm(forms.ModelForm):
-    password = forms.CharField(label='비밀번호', widget=forms.PasswordInput(
-        attrs={'class': 'form-control', 'placeholder': '비밀번호를 입력주세요.'}),  
-    )
-    confirm_password = forms.CharField(label='비밀번호 확인', widget=forms.PasswordInput(
-        attrs={'class': 'form-control', 'placeholder': '비밀번호를 다시 입력주세요.'}),  
-    )
-    student_id = forms.IntegerField(required=False, label='학번 (선택사항)', widget=forms.NumberInput(
-        attrs={'class': 'form-control', 'placeholder': '학번을 입력해주세요.'}), 
-    )
-    grade = forms.ChoiceField(choices=GRADE_CHOICES, label='학년 (선택사항)', widget=forms.Select(
-        attrs={'class': 'form-control'}),
-    )
-    department = forms.ChoiceField(choices=DEPARTMENT_CHOICES, label='학과 (선택사항)', widget=forms.Select(
-        attrs={'class': 'form-control'}),
-    )
+# class RegisterForm(forms.ModelForm):
+#     password = forms.CharField(label='비밀번호', widget=forms.PasswordInput(
+#         attrs={'class': 'form-control', 'placeholder': '비밀번호를 입력주세요.'}),  
+#     )
+#     confirm_password = forms.CharField(label='비밀번호 확인', widget=forms.PasswordInput(
+#         attrs={'class': 'form-control', 'placeholder': '비밀번호를 다시 입력주세요.'}),  
+#     )
+#     student_id = forms.IntegerField(required=False, label='학번 (선택사항)', widget=forms.NumberInput(
+#         attrs={'class': 'form-control', 'placeholder': '학번을 입력해주세요.'}), 
+#     )
+#     grade = forms.ChoiceField(choices=GRADE_CHOICES, label='학년 (선택사항)', widget=forms.Select(
+#         attrs={'class': 'form-control'}),
+#     )
+#     department = forms.ChoiceField(choices=DEPARTMENT_CHOICES, label='학과 (선택사항)', widget=forms.Select(
+#         attrs={'class': 'form-control'}),
+#     )
 
-    class Meta:
-        model = User
-        fields = ['user_id', 'password', 'confirm_password', 'email', 'hp', 'name', 'student_id', 'grade', 'department']
+#     class Meta:
+#         model = User
+#         fields = ['user_id', 'password', 'confirm_password', 'email', 'hp', 'name', 'student_id', 'grade', 'department']
 
-        widgets = {
-            'user_id': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': '로그인과 사이트 활동에 사용할 아이디를 입력주세요.',}
-            ),
-            'email': forms.EmailInput(
-                attrs={'class': 'form-control', 'placeholder': '비밀번호 분실 시 사용될 이메일을 입력해주세요.'}
-            ),
-            'name': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': '각종 행사 참여를 위해 실명을 입력해주세요.'}
-            ),
-            'hp': forms.NumberInput(
-                attrs={'class': 'form-control', 'placeholder': '하이픈(-)을 제외한 번호를 입력해주세요.'}
-            ),
-            # 'grade': forms.Select(
-            #     attrs={'class': 'form-control'}
-            # ),
-            # 'department': forms.Select(
-            #     attrs={'class': 'form-control'}
-            # ),
-        }
+#         widgets = {
+#             'user_id': forms.TextInput(
+#                 attrs={'class': 'form-control', 'placeholder': '로그인과 사이트 활동에 사용할 아이디를 입력주세요.',}
+#             ),
+#             'email': forms.EmailInput(
+#                 attrs={'class': 'form-control', 'placeholder': '비밀번호 분실 시 사용될 이메일을 입력해주세요.'}
+#             ),
+#             'name': forms.TextInput(
+#                 attrs={'class': 'form-control', 'placeholder': '각종 행사 참여를 위해 실명을 입력해주세요.'}
+#             ),
+#             'hp': forms.NumberInput(
+#                 attrs={'class': 'form-control', 'placeholder': '하이픈(-)을 제외한 번호를 입력해주세요.'}
+#             ),
+#             # 'grade': forms.Select(
+#             #     attrs={'class': 'form-control'}
+#             # ),
+#             # 'department': forms.Select(
+#             #     attrs={'class': 'form-control'}
+#             # ),
+#         }
     
-    def clean_confirm_password(self):
-        pw_check = self.cleaned_data
-        if pw_check['password'] != pw_check['confirm_password']:
-            raise forms.ValidationError('비밀번호가 일치하지 않습니다!')
+#     def clean_confirm_password(self):
+#         pw_check = self.cleaned_data
+#         if pw_check['password'] != pw_check['confirm_password']:
+#             raise forms.ValidationError('비밀번호가 일치하지 않습니다!')
 
-        return pw_check['confirm_password']
+#         return pw_check['confirm_password']
 
                 
 class LoginForm(forms.Form):
@@ -317,3 +317,127 @@ class CustomSetPasswordForm(SetPasswordForm):
             'class': 'form-control',
             'placeholder': '새 비밀번호 확인',
         })
+
+#--------------------------------------------------------------------------------------------
+# 회원가입 test
+
+class CsRegisterForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super(CsRegisterForm, self).__init__(*args, **kwargs)
+
+        self.fields['user_id'].label = '아이디'
+        self.fields['user_id'].widget.attrs.update({
+            # 'class': 'form-control col-sm-10',
+            'class': 'form-control',
+            'placeholder': '아이디를 입력해주세요.',
+        })
+        self.fields['password1'].label = '비밀번호'
+        self.fields['password1'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': '비밀번호를 입력해주세요.',
+        })
+        self.fields['password2'].label = '비밀번호 확인'
+        self.fields['password2'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': '비밀번호를 다시 입력해주세요.',
+        })
+        self.fields['email'].label = '이메일'
+        self.fields['email'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': '아이디, 비밀번호 찾기에 이용됩니다.',
+        })
+        self.fields['name'].label = '이름'
+        self.fields['name'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': "아이디, 비밀번호 찾기에 이용됩니다.",
+        })
+        self.fields['hp'].label = '핸드폰번호'
+        self.fields['hp'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': "'-'를 제외한 숫자로 입력해주세요",
+        })
+        self.fields['grade'].label = '학년'
+        self.fields['grade'].widget.attrs.update({
+            'class': 'form-control',
+        })
+        self.fields['student_id'].label = '학번'
+        self.fields['student_id'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': "학번을 입력해주세요.",
+        })
+        self.fields['circles'].label = '학술동아리'
+        self.fields['circles'].widget.attrs.update({
+            'class': 'form-control'
+        })
+
+    class Meta:
+        model = User
+        fields = ['user_id', 'password1', 'password2', 'email', 'name', 'hp', 'grade', 'student_id', 'circles']
+
+    def save(self, commit=True):
+        user = super(CsRegisterForm, self).save(commit=False)
+        # user.is_active = False
+        user.level = '2'
+        user.department = '컴퓨터공학부'
+        user.save()
+
+        return user
+
+
+class RegisterForm(UserCreationForm):
+    student_id = forms.IntegerField(required=False, label='학번', widget=forms.NumberInput(
+        attrs={'class': 'form-control', 'placeholder': '학번을 입력해주세요.'}), 
+    )
+    grade = forms.ChoiceField(choices=GRADE_CHOICES, label='학년', widget=forms.Select(
+        attrs={'class': 'form-control'}),
+    )
+    department = forms.ChoiceField(choices=DEPARTMENT_CHOICES, label='학과', widget=forms.Select(
+        attrs={'class': 'form-control'}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(RegisterForm, self).__init__(*args, **kwargs)
+
+        self.fields['user_id'].label = '아이디'
+        self.fields['user_id'].widget.attrs.update({
+            # 'class': 'form-control col-sm-10',
+            'class': 'form-control',
+            'placeholder': '아이디를 입력해주세요.',
+        })
+        self.fields['password1'].label = '비밀번호'
+        self.fields['password1'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': '비밀번호를 입력해주세요.',
+        })
+        self.fields['password2'].label = '비밀번호 확인'
+        self.fields['password2'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': '비밀번호를 다시 입력해주세요.',
+        })
+        self.fields['email'].label = '이메일'
+        self.fields['email'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': '아이디, 비밀번호 찾기에 이용됩니다.',
+        })
+        self.fields['name'].label = '이름'
+        self.fields['name'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': "아이디, 비밀번호 찾기에 이용됩니다.",
+        })
+        self.fields['hp'].label = '핸드폰번호'
+        self.fields['hp'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': "'-'를 제외한 숫자로 입력해주세요",
+        })
+
+    class Meta:
+        model = User
+        fields = ['user_id', 'password1', 'password2', 'email', 'name', 'hp', 'department', 'grade', 'student_id']
+
+    def save(self, commit=True):
+        user = super(RegisterForm, self).save(commit=False)
+        # user.is_active = False
+        user.level = '3'
+        user.save()
+
+        return user
