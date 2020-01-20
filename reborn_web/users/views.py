@@ -88,13 +88,14 @@ class CsRegisterView(CreateView):
 
     def get_success_url(self):
         # messages.success(self.request, "회원가입 성공.")
-        messages.success(self.request, '회원님의 입력한 Email 주소로 인증 메일이 발송되었습니다. 메일을 확인하시고 로그인 해주세요!')
+        messages.success(self.request, '회원님의 입력한 Email 주소로 인증 메일이 발송되었습니다. 인증 후 로그인이 가능합니다.')
         return settings.LOGIN_URL
 
     def form_valid(self, form):
         self.object = form.save()
 
         # 회원가입 인증 메일 발송
+        # ISSUE - https 통신오류 -> http 프로토콜 수정
         send_mail(
             '[인제대학교 컴퓨터공학부 RE:BORN] {}님의 회원가입 인증메일 입니다.'.format(self.object.user_id),
             [self.object.email],
@@ -228,8 +229,10 @@ def ajax_find_pw_view(request):
 
         send_mail(
             '[인제대학교 컴퓨터공학부 RE:BORN] 비밀번호 찾기 인증메일입니다.',
-            '아래 인증번호를 인증번호 입력란에 입력해주세요 \n\n인증번호 : {} \n\n본인이 아닌것으로 의심되는 경우 홈페이지에서 1:1 문의를 해주세요'.format(auth_num),
             [email],
+            html=render_to_string('users/recovery_email.html', {
+                'auth_num': auth_num,
+            }),
         )
     print(auth_num)
     return HttpResponse(json.dumps({"result": result_pw.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")
