@@ -6,7 +6,7 @@ from django.contrib.auth import login, logout, authenticate, update_session_auth
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 # from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, FormView
 from django.views.generic import View
@@ -20,7 +20,12 @@ from django.core.serializers.json import DjangoJSONEncoder
 from .helper import send_mail, email_auth_num
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect, Http404
+from django.forms.utils import ErrorList
 
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text
+from django.contrib.auth.tokens import default_token_generator
 
 def index(request):
     return render(request, 'users/index.html')
@@ -82,29 +87,50 @@ class CsRegisterView(CreateView):
         return super().get(request, *args, **kwargs)
 
     def get_success_url(self):
-        messages.success(self.request, "회원가입 성공.")
-        # messages.success(self.request, '회원님의 입력한 Email 주소로 인증 메일이 발송되었습니다. 메일을 확인하시고 로그인 해주세요!')
+        # messages.success(self.request, "회원가입 성공.")
+        messages.success(self.request, '회원님의 입력한 Email 주소로 인증 메일이 발송되었습니다. 메일을 확인하시고 로그인 해주세요!')
         return settings.LOGIN_URL
 
     def form_valid(self, form):
         self.object = form.save()
 
         # 회원가입 인증 메일 발송
-        # send_mail(
-        #     '[Buy & Sell] {}님의 회원가입 인증메일 입니다.'.format(self.object.username),
-        #     [self.object.email],
-        #     html=render_to_string('accounts/user_activate_email.html', {
-        #         'user': self.object,
-        #         'uid': urlsafe_base64_encode(force_bytes(self.object.id)).decode('utf-8'),
-        #         'domain': self.request.META['HTTP_HOST'],
-        #         'token': default_token_generator.make_token(self.object),
-        #     }),
-        # )
+        send_mail(
+            '[인제대학교 컴퓨터공학부 RE:BORN] {}님의 회원가입 인증메일 입니다.'.format(self.object.user_id),
+            [self.object.email],
+            html=render_to_string('users/register_email.html', {
+                'user': self.object,
+                'uid': urlsafe_base64_encode(force_bytes(self.object.pk)).encode().decode(),
+                'domain': self.request.META['HTTP_HOST'],
+                'token': default_token_generator.make_token(self.object),
+            }),
+        )
         return redirect(self.get_success_url())
 
 class RegisterView(CsRegisterView):
     template_name = 'users/register.html'
     form_class = RegisterForm
+
+
+# 이메일 인증 활성화 뷰
+def activate(request, uid64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uid64))
+        current_user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist, ValidationError):
+        messages.error(request, '메일 인증에 실패했습니다.')
+        return redirect('users:login')
+
+    if default_token_generator.check_token(current_user, token):
+        current_user.is_active = True
+        current_user.save()
+
+        messages.info(request, '메일 인증이 완료 되었습니다. 회원가입을 축하드립니다!')
+        return redirect('users:login')
+
+    messages.error(request, '메일 인증에 실패했습니다.')
+    return redirect('users:login')
+
 
  #------------------------------------------------------------------------------------------------       
 

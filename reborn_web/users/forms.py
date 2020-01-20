@@ -344,7 +344,7 @@ class CsRegisterForm(UserCreationForm):
         self.fields['email'].label = '이메일'
         self.fields['email'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': '아이디, 비밀번호 찾기에 이용됩니다.',
+            'placeholder': '회원가입 후 입력하신 메일로 본인인증 메일이 전송됩니다.',
         })
         self.fields['name'].label = '이름'
         self.fields['name'].widget.attrs.update({
@@ -376,9 +376,9 @@ class CsRegisterForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super(CsRegisterForm, self).save(commit=False)
-        # user.is_active = False
         user.level = '2'
         user.department = '컴퓨터공학부'
+        user.is_active = False
         user.save()
 
         return user
@@ -417,7 +417,7 @@ class RegisterForm(UserCreationForm):
         self.fields['email'].label = '이메일'
         self.fields['email'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': '아이디, 비밀번호 찾기에 이용됩니다.',
+            'placeholder': '회원가입 후 입력하신 메일로 본인인증 메일이 전송됩니다.',
         })
         self.fields['name'].label = '이름'
         self.fields['name'].widget.attrs.update({
@@ -436,8 +436,8 @@ class RegisterForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super(RegisterForm, self).save(commit=False)
-        # user.is_active = False
         user.level = '3'
+        user.is_active = False
         user.save()
 
         return user

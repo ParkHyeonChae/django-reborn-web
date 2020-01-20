@@ -21,6 +21,7 @@ urlpatterns = [
     path('register/', views.RegisterView.as_view() , name='register'),
     # path('csregister/', views.cs_register_view, name='csregister'),
     path('csregister/', views.CsRegisterView.as_view(), name='csregister'),
+    path('activate/<str:uid64>/<str:token>/', views.activate, name='activate'),
 
     path('profile/', views.profile_view, name='profile'),
     path('profile/update/', views.profile_update_view, name='profile_update'),

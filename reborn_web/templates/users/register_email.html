@@ -1,0 +1,12 @@
+{% autoescape off %}
+<!DOCTYPE html>
+<html>
+
+<body>
+    <p>아래 인증하기 링크를 클릭해주세요.</p><br>
+    <a href="http://{{ domain }}{% url 'users:activate' uid64=uid token=token %}">인증하기</a>
+
+</body>
+
+</html>
+{% endautoescape %}
