@@ -5,10 +5,12 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from .decorators import auth_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.shortcuts import render, redirect, get_object_or_404
 # from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, FormView
+from django.views.generic import CreateView, FormView, TemplateView
 from django.views.generic import View
 # from django.contrib.auth.views import PasswordResetConfirmView
 from .models import User
@@ -27,8 +29,10 @@ from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.contrib.auth.tokens import default_token_generator
 
+
 def index(request):
     return render(request, 'users/index.html')
+
 
 def register_info_view(request):
     return render(request, 'users/register_info.html')
@@ -243,10 +247,10 @@ def auth_confirm_view(request):
     user_id = request.POST.get('user_id')
     input_auth_num = request.POST.get('input_auth_num')
     user = User.objects.get(user_id=user_id, auth=input_auth_num)
-    login(request, user)
-    # user.is_active = False
+    # login(request, user)
     user.auth = ""
     user.save()
+    request.session['auth'] = user.user_id  
     
     return HttpResponse(json.dumps({"result": user.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")
 
@@ -273,9 +277,14 @@ def auth_confirm_view(request):
 #         messages.info(self.request, '비밀번호를 변경 하였습니다.')
 #         return super().form_valid(form)
 
-@login_required
 def auth_pw_reset_view(request):
     if request.method == 'POST':
+
+        user = request.session['auth']
+        current_user = User.objects.get(user_id=user)
+        del(request.session['auth'])
+        login(request, current_user)
+
         reset_password_form = CustomSetPasswordForm(request.user, request.POST)
         
         if reset_password_form.is_valid():
@@ -356,6 +365,7 @@ class LoginView(FormView):
 
         user = authenticate(self.request, username=user_id, password=password)
         if user is not None:
+            self.request.session['user_id'] = user_id
             login(self.request, user)
 
             # Session Maintain Test
