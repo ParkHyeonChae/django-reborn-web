@@ -282,10 +282,9 @@ def auth_confirm_view(request):
 
 def auth_pw_reset_view(request):
     if request.method == 'POST':
-
-        user = request.session['auth']
-        current_user = User.objects.get(user_id=user)
-        del(request.session['auth'])
+        session_user = request.session['auth']
+        current_user = User.objects.get(user_id=session_user)
+        # del(request.session['auth'])
         login(request, current_user)
 
         reset_password_form = CustomSetPasswordForm(request.user, request.POST)
@@ -295,6 +294,9 @@ def auth_pw_reset_view(request):
             messages.success(request, "비밀번호 변경완료! 변경된 비밀번호로 로그인하세요.")
             logout(request)
             return redirect('users:login')
+        else:
+            logout(request)
+            request.session['auth'] = session_user
     else:
         reset_password_form = CustomSetPasswordForm(request.user)
 
