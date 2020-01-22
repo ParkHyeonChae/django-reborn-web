@@ -20,7 +20,7 @@ import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from .helper import send_mail, email_auth_num
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, Http404
 from django.forms.utils import ErrorList
 
@@ -33,6 +33,8 @@ from django.contrib.auth.tokens import default_token_generator
 def index(request):
     return render(request, 'users/index.html')
 
+def register_success(request):
+    return render(request, 'users/register_success.html')
 
 def register_info_view(request):
     return render(request, 'users/register_info.html')
@@ -93,7 +95,8 @@ class CsRegisterView(CreateView):
     def get_success_url(self):
         # messages.success(self.request, "회원가입 성공.")
         messages.success(self.request, '회원님의 입력한 Email 주소로 인증 메일이 발송되었습니다. 인증 후 로그인이 가능합니다.')
-        return settings.LOGIN_URL
+        # return settings.LOGIN_URL
+        return reverse('users:register_success')
 
     def form_valid(self, form):
         self.object = form.save()

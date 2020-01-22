@@ -1,0 +1,21 @@
+{% extends "users/base.html" %}
+{% block contents %}
+
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h4>인증을 위한 메일이 발송되었습니다. 메일을 확인해주세요.</h4><br>
+    </div>
+</div>
+
+{% if messages %}
+{% for message in messages %}
+{% if message.tags %}
+<script>
+    alert("{{ message.message }}")
+</script>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% endblock %}
+
