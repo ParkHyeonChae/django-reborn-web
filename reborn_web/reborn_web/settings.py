@@ -167,13 +167,22 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
 # 구글 보안 이슈로 호스트 네이버로 변경예정
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'injecs2020@gmail.com'
+# EMAIL_HOST_PASSWORD = get_secret("EMAIL_HOST_PASSWORD")
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# DEFAULT_FROM_MAIL = 'injecs2020@gmail.com'
+
+# 네이버 SMTP
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'injecs2020@gmail.com'
+EMAIL_HOST = 'smtp.naver.com'
+EMAIL_HOST_USER = 'injecs2020'
 EMAIL_HOST_PASSWORD = get_secret("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-DEFAULT_FROM_MAIL = 'injecs2020@gmail.com'
+DEFAULT_FROM_MAIL = 'injecs2020'
 
 # SECURE_SSL_REDIRECT = True
 # SESSION_COOKIE_SECURE = True
