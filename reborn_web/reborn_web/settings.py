@@ -165,6 +165,8 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Email
 
+
+# 구글 보안 이슈로 호스트 네이버로 변경예정
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'injecs2020@gmail.com'
