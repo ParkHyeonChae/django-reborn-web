@@ -1,0 +1,82 @@
+{% extends "users/base.html" %}
+{% load humanize %}
+
+{% block contents %}
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h1>공지사항</h1>
+    </div> 
+</div>
+<br>
+<div class="row-mt-5">
+    <div class="col-12">
+        <table class="table table-light">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">번호</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">작성일</th>
+                    <th scope="col">조회수</th>
+                </tr>
+            </thead>
+            <tbody class="text-dark">
+                {% for notice in notice_list %}
+                <tr>
+                    <th scope="row">{{ notice.id }}</th>
+                    <th><a id="notice-{{ notice.id }}" href="/notice/{{ notice.id }}">{{ notice.title }}</a>
+                    </th>
+                    <th>{{ notice.writer }}</th>
+                    <th>{{ notice.registered_date|date:'Y-m-d' }}</th>
+                    <!--django template builtin filters 검색-->
+                    <th>{{ notice.hits }}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-12">
+        <nav>
+            {% if is_paginated %}
+            <ul class="pagination justify-content-center pagination-sm">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                        tabindex="-1">&laquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">&laquo;</a>
+                </li>
+                {% endif %}
+
+                {% for object in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == forloop.counter %} disabled {% endif %} ">
+                    <a class="page-link" href="{{ request.path }}?page={{ forloop.counter }}">{{ forloop.counter }}</a>
+                </li>
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary" onclick="location.href='/notice/new/'">글쓰기</button>
+    </div>
+</div>
+{% endblock %}
