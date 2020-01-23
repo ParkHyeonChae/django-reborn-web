@@ -1,0 +1,42 @@
+{% extends "users/base.html" %}
+{% load humanize %}
+
+{% block contents %}
+
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h1>게시글 TEST PAGE</h1>
+    </div> 
+</div>
+<br>
+<div class="row-mt-5">
+    <div class="col-12">
+        <!--본문-->
+        <div class="card" style="width: 100%;">
+            <!--제목,분류,작성일-->
+            <div class="card-header">
+                <strong>{{ notice.title }}</strong>&nbsp;&nbsp;<span style="color: gray;">[공지사항]</span>
+                <span style="float:right;">{{ notice.registered_date|date:'Y.m.d. H:i' }}</span>
+            </div>
+            <div class="card-body" style="height: 20em;">
+                <!--작성자, 조회수-->
+                <div>
+                    <span >작성자 : {{ notice.writer }}</span>
+                    <span style="float:right;">조회수 : {{ notice.hits }}</span>
+                </div>
+                <hr>
+                <!--내용-->
+                <div>
+                    {{ notice.content }}
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="text-right">
+            <button class="btn btn-md btn-dark" onclick="location.href='/notice/'">목록으로</button>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
