@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-
+# from hitcount.models import HitCountMixinv
 
 class Notice(models.Model):
     writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, verbose_name='작성자')
