@@ -5,7 +5,7 @@
 <div class="row mt-5">
     <div class="col-12 text-center">
         <h1>공지사항 TEST PAGE</h1>
-    </div> 
+    </div>
 </div>
 <br>
 <div class="container">
@@ -21,7 +21,8 @@
         {% for notice in notice_list %}
         <tr class="text-center">
             <td>{{ notice.id }}</td>
-            <td class="text-left" style="width:50%"><a id="notice-{{ notice.id }}" href="/notice/{{ notice.id }}/">{{ notice.title }}</a></tdclass="col-sm-1">
+            <td class="text-left" style="width:50%"><a id="notice-{{ notice.id }}"
+                    href="/notice/{{ notice.id }}/">{{ notice.title }}</a></tdclass="col-sm-1">
             <td>{{ notice.writer }}</td>
             <td>{{ notice.registered_date|date:'Y-m-d' }}</td>
             <td>{{ notice.hits }}</tdclass="col-sm-1">
@@ -31,40 +32,41 @@
     </table>
 </div>
 <br>
-    
-<div class="col">
-    <div style="float: right;" class="form-row" action="" method="get">
-        <div class="form-row">
-            <div class="col">
-                <select style="width: 5em;" class="custom-select custom-select-md" name="search" id="">
-                    <option>전체</option>
-                    <option value="title">제목</option>
-                    <option value="content">내용</option>
-                    <option value="writer">작성자</option>
-                </select>
-            </div>
-            <div class="col">
-                <input style="width: 13em;" class="form-control form-control-md" type="text" name="search_keyword" id="search">
-            </div>
-            <div class="col">
-                <button class="btn btn-md btn-outline-dark" type="submit">검색</button>
+
+<form action="" method="GET">
+    <div class="col">
+        <div style="float: right;" class="form-row">
+            <div class="form-row">
+                <div class="col">
+                    <select style="width: 6em;" class="custom-select custom-select-md" name="type">
+                        <option value="all">전체</option>
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                        <option value="writer">작성자</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
+                        style="width: 13em;">
+                </div>
+                <div class="col">
+                    <button class="btn btn-md btn-outline-dark" type="submit">검색</button>
+                </div>
             </div>
         </div>
-    </form>
-</div>
+</form>
 
 <div>
     <button class="btn btn-md btn-dark" onclick="location.href='/notice/new/'">글쓰기</button>
 </div>
-
+<br>
 <div class="col-md-offset-6">
     {% if is_paginated %}
     <!-- <ul class="pagination justify-content-center pagination-sm"> -->
     <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
-                tabindex="-1">&laquo;</a>
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">&laquo;</a>
         </li>
         {% else %}
         <li class="page-item disabled">
@@ -72,9 +74,9 @@
         </li>
         {% endif %}
 
-        {% for object in page_obj.paginator.page_range %}
-        <li class="page-item {% if page_obj.number == forloop.counter %} disabled {% endif %} ">
-            <a class="page-link" href="{{ request.path }}?page={{ forloop.counter }}">{{ forloop.counter }}</a>
+        {% for page in page_range %}
+        <li class="page-item {% if page == page_obj.number %} disabled {% endif %}">
+            <a class="page-link" href="?page={{ page }}">{{ page }}</a>
         </li>
         {% endfor %}
 
@@ -90,5 +92,25 @@
     </ul>
     {% endif %}
 </div>
+
+<script type="text/javascript">
+    target = window.location.search.split('&')[0].split('=')[1]
+    var type = document.getElementsByTagName('option')
+    for(var i=0; i<4; i++) {
+        if(type[i].value===target) {
+            type[i].setAttribute('selected','selected')
+        }
+    }
+</script>
+
+{% if messages %}
+{% for message in messages %}
+{% if message.tags %}
+<script>
+    alert("{{ message.message }}")
+</script>
+{% endif %}
+{% endfor %}
+{% endif %}
 
 {% endblock %}

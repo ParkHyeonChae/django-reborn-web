@@ -1,9 +1,12 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 # from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import View, ListView, DetailView
 from .models import Notice
 from users.decorators import login_message_required
+from django.db.models import Q
+from django.contrib import messages
+from django.urls import reverse
 
 
 class NoticeListView(ListView):
@@ -13,15 +16,49 @@ class NoticeListView(ListView):
     # context_object_name = 'notice_list'        DEFAULT : <app_label>_list
 
     def get_queryset(self):
-        return Notice.objects.order_by('-id')
-        
-        # search_word = self.request.GET.get('search_word', '')
-        # subject_type = self.request.GET.get('subject_type', '')
-        # if search_word : # 검색 된 단어 있으면
-        #     return Board.objects.filter(title__icontains=search_word) or Board.objects.filter(content__icontains=search_word)
-        # if subject_type : # 클릭 된 키워드 있으면
-        #     return Board.objects.filter(subject_type__icontains=subject_type)
-        # return Board.objects.order_by('-id')
+        search_keyword = self.request.GET.get('q', '')
+        search_type = self.request.GET.get('type', '')
+        notice_list = Notice.objects.order_by('-id')
+
+        if search_keyword :
+            if search_type == 'all':
+                notice_list = notice_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
+            elif search_type == 'title':
+                notice_list = notice_list.filter(title__icontains=search_keyword)    
+            elif search_type == 'content':
+                notice_list = notice_list.filter(content__icontains=search_keyword)    
+            elif search_type == 'writer':
+                notice_list = notice_list.filter(writer__user_id__icontains=search_keyword)
+
+        if notice_list :
+            return notice_list
+        else:
+            messages.error(self.request, '일치하는 검색 결과가 없습니다.')
+            # notice_list = Notice.objects.order_by('-id')
+            return notice_list
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        paginator = context['paginator']
+        page_numbers_range = 5
+        max_index = len(paginator.page_range)
+
+        page = self.request.GET.get('page')
+        current_page = int(page) if page else 1
+
+        start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+        end_index = start_index + page_numbers_range
+        if end_index >= max_index:
+            end_index = max_index
+
+        page_range = paginator.page_range[start_index:end_index]
+        context['page_range'] = page_range
+
+        search_keyword = self.request.GET.get('q', '')
+        context['q'] = search_keyword
+
+        return context
+
 
 @login_message_required
 def notice_detail_view(request, pk):
