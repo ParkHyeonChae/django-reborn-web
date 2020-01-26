@@ -9,7 +9,59 @@ from django.contrib import messages
 from django.urls import reverse
 from .forms import NoticeWriteForm
 from users.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+# class NoticeListView(ListView):
+#     model = Notice
+#     paginate_by = 10
+#     template_name = 'notice/notice_list.html'  #DEFAULT : <app_label>/<model_name>_list.html
+#     context_object_name = 'notice_list'        #DEFAULT : <app_label>_list
+
+#     def get_queryset(self):
+#         search_keyword = self.request.GET.get('q', '')
+#         search_type = self.request.GET.get('type', '')
+#         notice_list = Notice.objects.order_by('-id')
+
+#         if search_keyword :
+#             if search_type == 'all':
+#                 notice_list = notice_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
+#             elif search_type == 'title_content':
+#                 notice_list = notice_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
+#             elif search_type == 'title':
+#                 notice_list = notice_list.filter(title__icontains=search_keyword)    
+#             elif search_type == 'content':
+#                 notice_list = notice_list.filter(content__icontains=search_keyword)    
+#             elif search_type == 'writer':
+#                 notice_list = notice_list.filter(writer__user_id__icontains=search_keyword)
+#         if notice_list :
+#             return notice_list
+#         else:
+#             messages.error(self.request, '일치하는 검색 결과가 없습니다.')
+#             notice_list = Notice.objects.order_by('-id')
+#             return notice_list
+#         # return notice_list
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         paginator = context['paginator']
+#         page_numbers_range = 5
+#         max_index = len(paginator.page_range)
+
+#         page = self.request.GET.get('page')
+#         current_page = int(page) if page else 1
+
+#         start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+#         end_index = start_index + page_numbers_range
+#         if end_index >= max_index:
+#             end_index = max_index
+
+#         page_range = paginator.page_range[start_index:end_index]
+#         context['page_range'] = page_range
+
+#         search_keyword = self.request.GET.get('q', '')
+#         context['q'] = search_keyword
+
+#         return context
 
 class NoticeListView(ListView):
     model = Notice
@@ -25,6 +77,8 @@ class NoticeListView(ListView):
         if search_keyword :
             if search_type == 'all':
                 notice_list = notice_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
+            elif search_type == 'title_content':
+                notice_list = notice_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
             elif search_type == 'title':
                 notice_list = notice_list.filter(title__icontains=search_keyword)    
             elif search_type == 'content':
@@ -35,7 +89,7 @@ class NoticeListView(ListView):
             return notice_list
         else:
             messages.error(self.request, '일치하는 검색 결과가 없습니다.')
-            # notice_list = Notice.objects.order_by('-id')
+            notice_list = Notice.objects.order_by('-id')
             return notice_list
 
     def get_context_data(self, **kwargs):
@@ -56,7 +110,9 @@ class NoticeListView(ListView):
         context['page_range'] = page_range
 
         search_keyword = self.request.GET.get('q', '')
+        search_type = self.request.GET.get('type', '')
         context['q'] = search_keyword
+        context['type'] = search_type
 
         return context
 
@@ -107,14 +163,4 @@ def notice_write_view(request):
         form = NoticeWriteForm()
     return render(request, "notice/notice_write.html", {'form': form})
 
-# class NoticeWriteView(CreateView):
-#     template_name = "notice/notice_write.html"
-#     model = Notice
-#     form_class = NoticeWriteForm
-
-#     def form_valid(self, form):
-#         form = form.save(commit=False)
-#         ask_form.author = self.request.user
-#         ask_form.save()
-#         return redirect('customer:customer_ask')
 
