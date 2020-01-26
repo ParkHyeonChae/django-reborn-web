@@ -54,10 +54,11 @@
                 </div>
             </div>
         </div>
+    </div>
 </form>
 
 <div>
-    <button class="btn btn-md btn-dark" onclick="location.href='/notice/new/'">글쓰기</button>
+    <button class="btn btn-md btn-dark" onclick="location.href='/notice/write/'">글쓰기</button>
 </div>
 <br>
 <div class="col-md-offset-6">
@@ -96,9 +97,9 @@
 <script type="text/javascript">
     target = window.location.search.split('&')[0].split('=')[1]
     var type = document.getElementsByTagName('option')
-    for(var i=0; i<4; i++) {
-        if(type[i].value===target) {
-            type[i].setAttribute('selected','selected')
+    for (var i = 0; i < 4; i++) {
+        if (type[i].value === target) {
+            type[i].setAttribute('selected', 'selected')
         }
     }
 </script>

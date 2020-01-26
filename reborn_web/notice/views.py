@@ -1,12 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 # from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.views.generic import View, ListView, DetailView
+from django.views.generic import View, ListView, DetailView, FormView, CreateView
 from .models import Notice
 from users.decorators import login_message_required
 from django.db.models import Q
 from django.contrib import messages
 from django.urls import reverse
+from .forms import NoticeWriteForm
+from users.models import User
 
 
 class NoticeListView(ListView):
@@ -70,7 +72,7 @@ def notice_detail_view(request, pk):
         'notice': notice,
     }
     response = render(request, 'notice/notice_detail.html', context)
- 
+
     if request.COOKIES.get(cookie_name) is not None:
         cookies = request.COOKIES.get(cookie_name)
         cookies_list = cookies.split('|')
@@ -87,3 +89,33 @@ def notice_detail_view(request, pk):
         notice.save()
         return response
     return render(request, 'notice/notice_detail.html', context)
+
+@login_message_required
+def notice_write_view(request):
+    if request.method == "POST":
+        form = NoticeWriteForm(request.POST)
+        user = request.session['user_id']
+        user_id = User.objects.get(user_id = user)
+        if form.is_valid():
+            notice = Notice(
+                title = form.data.get('title'),
+                content = form.data.get('content'),
+                writer = user_id,
+            )
+            notice.save()
+            return redirect('notice:notice_list')
+    else:
+        form = NoticeWriteForm()
+    return render(request, "notice/notice_write.html", {'form': form})
+
+# class NoticeWriteView(CreateView):
+#     template_name = "notice/notice_write.html"
+#     model = Notice
+#     form_class = NoticeWriteForm
+
+#     def form_valid(self, form):
+#         form = form.save(commit=False)
+#         ask_form.author = self.request.user
+#         ask_form.save()
+#         return redirect('customer:customer_ask')
+

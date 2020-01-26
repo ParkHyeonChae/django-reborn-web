@@ -14,6 +14,7 @@ class UserAdmin(admin.ModelAdmin):
         'level',
         'date_joined'
         )
+    search_fields = ('user_id', 'name', 'student_id', 'department')
 
 admin.site.register(User, UserAdmin)
 admin.site.unregister(Group)
