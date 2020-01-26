@@ -18,7 +18,7 @@
                 <strong>{{ notice.title }}</strong>&nbsp;&nbsp;<span style="color: gray;">[공지사항]</span>
                 <span style="float:right;">{{ notice.registered_date|date:'Y.m.d. H:i' }}</span>
             </div>
-            <div class="card-body" style="height: 20em;">
+            <div class="card-body">
                 <!--작성자, 조회수-->
                 <div>
                     <span >작성자 : {{ notice.writer }}</span>
@@ -27,7 +27,7 @@
                 <hr>
                 <!--내용-->
                 <div>
-                    {{ notice.content }}
+                    {{ notice.content | safe }}
                 </div>
             </div>
         </div>

@@ -166,7 +166,6 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Email
 
-
 # 구글 보안 이슈로 호스트 네이버로 변경예정
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.gmail.com'
@@ -189,3 +188,12 @@ DEFAULT_FROM_MAIL = 'injecs2020'
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
+
+
+# iframe denv 이슈
+# X_FRAME_OPTIONS = 'ALLOWALL'
+# XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
+
+
+# IMAGE UPLOAD FILE SIZE MAXIMUM = 10MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760

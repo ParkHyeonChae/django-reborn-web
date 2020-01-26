@@ -1,7 +1,7 @@
-{% extends "users/base.html" %}
+{% extends "users/base_write.html" %}
 {% load humanize %}
-
 {% block contents %}
+{% load static %}
 
 <div class="row mt-5">
     <div class="col-12 text-center">
@@ -19,48 +19,29 @@
                 <!--제목,분류,작성일-->
                 <div class="card-header">
                     <div class="form-group">
-                        <label for="{{ form.title.id_for_label }}"
-                            class="col-sm-10 control-label">{{ form.title.label }}</label>
-                        <div class=" col-sm-10">
+                        <!-- <label for="{{ form.title.id_for_label }}"
+                            class="col-sm-2 control-label">{{ form.title.label }}</label> -->
+                        <br>
+                        <div class=" col-sm-12">
                             {{ form.title }}
                         </div>
-                        {% if form.title.errors %}
-                        {% for error in form.title.errors %}
-                        <div class="col-sm-offset-2 col-sm-10 text-center" style="padding-top: 10px;">
-                            <div class="alert alert-danger">
-                                <strong>{{ error|escape }}</strong>
-                            </div>
-                        </div>
-                        {% endfor %}
-                        {% endif %}
                     </div>
                 </div>
                 <div class="card-body">
-                    <hr>
                     <!--내용-->
                     <div class="form-group">
                         <div class=" col-sm-12">
                             {{ form.content }}
                         </div>
-                        {% if form.content.errors %}
-                        {% for error in form.content.errors %}
-                        <div class="col-sm-offset-2 col-sm-10 text-center" style="padding-top: 10px;">
-                            <div class="alert alert-danger">
-                                <strong>{{ error|escape }}</strong>
-                            </div>
-                        </div>
-                        {% endfor %}
-                        {% endif %}
                     </div>
 
                 </div>
             </div>
             <br>
             <div class="text-right">
-                <button type="submit" class="btn btn-md btn-dark">작성하기</button>
+                <button type="submit" id="write" class="btn btn-md btn-dark">작성하기</button>
             </div>
         </form>
     </div>
 </div>
-
 {% endblock %}

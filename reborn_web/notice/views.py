@@ -14,8 +14,8 @@ from users.models import User
 class NoticeListView(ListView):
     model = Notice
     paginate_by = 10
-    # template_name = 'notice/notice_list.html'  DEFAULT : <app_label>/<model_name>_list.html
-    # context_object_name = 'notice_list'        DEFAULT : <app_label>_list
+    template_name = 'notice/notice_list.html'  #DEFAULT : <app_label>/<model_name>_list.html
+    context_object_name = 'notice_list'        #DEFAULT : <app_label>_list
 
     def get_queryset(self):
         search_keyword = self.request.GET.get('q', '')
@@ -31,14 +31,13 @@ class NoticeListView(ListView):
                 notice_list = notice_list.filter(content__icontains=search_keyword)    
             elif search_type == 'writer':
                 notice_list = notice_list.filter(writer__user_id__icontains=search_keyword)
-
         if notice_list :
             return notice_list
         else:
             messages.error(self.request, '일치하는 검색 결과가 없습니다.')
             # notice_list = Notice.objects.order_by('-id')
             return notice_list
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         paginator = context['paginator']
