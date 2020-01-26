@@ -123,23 +123,30 @@ def notice_write_view(request):
 @login_message_required
 def notice_edit_view(request, pk):
     notice = Notice.objects.get(id=pk)
-    user = request.session['user_id']
-
     if request.method == "POST" and notice.writer == request.user:
-        print('post')
         form = NoticeWriteForm(request.POST, instance=notice)
         if form.is_valid():
             form.save()
             messages.success(request, "수정되었습니다.")
             return redirect('/notice/'+str(pk))
     else:
-        print('get')
-        user = request.session['user_id']
         notice = Notice.objects.get(id=pk)
-    
         if notice.writer == request.user:
             form = NoticeWriteForm(instance=notice)
             return render(request, "notice/notice_write.html", {'form': form})
         else:
             messages.error(request, "본인 게시글이 아닙니다.")
             return redirect('/notice/'+str(pk))
+
+
+@login_message_required
+def notice_delete_view(request, pk):
+    notice = Notice.objects.get(id=pk)
+    
+    if notice.writer == request.user:
+        notice.delete()
+        messages.success(request, "삭제되었습니다.")
+        return redirect('/notice/')
+    else:
+        messages.error(request, "본인 게시글이 아닙니다.")
+        return redirect('/notice/'+str(pk))
