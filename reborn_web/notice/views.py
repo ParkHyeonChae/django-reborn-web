@@ -9,6 +9,14 @@ from django.contrib import messages
 from django.urls import reverse
 from .forms import NoticeWriteForm
 from users.models import User
+import mimetypes
+from mimetypes import guess_type
+import os
+import re
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from urllib.parse import quote
+import urllib
+from django.conf import settings
 
 
 class NoticeListView(ListView):
@@ -104,15 +112,18 @@ def notice_detail_view(request, pk):
 @login_message_required
 def notice_write_view(request):
     if request.method == "POST":
-        form = NoticeWriteForm(request.POST)
+        form = NoticeWriteForm(request.POST, request.FILES)
         user = request.session['user_id']
         user_id = User.objects.get(user_id = user)
         if form.is_valid():
-            notice = Notice(
-                title = form.data.get('title'),
-                content = form.data.get('content'),
-                writer = user_id,
-            )
+            # notice = Notice(
+            #     title = form.data.get('title'),
+            #     content = form.data.get('content'),
+            #     writer = user_id,
+            #     files = request.FILES['files'],
+            # )
+            notice = form.save(commit = False)
+            notice.writer = user_id
             notice.save()
             return redirect('notice:notice_list')
     else:
@@ -124,7 +135,7 @@ def notice_write_view(request):
 def notice_edit_view(request, pk):
     notice = Notice.objects.get(id=pk)
     if request.method == "POST" and notice.writer == request.user:
-        form = NoticeWriteForm(request.POST, instance=notice)
+        form = NoticeWriteForm(request.POST, request.FILES, instance=notice)
         if form.is_valid():
             form.save()
             messages.success(request, "수정되었습니다.")
@@ -150,3 +161,18 @@ def notice_delete_view(request, pk):
     else:
         messages.error(request, "본인 게시글이 아닙니다.")
         return redirect('/notice/'+str(pk))
+
+
+
+def notice_download_view(request, pk):
+    notice = get_object_or_404(Notice, pk=pk)
+    url = notice.files.url[1:]
+    file_url = urllib.parse.unquote(url)
+    
+    if os.path.exists(file_url):
+        with open(file_url, 'rb') as fh:
+            quote_file_url = urllib.parse.quote(file_url.encode('utf-8'))
+            response = HttpResponse(fh.read(), content_type=mimetypes.guess_type(file_url)[0])
+            response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url[29:]
+            return response
+        raise Http404

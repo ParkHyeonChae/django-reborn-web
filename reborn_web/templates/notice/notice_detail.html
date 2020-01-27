@@ -25,6 +25,12 @@
                     <span style="float:right;">조회수 : {{ notice.hits }}</span>
                 </div>
                 <hr>
+                {% if notice.files %}
+                <div class="col-12 text-right">
+                    <span style="color: gray;">첨부파일 : </span>
+                    <a id="id_uploaded_file" href="{% url 'notice:notice_download' notice.id %}" >{{ notice.filename|truncatechars:25 }}</a>
+                </div>
+                {% endif %}
                 <!--내용-->
                 <div>
                     {{ notice.content | safe }}

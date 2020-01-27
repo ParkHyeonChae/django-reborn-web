@@ -11,9 +11,8 @@
 <br>
 
 <div class="row-mt-5">
-    <div class="col-12">
         <!--본문-->
-        <form action="" method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="card" style="width: 100%;">
                 <!--제목,분류,작성일-->
@@ -34,10 +33,16 @@
                             {{ form.content }}
                         </div>
                     </div>
-
                 </div>
             </div>
             <br>
+            <div class="card-footer">
+                <div class="form-group">
+                    <div class=" col-sm-12">
+                        {{ form.files }}
+                    </div>
+                </div>
+            </div><br>
             <div class="text-right">
                 <button type="submit" id="write" class="btn btn-md btn-dark">작성하기</button>
             </div>
