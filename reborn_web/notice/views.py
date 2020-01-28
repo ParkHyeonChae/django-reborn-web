@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import View, ListView, DetailView, FormView, CreateView
 from .models import Notice
-from users.decorators import login_message_required
+from users.decorators import login_message_required, admin_required
 from django.db.models import Q
 from django.contrib import messages
 from django.urls import reverse
@@ -67,11 +67,13 @@ class NoticeListView(ListView):
 
         search_keyword = self.request.GET.get('q', '')
         search_type = self.request.GET.get('type', '')
+        notice_fixed = Notice.objects.filter(top_fixed=True).order_by('-registered_date')
+        admin = self.request.user.level
+
         context['q'] = search_keyword
         context['type'] = search_type
-
-        notice_fixed = Notice.objects.filter(top_fixed=True).order_by('-registered_date')
         context['notice_fixed'] = notice_fixed
+        context['admin'] = admin
 
         return context
 
@@ -112,6 +114,7 @@ def notice_detail_view(request, pk):
     return render(request, 'notice/notice_detail.html', context)
 
 
+@admin_required
 @login_message_required
 def notice_write_view(request):
     if request.method == "POST":
@@ -154,8 +157,7 @@ def notice_edit_view(request, pk):
 @login_message_required
 def notice_delete_view(request, pk):
     notice = Notice.objects.get(id=pk)
-    
-    if notice.writer == request.user:
+    if notice.writer == request.user :
         notice.delete()
         messages.success(request, "삭제되었습니다.")
         return redirect('/notice/')

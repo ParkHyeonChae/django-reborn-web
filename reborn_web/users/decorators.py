@@ -5,18 +5,6 @@ from .models import User
 from django.http import HttpResponse
 
 
-def auth_required(function):
-    def wrap(request, *args, **kwargs):
-        session_user = request.session.get('user_id')
-        user = User.objects.get(user_id=session_user)
-        if user.level != '0':
-            return HttpResponse('접근 제한')
-
-        return function(request, *args, **kwargs)
-
-    return wrap
-
-
 def login_message_required(function):
     def wrap(request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -24,5 +12,16 @@ def login_message_required(function):
             return redirect(settings.LOGIN_URL)
 
         return function(request, *args, **kwargs)
+
+    return wrap
+
+
+def admin_required(function):
+    def wrap(request, *args, **kwargs):
+        if request.user.level == '1' or request.user.level == '0':
+            return function(request, *args, **kwargs)
+
+        messages.info(request, "접근 권한이 없습니다.")
+        return redirect('/')
 
     return wrap

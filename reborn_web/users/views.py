@@ -6,7 +6,7 @@ from django.contrib.auth import login, logout, authenticate, update_session_auth
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .decorators import auth_required
+from .decorators import login_message_required, admin_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.shortcuts import render, redirect, get_object_or_404
 # from django.views.decorators.csrf import csrf_exempt
@@ -142,13 +142,13 @@ def activate(request, uid64, token):
 
  #------------------------------------------------------------------------------------------------       
 
-@login_required
+@login_message_required
 def profile_view(request):
     if request.method == 'GET':
 
         return render(request, 'users/profile.html')
 
-@login_required
+@login_message_required
 def profile_update_view(request):
     if request.method == 'POST':
         # user_form = RegisterForm(request.POST)
@@ -184,7 +184,7 @@ def profile_update_view(request):
 #     return render(request, 'users/profile_delete.html', {'password_form':password_form})
 
 
-@login_required
+@login_message_required
 def profile_delete_view(request):
     if request.method == 'POST':
         password_form = CheckPasswordForm(request.user, request.POST)
@@ -199,7 +199,7 @@ def profile_delete_view(request):
 
     return render(request, 'users/profile_delete.html', {'password_form':password_form})
 
-@login_required
+@login_message_required
 def password_edit_view(request):
     if request.method == 'POST':
         password_change_form = PasswordChangeForm(request.user, request.POST)

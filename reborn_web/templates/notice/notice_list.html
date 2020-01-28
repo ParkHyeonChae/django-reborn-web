@@ -69,10 +69,11 @@
         </div>
     </div>
 </form>
-
+{% if admin == '0' or admin == '1' %}
 <div>
     <button class="btn btn-md btn-dark" onclick="location.href='/notice/write/'">글쓰기</button>
 </div>
+{% endif %}
 <br>
 <div class="col-md-offset-6">
     {% if is_paginated %}
