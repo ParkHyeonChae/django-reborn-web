@@ -2,6 +2,9 @@ from django import forms
 from .models import Notice
 
 class NoticeWriteForm(forms.ModelForm):
+    # files = forms.FileField(widget=forms.ClearableFileInput(attrs={
+    #     'multiple': True
+    #     }))
     def __init__(self, *args, **kwargs):
         super(NoticeWriteForm, self).__init__(*args, **kwargs)
         self.fields['title'].label = '제목'
@@ -14,5 +17,5 @@ class NoticeWriteForm(forms.ModelForm):
 
     class Meta:
         model = Notice
-        fields = ['title', 'content', 'files',]
+        fields = ['title', 'content', 'files', 'top_fixed']
 

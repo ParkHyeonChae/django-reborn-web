@@ -28,7 +28,7 @@ class NoticeListView(ListView):
     def get_queryset(self):
         search_keyword = self.request.GET.get('q', '')
         search_type = self.request.GET.get('type', '')
-        notice_list = Notice.objects.order_by('-id')
+        notice_list = Notice.objects.order_by('-id') 
 
         if search_keyword :
             if search_type == 'all':
@@ -69,6 +69,9 @@ class NoticeListView(ListView):
         search_type = self.request.GET.get('type', '')
         context['q'] = search_keyword
         context['type'] = search_type
+
+        notice_fixed = Notice.objects.filter(top_fixed=True).order_by('-registered_date')
+        context['notice_fixed'] = notice_fixed
 
         return context
 
@@ -115,14 +118,12 @@ def notice_write_view(request):
         form = NoticeWriteForm(request.POST, request.FILES)
         user = request.session['user_id']
         user_id = User.objects.get(user_id = user)
+        # upload_files = request.FILES.getlist('files')
         if form.is_valid():
-            # notice = Notice(
-            #     title = form.data.get('title'),
-            #     content = form.data.get('content'),
-            #     writer = user_id,
-            #     files = request.FILES['files'],
-            # )
             notice = form.save(commit = False)
+            # for f in upload_files:
+            #     notice.files= f
+            #     notice.save()
             notice.writer = user_id
             notice.save()
             return redirect('notice:notice_list')
@@ -164,6 +165,7 @@ def notice_delete_view(request, pk):
 
 
 
+@login_message_required
 def notice_download_view(request, pk):
     notice = get_object_or_404(Notice, pk=pk)
     url = notice.files.url[1:]

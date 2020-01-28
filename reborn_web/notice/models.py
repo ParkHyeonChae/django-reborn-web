@@ -9,6 +9,7 @@ class Notice(models.Model):
     hits = models.PositiveIntegerField(verbose_name='조회수', default=0)
     files = models.FileField(upload_to='upload_file/%Y/%m/%d', null=True, blank=True, verbose_name='파일')
     registered_date = models.DateTimeField(auto_now_add=True, verbose_name='등록시간')
+    top_fixed = models.BooleanField(verbose_name='상단고정', default=False)
 
     def __str__(self):
         return self.title
@@ -18,7 +19,8 @@ class Notice(models.Model):
         return os.path.basename(self.files.name)
 
     def delete(self, *args, **kargs):
-        os.remove(os.path.join(settings.MEDIA_ROOT, self.files.path))
+        if self.files:
+            os.remove(os.path.join(settings.MEDIA_ROOT, self.files.path))
         super(Notice, self).delete(*args, **kargs)
 
     class Meta:
