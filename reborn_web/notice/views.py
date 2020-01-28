@@ -68,12 +68,10 @@ class NoticeListView(ListView):
         search_keyword = self.request.GET.get('q', '')
         search_type = self.request.GET.get('type', '')
         notice_fixed = Notice.objects.filter(top_fixed=True).order_by('-registered_date')
-        admin = self.request.user.level
 
         context['q'] = search_keyword
         context['type'] = search_type
         context['notice_fixed'] = notice_fixed
-        context['admin'] = admin
 
         return context
 

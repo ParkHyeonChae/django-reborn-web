@@ -58,6 +58,7 @@ DJANGO_APPS = [
 PROJECT_APPS = [
     'users.apps.UsersConfig',
     'notice.apps.NoticeConfig',
+    'free.apps.FreeConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
