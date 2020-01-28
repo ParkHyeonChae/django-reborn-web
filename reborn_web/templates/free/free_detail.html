@@ -15,37 +15,39 @@
         <div class="card" style="width: 100%;">
             <!--제목,분류,작성일-->
             <div class="card-header">
-                <strong>{{ notice.title }}</strong>&nbsp;&nbsp;<span style="color: gray;">[공지사항]</span>
-                <span style="float:right;">{{ notice.registered_date|date:'Y.m.d. H:i' }}</span>
+                <strong>{{ free.title }}</strong>&nbsp;&nbsp;<span style="color: gray;">[공지사항]</span>
+                <span style="float:right;">{{ free.registered_date|date:'Y.m.d. H:i' }}</span>
             </div>
             <div class="card-body">
                 <!--작성자, 조회수-->
                 <div>
-                    <span>작성자 : {{ notice.writer }}</span>
-                    <span style="float:right;">조회수 : {{ notice.hits }}</span>
+                    <span>작성자 : {{ free.writer }}</span>
+                    <span style="float:right;">조회수 : {{ free.hits }}</span>
                 </div>
                 <hr>
-                {% if notice.files %}
+                {% if free.files %}
                 <div class="col-12 text-right">
                     <span style="color: gray;">첨부파일 : </span>
-                    <a id="id_uploaded_file" href="{% url 'notice:notice_download' notice.id %}" >{{ notice.filename|truncatechars:25 }}</a>
+                    <a id="id_uploaded_file" href="{% url 'free:free_download' free.id %}" >{{ free.filename|truncatechars:25 }}</a>
                 </div>
                 {% endif %}
                 <!--내용-->
                 <div>
-                    {{ notice.content | safe }}
+                    {{ free.content | safe }}
                 </div>
             </div>
         </div>
         <br>
         <div class="text-right">
-            {% if notice_auth or request.user.level == '0' %}
-            <button class="btn btn-md btn-dark" onclick="location.href='/notice/{{ notice.id }}/edit/'">수정</button>
+            {% if free_auth or request.user.level == '0' %}
+            <button class="btn btn-md btn-dark" onclick="location.href='/free/{{ free.id }}/edit/'">수정</button>
             <button class="btn btn-md btn-dark" data-toggle="modal" data-target="#delete_modal">삭제</button>
-            <!-- <button class="btn btn-md btn-dark" onclick="location.href='/notice/{{ notice.id }}/delete/'">삭제</button> -->
-            <button class="btn btn-md btn-dark" onclick="location.href='/notice/'">목록으로</button>
+            <button class="btn btn-md btn-dark" onclick="location.href='/free/'">목록으로</button>
+            {% elif request.user.level == '1' %}
+            <button class="btn btn-md btn-dark" data-toggle="modal" data-target="#delete_modal">삭제</button>
+            <button class="btn btn-md btn-dark" onclick="location.href='/free/'">목록으로</button>
             {% else %}
-            <button class="btn btn-md btn-dark" onclick="location.href='/notice/'">목록으로</button>
+            <button class="btn btn-md btn-dark" onclick="location.href='/free/'">목록으로</button>
             {% endif %}
         </div>
     </div>
@@ -73,7 +75,7 @@
 
 <script type="text/javascript">
     function delete_modal() {
-        location.replace('/notice/{{ notice.id }}/delete/');
+        location.replace('/free/{{ free.id }}/delete/');
     }
 </script>
 

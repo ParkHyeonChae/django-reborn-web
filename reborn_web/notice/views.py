@@ -18,6 +18,11 @@ from urllib.parse import quote
 import urllib
 from django.conf import settings
 
+# 공지사항 게시판 권한
+# level 2,3 = READ
+# level 1 관리자 = CREATE, READ + 본인 글 UPDATE, DELETE
+# level 0 개발자 = CREATE, READ, UPDATE, DELETE
+
 
 class NoticeListView(ListView):
     model = Notice
@@ -136,15 +141,17 @@ def notice_write_view(request):
 @login_message_required
 def notice_edit_view(request, pk):
     notice = Notice.objects.get(id=pk)
-    if request.method == "POST" and notice.writer == request.user:
-        form = NoticeWriteForm(request.POST, request.FILES, instance=notice)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "수정되었습니다.")
-            return redirect('/notice/'+str(pk))
+
+    if request.method == "POST":
+        if(notice.writer == request.user or request.user.level == '0'):
+            form = NoticeWriteForm(request.POST, request.FILES, instance=notice)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "수정되었습니다.")
+                return redirect('/notice/'+str(pk))
     else:
         notice = Notice.objects.get(id=pk)
-        if notice.writer == request.user:
+        if notice.writer == request.user or request.user.level == '0':
             form = NoticeWriteForm(instance=notice)
             return render(request, "notice/notice_write.html", {'form': form})
         else:
@@ -155,7 +162,7 @@ def notice_edit_view(request, pk):
 @login_message_required
 def notice_delete_view(request, pk):
     notice = Notice.objects.get(id=pk)
-    if notice.writer == request.user :
+    if notice.writer == request.user or request.user.level == '0':
         notice.delete()
         messages.success(request, "삭제되었습니다.")
         return redirect('/notice/')
