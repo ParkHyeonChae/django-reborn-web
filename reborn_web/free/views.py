@@ -118,6 +118,7 @@ def free_write_view(request):
         form = FreeWriteForm(request.POST, request.FILES)
         user = request.session['user_id']
         user_id = User.objects.get(user_id = user)
+
         if form.is_valid():
             free = form.save(commit = False)
             free.writer = user_id
@@ -161,7 +162,6 @@ def free_delete_view(request, pk):
         return redirect('/free/'+str(pk))
 
 
-
 @login_message_required
 def free_download_view(request, pk):
     free = get_object_or_404(Free, pk=pk)
@@ -175,3 +175,27 @@ def free_download_view(request, pk):
             response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url[29:]
             return response
         raise Http404
+
+
+# 댓글
+
+@login_message_required
+def comment_write_view(request):
+    # free = get_object_or_404(Free, id=pk)
+    if request.method == 'POST':
+        # form = FreeCommentForm(request.POST)
+        post = request.POST.get('post_id', '')
+        writer = request.user
+        content = request.POST.get('content', '')
+
+    return render(request, 'free/free_detail.html')
+        # if form.is_valid():
+        #     comment = form.save(commit=False)
+        #     comment.writer = request.user
+        #     comment.post = Free.objects.get(id=pk)
+        #     comment.save()
+        #     return redirect(reverse('free_detail', kwargs={'comment': comment.title.id}))
+    # else:
+    #     form = FreeCommentForm()
+    
+    # return render(request, 'free/free_detail.html', {'comment': form})

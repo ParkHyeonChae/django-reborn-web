@@ -26,3 +26,19 @@ class Free(models.Model):
         db_table = '자유게시판'
         verbose_name = '자유게시판'
         verbose_name_plural = '자유게시판'
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Free, on_delete=models.CASCADE)
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.content
+
+    class Meta:
+        db_table = '댓글'
+        verbose_name = '댓글'
+        verbose_name_plural = '댓글'
