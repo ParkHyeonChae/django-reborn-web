@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 # from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import View, ListView, DetailView, FormView, CreateView
-from .models import Free
+from .models import Free, Comment
 from users.decorators import login_message_required, admin_required
 from django.db.models import Q
 from django.contrib import messages
@@ -17,6 +17,10 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from urllib.parse import quote
 import urllib
 from django.conf import settings
+import json
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
+
 
 # 자유게시판 권한
 # level 2,3 = CREATE. READ + 본인글 UPDATE, DELETE
@@ -84,6 +88,7 @@ def free_detail_view(request, pk):
     free = get_object_or_404(Free, pk=pk)
     session_cookie = request.session['user_id']
     cookie_name = F'free_hits:{session_cookie}'
+    comment = Comment.objects.filter(post=pk).order_by('created')
 
     if request.user == free.writer:
         free_auth = True
@@ -93,6 +98,7 @@ def free_detail_view(request, pk):
     context = {
         'free': free,
         'free_auth': free_auth,
+        'comments': comment,
     }
     response = render(request, 'free/free_detail.html', context)
 
@@ -178,24 +184,19 @@ def free_download_view(request, pk):
 
 
 # 댓글
-
 @login_message_required
-def comment_write_view(request):
-    # free = get_object_or_404(Free, id=pk)
-    if request.method == 'POST':
-        # form = FreeCommentForm(request.POST)
-        post = request.POST.get('post_id', '')
-        writer = request.user
-        content = request.POST.get('content', '')
-
-    return render(request, 'free/free_detail.html')
-        # if form.is_valid():
-        #     comment = form.save(commit=False)
-        #     comment.writer = request.user
-        #     comment.post = Free.objects.get(id=pk)
-        #     comment.save()
-        #     return redirect(reverse('free_detail', kwargs={'comment': comment.title.id}))
-    # else:
-    #     form = FreeCommentForm()
-    
-    # return render(request, 'free/free_detail.html', {'comment': form})
+def comment_write_view(request, pk):
+    post = get_object_or_404(Free, id=pk)
+    writer = request.POST.get('writer')
+    content = request.POST.get('content')
+    if content:
+        comment = Comment.objects.create(post=post, content=content, writer=request.user)
+        data = {
+            'writer': writer,
+            'content': content,
+            'created': '방금 전 작성',
+        }
+        if request.user == post.writer:
+            data['self_comment'] = '(글쓴이)'
+        
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")

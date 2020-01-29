@@ -38,38 +38,38 @@
                 </div>
             </div>
         </div>
-        <hr>
-
-
-
+        <br>
+        <!--댓글-->
         <div class="card" style="width: 100%;">
             <div class="card-header">
-                <form method="post" action="{% url 'free:comment_write' free.id %}" enctype="multipart/form-data" class="col-md-12">
+                <div class="col-md-12"></form>
                     {% csrf_token %}
-                    <input type="hidden" name="post_id" value="{{ free.id }}">
                     <div class="form-group row">
-                        <textarea class="form-control" name="content" rows="3" placeholder="댓글을 입력해주세요."></textarea>
+                        <textarea class="form-control" id="content" rows="3" placeholder="댓글을 입력해주세요."></textarea>
                     </div>
                     <div class="text-right">
-                        <button type="submit" class="btn btn-dark">댓글달기</button>
-                    </div>
-                </form>
-                
-                <hr>
-                <div>
-                    <strong>{{ free.title }}</strong>&nbsp;&nbsp;<span style="color: gray;">[공지사항]</span>
-                    <span style="float:right;">{{ free.registered_date|date:'Y.m.d. H:i' }}</span>
-                    <div>
-                        <span>작성자 : {{ free.writer }}</span>
-                        <span style="float:right;">조회수 : {{ free.hits }}</span>
-                    </div>
-                    <div>
-                        {{ free.content | safe }}
+                        <button id="comment_write" class="btn btn-dark">댓글달기</button>
                     </div>
                 </div>
+                
                 <hr>
- 
-            
+                <div id="more_button" ></div>
+                <div id="more_comment">
+                    {% if comments %}
+                        {% for comment in comments %}
+                            {% if comment.writer == free.writer %}
+                            <strong>{{ comment.writer }}&nbsp;<span style="color:gray";>(글쓴이)</span></strong>
+                            {% else %}
+                            <strong>{{ comment.writer }}</strong>
+                            {% endif %}
+                            <span style="float:right;">{{ comment.created|date:'Y.m.d. H:i' }}</span>
+                            <div name="comment_count" style="white-space:pre-line;">{{ comment.content }}</div>
+                            <hr>
+                        {% endfor %}
+                    {% endif %}
+                    <input type="hidden" id="comment_writer" value={{request.user}}>
+                    <div id="comment_list"></div>
+                </div>
             </div>
         </div>
 
@@ -113,6 +113,49 @@
     function delete_modal() {
         location.replace('/free/{{ free.id }}/delete/');
     }
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#comment_write').click(function () {
+            var content= $("#content").val();
+            var writer= $("#comment_writer").val();
+            $.ajax({
+                type: "POST",
+                url: "{% url 'free:comment_write' free.id %}",
+                dataType: "json",
+                data: {
+                    'writer': writer,
+                    'content': content,
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                },
+                success: function (response) {
+                    if ($('#content').val()=="") {
+                        alert('댓글을 입력해주세요.');
+                    }
+                    else if (response.self_comment) {
+                        $('#content').val("");
+                        $('#comment_list').append(
+                           '<strong>'+response.writer+'&nbsp;<span style="color:gray";>'+response.self_comment+'</span></strong>'+
+                           '<span style="float:right; color:blue;">'+response.created+'</span>'+
+                           '<div style="white-space:pre;">'+response.content+'</div><hr>'
+                        );
+                    }
+                    else{
+                        $('#content').val("");
+                        $('#comment_list').append(
+                           '<strong>'+response.writer+'</strong>'+
+                           '<span style="float:right; color:blue;">'+response.created+'</span>'+
+                           '<div style="white-space:pre;">'+response.content+'</div><hr>'
+                        );
+                    }
+                },
+            })
+        });
+    });
+
 </script>
 
 {% if messages %}

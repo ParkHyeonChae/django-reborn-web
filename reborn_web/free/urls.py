@@ -13,7 +13,7 @@ urlpatterns = [
     path('<int:pk>/delete/', views.free_delete_view, name='free_delete'),
     path('download/<int:pk>', views.free_download_view, name="free_download"),
 
-    path('<int:pk>/comment/write', views.comment_write_view, name='comment_write'),
+    path('<int:pk>/comment/write/', views.comment_write_view, name='comment_write'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
