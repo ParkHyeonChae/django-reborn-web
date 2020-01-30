@@ -89,6 +89,7 @@ def free_detail_view(request, pk):
     session_cookie = request.session['user_id']
     cookie_name = F'free_hits:{session_cookie}'
     comment = Comment.objects.filter(post=pk).order_by('created')
+    comment_count = comment.count()
 
     if request.user == free.writer:
         free_auth = True
@@ -99,6 +100,7 @@ def free_detail_view(request, pk):
         'free': free,
         'free_auth': free_auth,
         'comments': comment,
+        'comment_count': comment_count,
     }
     response = render(request, 'free/free_detail.html', context)
 
@@ -191,12 +193,31 @@ def comment_write_view(request, pk):
     content = request.POST.get('content')
     if content:
         comment = Comment.objects.create(post=post, content=content, writer=request.user)
+        comment_count = Comment.objects.filter(post=pk).count()
         data = {
             'writer': writer,
             'content': content,
             'created': '방금 전 작성',
+            'comment_count': comment_count,
+            'comment_id': comment.id
         }
         if request.user == post.writer:
             data['self_comment'] = '(글쓴이)'
         
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
+
+
+@login_message_required
+def comment_delete_view(request, pk):
+    comment_id = request.POST.get('comment_id')
+    target_comment = Comment.objects.get(pk = comment_id)
+
+    if request.user == target_comment.writer or request.user.level == '1' or request.user.level == '0':
+        target_comment.delete()
+        comment_count = Comment.objects.filter(post=pk).count()
+        
+        data = {
+            'comment_id': comment_id,
+            'comment_count': comment_count,
+        }
         return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")

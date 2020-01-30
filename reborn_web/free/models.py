@@ -29,11 +29,10 @@ class Free(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Free, on_delete=models.CASCADE)
-    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    content = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    post = models.ForeignKey(Free, on_delete=models.CASCADE, verbose_name='게시글')
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='댓글작성자')
+    content = models.TextField(verbose_name='댓글내용')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='작성일')
     
     def __str__(self):
         return self.content
