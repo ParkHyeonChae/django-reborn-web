@@ -18,6 +18,7 @@ class CommentAdmin(admin.ModelAdmin):
         'content',
         'writer',
         'created',
+        'deleted',
         )
     search_fields = ('post__title', 'content', 'writer__user_id',)
 

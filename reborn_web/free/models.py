@@ -33,6 +33,8 @@ class Comment(models.Model):
     writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='댓글작성자')
     content = models.TextField(verbose_name='댓글내용')
     created = models.DateTimeField(auto_now_add=True, verbose_name='작성일')
+    deleted = models.BooleanField(default=False, verbose_name='삭제여부')
+    reply = models.IntegerField(verbose_name='답글위치', default=0)
     
     def __str__(self):
         return self.content

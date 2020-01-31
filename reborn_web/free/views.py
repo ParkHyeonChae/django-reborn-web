@@ -89,8 +89,9 @@ def free_detail_view(request, pk):
     session_cookie = request.session['user_id']
     cookie_name = F'free_hits:{session_cookie}'
     comment = Comment.objects.filter(post=pk).order_by('created')
-    comment_count = comment.count()
-
+    # comment_count = comment.count()
+    comment_count = comment.exclude(deleted=True).count()
+    reply = comment.exclude(reply='0')
     if request.user == free.writer:
         free_auth = True
     else:
@@ -101,6 +102,7 @@ def free_detail_view(request, pk):
         'free_auth': free_auth,
         'comments': comment,
         'comment_count': comment_count,
+        'replys': reply,
     }
     response = render(request, 'free/free_detail.html', context)
 
@@ -191,9 +193,11 @@ def comment_write_view(request, pk):
     post = get_object_or_404(Free, id=pk)
     writer = request.POST.get('writer')
     content = request.POST.get('content')
+    reply = request.POST.get('reply')
     if content:
-        comment = Comment.objects.create(post=post, content=content, writer=request.user)
-        comment_count = Comment.objects.filter(post=pk).count()
+        comment = Comment.objects.create(post=post, content=content, writer=request.user, reply=reply)
+        # comment_count = Comment.objects.filter(post=pk).count()
+        comment_count = Comment.objects.filter(post=pk).exclude(deleted=True).count()
         data = {
             'writer': writer,
             'content': content,
@@ -213,8 +217,12 @@ def comment_delete_view(request, pk):
     target_comment = Comment.objects.get(pk = comment_id)
 
     if request.user == target_comment.writer or request.user.level == '1' or request.user.level == '0':
-        target_comment.delete()
-        comment_count = Comment.objects.filter(post=pk).count()
+        # target_comment.delete()
+        # target_comment.content = ('삭제된 댓글입니다.')
+        target_comment.deleted = True
+        target_comment.save()
+        # comment_count = Comment.objects.filter(post=pk).count()
+        comment_count = Comment.objects.filter(post=pk).exclude(deleted=True).count()
         
         data = {
             'comment_id': comment_id,
