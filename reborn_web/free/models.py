@@ -10,6 +10,7 @@ class Free(models.Model):
     title = models.CharField(max_length=128, verbose_name='제목')
     content = models.TextField(verbose_name='내용')
     hits = models.PositiveIntegerField(verbose_name='조회수', default=0)
+    comments = models.PositiveIntegerField(verbose_name='댓글수', null=True)
     files = models.FileField(upload_to='upload_file/%Y/%m/%d', null=True, blank=True, verbose_name='파일')
     registered_date = models.DateTimeField(auto_now_add=True, verbose_name='등록시간')
 

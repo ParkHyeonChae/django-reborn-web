@@ -21,7 +21,11 @@
         <tr class="text-center">
             <td>{{ free.id }}</td>
             <td class="text-left" style="width:50%"><a id="free-{{ free.id }}"
-                    href="/free/{{ free.id }}/">{{ free.title|truncatechars:30 }}</a></td>
+                href="/free/{{ free.id }}/">{{ free.title|truncatechars:30 }}</a>
+                {% if free.comments %}
+                &nbsp;<span style="color:gray;">[{{ free.comments }}]</span>
+                {% endif %}
+                </td>
             <td>{{ free.writer }}</td>
             {% if free.created_string == False %}
             <td>{{ free.registered_date|date:'m월 d일' }}</td>

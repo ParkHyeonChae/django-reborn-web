@@ -7,6 +7,7 @@ class FreeAdmin(admin.ModelAdmin):
         'title', 
         'writer',
         'hits',
+        'comments',
         'registered_date',
         )
     search_fields = ('title', 'content', 'writer__user_id',)

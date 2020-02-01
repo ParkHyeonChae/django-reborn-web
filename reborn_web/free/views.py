@@ -215,6 +215,8 @@ def comment_write_view(request, pk):
         comment = Comment.objects.create(post=post, content=content, writer=request.user, reply=reply)
         # comment_count = Comment.objects.filter(post=pk).count()
         comment_count = Comment.objects.filter(post=pk).exclude(deleted=True).count()
+        post.comments = comment_count
+        post.save()
         data = {
             'writer': writer,
             'content': content,
@@ -230,6 +232,7 @@ def comment_write_view(request, pk):
 
 @login_message_required
 def comment_delete_view(request, pk):
+    post = get_object_or_404(Free, id=pk)
     comment_id = request.POST.get('comment_id')
     target_comment = Comment.objects.get(pk = comment_id)
 
@@ -240,7 +243,8 @@ def comment_delete_view(request, pk):
         target_comment.save()
         # comment_count = Comment.objects.filter(post=pk).count()
         comment_count = Comment.objects.filter(post=pk).exclude(deleted=True).count()
-        
+        post.comments = comment_count
+        post.save()
         data = {
             'comment_id': comment_id,
             'comment_count': comment_count,
