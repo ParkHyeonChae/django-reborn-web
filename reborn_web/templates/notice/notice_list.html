@@ -24,7 +24,7 @@
             <td class="text-left" style="width:50%"><a id="notice-{{ notice.id }}"
                 href="/notice/{{ notice.id }}/">[공지] {{ notice.title|truncatechars:30 }}</a></tdc>
             <td>{{ notice.writer }}</td>
-            <td>{{ notice.registered_date|date:'Y-m-d' }}</td>
+            <td>{{ notice.registered_date|date:'Y. m. d' }}</td>
             <td>{{ notice.hits }}</td>
         </tr>
         {% endfor %}
@@ -36,7 +36,7 @@
             <td class="text-left" style="width:50%"><a id="notice-{{ notice.id }}"
                     href="/notice/{{ notice.id }}/">{{ notice.title|truncatechars:30 }}</a></td>
             <td>{{ notice.writer }}</td>
-            <td>{{ notice.registered_date|date:'Y-m-d' }}</td>
+            <td>{{ notice.registered_date|date:'Y. m. d' }}</td>
             <td>{{ notice.hits }}</td>
         </tr>
         {% endfor %}

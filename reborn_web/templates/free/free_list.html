@@ -23,7 +23,11 @@
             <td class="text-left" style="width:50%"><a id="free-{{ free.id }}"
                     href="/free/{{ free.id }}/">{{ free.title|truncatechars:30 }}</a></td>
             <td>{{ free.writer }}</td>
-            <td>{{ free.registered_date|date:'Y-m-d' }}</td>
+            {% if free.created_string == False %}
+            <td>{{ free.registered_date|date:'m월 d일' }}</td>
+            {% else %}
+            <td>{{ free.created_string }}</td>
+            {% endif %}
             <td>{{ free.hits }}</td>
         </tr>
         {% endfor %}

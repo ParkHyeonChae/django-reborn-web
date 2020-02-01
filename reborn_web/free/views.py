@@ -28,6 +28,22 @@ from django.core.serializers.json import DjangoJSONEncoder
 # level 0 개발자 = CREATE, READ, UPDATE, DELETE
 
 
+# 게시글 세부 권한 (free.detail.html)
+# level 0 개발자 : 글의 수정, 삭제, 모든 댓글의 입력, 삭제, 모든 답글의 입력, 삭제 
+# level 1 관리자 : 글의 삭제, 모든 댓글의 입력, 삭제, 모든 답글의 입력, 삭제
+# level 2 사용자 : 글의 보기, 댓글의 입력, 답글의 입력 (본인일시 글의 수정, 삭제, 댓글의 입력, 삭제, 답글의 입력, 삭제)
+
+# 1. 본인의 글일시 댓글과 답글에 (글쓴이) 표시를 한다.
+# 2. 답글작성은 댓글에서만 가능하다. (답글에 답글불가)
+# 3. 댓글과 답글 작성, 삭제시 그 갯수를 동적으로 표시한다.
+# 4. 본 게시글이 삭제될시 댓글과 답글은 DB상에서 삭제된다.
+# 5. 댓글과 답글 삭제시 DB상에서 내용은 보존한다.
+# 6. 댓글과 답글 삭제시 삭제된 댓글이라는 표시를 한다.related-lookup
+# 7. 답글이 있는 댓글을 삭제해도 그 답글은 보존한다.
+# 8. 답글의 입력창은 답글이 입력되는 위치에 동적으로 생성한다. (다른곳을 Click시 입력창 삭제)
+# 9. 댓글과 답글 입력, 삭제는 비동기로 한다.
+
+
 class FreeListView(ListView):
     model = Free
     paginate_by = 10
@@ -202,7 +218,7 @@ def comment_write_view(request, pk):
         data = {
             'writer': writer,
             'content': content,
-            'created': '방금 전 작성',
+            'created': '방금 전',
             'comment_count': comment_count,
             'comment_id': comment.id
         }
