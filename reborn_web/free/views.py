@@ -92,6 +92,7 @@ def free_detail_view(request, pk):
     # comment_count = comment.count()
     comment_count = comment.exclude(deleted=True).count()
     reply = comment.exclude(reply='0')
+
     if request.user == free.writer:
         free_auth = True
     else:

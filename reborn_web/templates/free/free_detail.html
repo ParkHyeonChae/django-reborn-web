@@ -74,7 +74,7 @@
                                     {% else %}
                                     <strong>{{ comment.writer }}</strong>
                                     {% endif %}
-                                    <span style="float:right;">{{ comment.created|date:'Y.m.d. H:i' }}</span>
+                                    <span style="float:right;">{{ comment.created }}</span>
                                     {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
                                     <div>
                                         <div style="white-space:pre-wrap; text-align:left;">{{ comment.content }}</div>
@@ -83,6 +83,7 @@
                                             <a style="color: rgb(29, 112, 236)" onclick="commentDelete('{{comment.id}}');">댓글삭제</a>
                                         </div>
                                     </div>
+                                    <hr>
                                     {% else %}
                                     <div>
                                         <div style="white-space:pre-wrap; text-align:left;">{{ comment.content }}</div>
@@ -90,29 +91,95 @@
                                             <a style="color: rgb(29, 112, 236)" onclick="createReplyArea('{{comment.id}}');">답글달기</a>
                                         </div>
                                     </div>
-                                    {% endif %}
                                     <hr>
+                                    {% endif %}
                                 {% endif %}
                             {% endif %}
                         </div>
+                        <div class='{{ comment.id }}'></div>
                         {% endfor %}
 
                         <!--답글 표시 부분-->
                         {% for comment in replys %}
+                        {% if comment.deleted and comment.reply != 0 %}
                         <script type="text/javascript">
                             var reply_id = "{{ comment.id }}";
                             var comment_id = "{{ comment.reply }}";
                             var reply_writer = "{{ comment.writer }}";
                             var reply_created = "{{ comment.created }}";
                             var reply_content = "{{ comment.content }}";
+                            var comment_count = "{{ comment_count }}";
 
-                            $('#'+comment_id).append(
-                                '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+reply_id+'><strong>'+reply_writer+'&nbsp;<span style="color:gray";>'+'(글쓴이)'+'</span></strong>'+
-                                '<span style="float:right; color:blue;">'+reply_created+'</span>'+
-                                '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="commentDelete('+reply_id+');">답글삭제</a></div></div></div></div></div><hr>'
+                            $('.'+comment_id).append(
+                                '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><span style="color:gray;">삭제된 답글입니다.</span></div></div><hr>'
                             );
-                           
+                            $("#layer").remove();
+                            $('#hide_button_count').replaceWith('<a id=hide_button_count style="color:blue;">&nbsp;댓글 접기 &middot;&nbsp;'+comment_count+'개의 댓글</a>')
+                            $('#show_button_count').replaceWith('<a id=show_button_count style="color:blue;">&nbsp;댓글 펼치기 &middot;&nbsp;'+comment_count+'개의 댓글</a>')
                         </script>
+                        {% else %}
+                            {% if comment.writer == free.writer %}
+                                {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
+                                <script type="text/javascript">
+                                    var reply_id = "{{ comment.id }}";
+                                    var comment_id = "{{ comment.reply }}";
+                                    var reply_writer = "{{ comment.writer }}";
+                                    var reply_created = "{{ comment.created }}";
+                                    var reply_content = "{{ comment.content }}";
+
+                                    $('.'+comment_id).append(
+                                        '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+reply_id+'><strong>'+reply_writer+'&nbsp;<span style="color:gray";>'+'(글쓴이)'+'</span></strong>'+
+                                        '<span style="float:right;">'+reply_created+'</span>'+
+                                        '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="replyDelete('+reply_id+');">답글삭제</a></div></div></div></div></div><hr>'
+                                    );
+                                </script>
+                                {% else %}
+                                <script type="text/javascript">
+                                    var reply_id = "{{ comment.id }}";
+                                    var comment_id = "{{ comment.reply }}";
+                                    var reply_writer = "{{ comment.writer }}";
+                                    var reply_created = "{{ comment.created }}";
+                                    var reply_content = "{{ comment.content }}";
+
+                                    $('.'+comment_id).append(
+                                        '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+reply_id+'><strong>'+reply_writer+'&nbsp;<span style="color:gray";>'+'(글쓴이)'+'</span></strong>'+
+                                        '<span style="float:right;">'+reply_created+'</span>'+
+                                        '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right;"></div></div></div></div></div><hr>'
+                                    );
+                                </script>
+                                {% endif %}
+                            {% else %}
+                                {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
+                                <script type="text/javascript">
+                                        var reply_id = "{{ comment.id }}";
+                                        var comment_id = "{{ comment.reply }}";
+                                        var reply_writer = "{{ comment.writer }}";
+                                        var reply_created = "{{ comment.created }}";
+                                        var reply_content = "{{ comment.content }}";
+
+                                        $('.'+comment_id).append(
+                                            '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+reply_id+'><strong>'+reply_writer+'</strong>'+
+                                            '<span style="float:right;">'+reply_created+'</span>'+
+                                            '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="replyDelete('+reply_id+');">답글삭제</a></div></div></div></div></div><hr>'
+                                        );
+                                </script>
+                                {% else %}
+                                <script type="text/javascript">
+                                        var reply_id = "{{ comment.id }}";
+                                        var comment_id = "{{ comment.reply }}";
+                                        var reply_writer = "{{ comment.writer }}";
+                                        var reply_created = "{{ comment.created }}";
+                                        var reply_content = "{{ comment.content }}";
+
+                                        $('.'+comment_id).append(
+                                            '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+reply_id+'><strong>'+reply_writer+'</strong>'+
+                                            '<span style="float:right;">'+reply_created+'</span>'+
+                                            '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right;"></div></div></div></div></div><hr>'
+                                        );
+                                </script>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
                         {% endfor %}
 
                     {% endif %}
@@ -183,16 +250,16 @@
                 success: function (response) {
                     if (response.self_comment) {
                         $('#comment_list').append(
-                           '<div id='+response.comment_id+'><strong>'+response.writer+'&nbsp;<span style="color:gray";>'+response.self_comment+'</span></strong>'+
+                           '<div><div id='+response.comment_id+'><strong>'+response.writer+'&nbsp;<span style="color:gray";>'+response.self_comment+'</span></strong>'+
                            '<span style="float:right; color:blue;">'+response.created+'</span>'+
-                           '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="createReplyArea('+response.comment_id+');">답글달기</a>&nbsp;&middot;&nbsp;<a style="color: rgb(29, 112, 236)" onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr>'
+                           '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="createReplyArea('+response.comment_id+');">답글달기</a>&nbsp;&middot;&nbsp;<a style="color: rgb(29, 112, 236)" onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
                         );
                     }
                     else{
                         $('#comment_list').append(
-                            '<div id='+response.comment_id+'><strong>'+response.writer+'</strong>'+
+                            '<div><div id='+response.comment_id+'><strong>'+response.writer+'</strong>'+
                             '<span style="float:right; color:blue;">'+response.created+'</span>'+
-                            '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="createReplyArea('+response.comment_id+');">답글달기</a>&nbsp;&middot;&nbsp;<a style="color: rgb(29, 112, 236)" onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr>'
+                            '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="createReplyArea('+response.comment_id+');">답글달기</a>&nbsp;&middot;&nbsp;<a style="color: rgb(29, 112, 236)" onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
                         );
                     }
                     $('#content').val("");
@@ -243,9 +310,33 @@
         }
     }
 
+    function replyDelete(value) {
+        var comment_id = value;
+        var delete_warning = confirm('답글을 삭제하시겠습니까?');
+        if (delete_warning == true) {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'free:comment_delete' free.id %}",
+                dataType: "json",
+                data: {
+                    'comment_id': comment_id,
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                },
+                success: function (response) {
+                    $('#'+response.comment_id).replaceWith('<span style="color:gray;">삭제된 답글입니다.</span>');
+                    $('#hide_button_count').replaceWith('<a id=hide_button_count style="color:blue;">&nbsp;댓글 접기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>');
+                    $('#show_button_count').replaceWith('<a id=show_button_count style="color:blue;">&nbsp;댓글 펼치기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>');
+                },
+                error: function () {
+                    alert('본인 댓글이 아닙니다.');
+                },
+            });
+        }
+    }
+
     function createReplyArea(value) {
         var comment_id = value;
-        $('#'+comment_id).append(
+        $('.'+comment_id).append(
             '<div id="layer"><textarea class="form-control" id="reply_content" rows="2" placeholder="답글을 입력해주세요." style="float: left; width:90%;" autofocus></textarea><button onclick="replyWrite('+comment_id+');" class="btn btn-outline-dark" style="margin-left:10px; height:62px;">답글작성</button><hr></div>'
         );
     }
@@ -304,17 +395,17 @@
             },
             success: function (response) {
                 if (response.self_comment) {
-                    $('#'+comment_id).append(
+                    $('.'+comment_id).append(
                         '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+response.comment_id+'><strong>'+response.writer+'&nbsp;<span style="color:gray";>'+response.self_comment+'</span></strong>'+
                         '<span style="float:right; color:blue;">'+response.created+'</span>'+
-                        '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="commentDelete('+response.comment_id+');">답글삭제</a></div></div></div></div></div><hr>'
+                        '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="replyDelete('+response.comment_id+');">답글삭제</a></div></div></div></div></div><hr>'
                     );
                 }
                 else{
-                    $('#'+comment_id).append(
+                    $('.'+comment_id).append(
                         '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+response.comment_id+'><strong>'+response.writer+'</strong>'+
                         '<span style="float:right; color:blue;">'+response.created+'</span>'+
-                        '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="commentDelete('+response.comment_id+');">답글삭제</a></div></div></div></div></div><hr>'
+                        '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="replyDelete('+response.comment_id+');">답글삭제</a></div></div></div></div></div><hr>'
                     );
                 }
                 $("#layer").remove();
