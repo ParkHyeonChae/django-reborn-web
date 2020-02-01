@@ -6,7 +6,11 @@ from . import views
 app_name = 'free'
 
 urlpatterns = [
-    path('', views.FreeListView.as_view(), name='free_list'),
+    path('', views.AllListView.as_view(), name='all_list'),
+    path('free/', views.FreeListView.as_view(), name='free_list'),
+    path('question/', views.QuestionListView.as_view(), name='question_list'),
+    path('information/', views.InformationListView.as_view(), name='information_list'),
+
     path('write/', views.free_write_view, name='free_write'),
     path('<int:pk>/', views.free_detail_view, name='free_detail'),
     path('<int:pk>/edit/', views.free_edit_view, name='free_edit'),

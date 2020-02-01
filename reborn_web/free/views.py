@@ -38,13 +38,13 @@ from django.core.serializers.json import DjangoJSONEncoder
 # 3. 댓글과 답글 작성, 삭제시 그 갯수를 동적으로 표시한다.
 # 4. 본 게시글이 삭제될시 댓글과 답글은 DB상에서 삭제된다.
 # 5. 댓글과 답글 삭제시 DB상에서 내용은 보존한다.
-# 6. 댓글과 답글 삭제시 삭제된 댓글이라는 표시를 한다.related-lookup
+# 6. 댓글과 답글 삭제시 삭제된 댓글이라는 표시를 한다.
 # 7. 답글이 있는 댓글을 삭제해도 그 답글은 보존한다.
 # 8. 답글의 입력창은 답글이 입력되는 위치에 동적으로 생성한다. (다른곳을 Click시 입력창 삭제)
-# 9. 댓글과 답글 입력, 삭제는 비동기로 한다.
+# 9. 댓글과 답글 입력, 삭제는 비동기로 구현한다.
 
 
-class FreeListView(ListView):
+class AllListView(ListView):
     model = Free
     paginate_by = 10
     template_name = 'free/free_list.html'  #DEFAULT : <app_label>/<model_name>_list.html
@@ -70,7 +70,7 @@ class FreeListView(ListView):
             return free_list
         else:
             messages.error(self.request, '일치하는 검색 결과가 없습니다.')
-            free_list = Free.objects.order_by('-id')
+            # free_list = Free.objects.order_by('-id')
             return free_list
 
     def get_context_data(self, **kwargs):
@@ -97,6 +97,81 @@ class FreeListView(ListView):
         context['type'] = search_type
 
         return context
+
+
+class FreeListView(AllListView):
+    def get_queryset(self):
+        search_keyword = self.request.GET.get('q', '')
+        search_type = self.request.GET.get('type', '')
+        free_list = Free.objects.filter(category='자유').order_by('-id')
+
+        if search_keyword :
+            if search_type == 'all':
+                free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
+            elif search_type == 'title_content':
+                free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
+            elif search_type == 'title':
+                free_list = free_list.filter(title__icontains=search_keyword)    
+            elif search_type == 'content':
+                free_list = free_list.filter(content__icontains=search_keyword)    
+            elif search_type == 'writer':
+                free_list = free_list.filter(writer__user_id__icontains=search_keyword)
+        if free_list :
+            return free_list
+        else:
+            messages.error(self.request, '일치하는 검색 결과가 없습니다.')
+            # free_list = Free.objects.order_by('-id')
+            return free_list
+
+
+class QuestionListView(AllListView):
+    def get_queryset(self):
+        search_keyword = self.request.GET.get('q', '')
+        search_type = self.request.GET.get('type', '')
+        free_list = Free.objects.filter(category='질문').order_by('-id')
+
+        if search_keyword :
+            if search_type == 'all':
+                free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
+            elif search_type == 'title_content':
+                free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
+            elif search_type == 'title':
+                free_list = free_list.filter(title__icontains=search_keyword)    
+            elif search_type == 'content':
+                free_list = free_list.filter(content__icontains=search_keyword)    
+            elif search_type == 'writer':
+                free_list = free_list.filter(writer__user_id__icontains=search_keyword)
+        if free_list :
+            return free_list
+        else:
+            messages.error(self.request, '일치하는 검색 결과가 없습니다.')
+            # free_list = Free.objects.order_by('-id')
+            return free_list
+
+
+class InformationListView(AllListView):
+    def get_queryset(self):
+        search_keyword = self.request.GET.get('q', '')
+        search_type = self.request.GET.get('type', '')
+        free_list = Free.objects.filter(category='정보').order_by('-id')
+
+        if search_keyword :
+            if search_type == 'all':
+                free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
+            elif search_type == 'title_content':
+                free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
+            elif search_type == 'title':
+                free_list = free_list.filter(title__icontains=search_keyword)    
+            elif search_type == 'content':
+                free_list = free_list.filter(content__icontains=search_keyword)    
+            elif search_type == 'writer':
+                free_list = free_list.filter(writer__user_id__icontains=search_keyword)
+        if free_list :
+            return free_list
+        else:
+            messages.error(self.request, '일치하는 검색 결과가 없습니다.')
+            # free_list = Free.objects.order_by('-id')
+            return free_list
 
 
 @login_message_required
@@ -150,7 +225,7 @@ def free_write_view(request):
             free = form.save(commit = False)
             free.writer = user_id
             free.save()
-            return redirect('free:free_list')
+            return redirect('free:all_list')
     else:
         form = FreeWriteForm()
     return render(request, "free/free_write.html", {'form': form})

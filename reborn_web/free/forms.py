@@ -11,8 +11,15 @@ class FreeWriteForm(forms.ModelForm):
             'class': 'form-control',
             'id': 'form_title',
             'autofocus': True,
+            'style': "width: 91%;"
         })
+        self.fields['category'].label = '분류'
+        self.fields['category'].widget.attrs.update({
+            'class': 'custom-select custom-select-md',
+            'style': "width: 8%; float:left; margin-right:1%"
+        })
+    
 
     class Meta:
         model = Free
-        fields = ['title', 'content', 'files']
+        fields = ['category', 'title', 'content', 'files']

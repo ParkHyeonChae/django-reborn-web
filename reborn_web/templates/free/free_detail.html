@@ -16,7 +16,7 @@
         <div class="card" style="width: 100%;">
             <!--제목,분류,작성일-->
             <div class="card-header">
-                <strong>{{ free.title }}</strong>&nbsp;&nbsp;<span style="color: gray;">[공지사항]</span>
+                <strong>{{ free.title }}</strong>&nbsp;&nbsp;<span style="color: gray;">[{{ free.category }}]</span>
                 <span style="float:right;">{{ free.registered_date|date:'Y.m.d. H:i' }}</span>
             </div>
             <div class="card-body">

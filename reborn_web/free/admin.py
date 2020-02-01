@@ -5,6 +5,7 @@ from .models import Free, Comment
 class FreeAdmin(admin.ModelAdmin):
     list_display = (
         'title', 
+        'category',
         'writer',
         'hits',
         'comments',

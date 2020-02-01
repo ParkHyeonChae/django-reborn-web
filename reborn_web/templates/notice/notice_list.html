@@ -9,71 +9,73 @@
 </div>
 <br>
 <div class="container">
-    <table class="table table-hover">
-        <tr class="text-center">
-            <th>번호</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>등록일</th>
-            <th>조회수</th>
-        </tr>
-        {% if notice_fixed %}
-        {% for notice in notice_fixed %}
-        <tr class="table-secondary text-center" style="font-weight: bold;">
-            <td>{{ notice.id }}</td>
-            <td class="text-left" style="width:50%"><a id="notice-{{ notice.id }}"
-                href="/notice/{{ notice.id }}/">[공지] {{ notice.title|truncatechars:30 }}</a></tdc>
-            <td>{{ notice.writer }}</td>
-            <td>{{ notice.registered_date|date:'Y. m. d' }}</td>
-            <td>{{ notice.hits }}</td>
-        </tr>
-        {% endfor %}
-        {% endif %}
+    <div>
+        <table class="table table-hover">
+            <tr class="text-center">
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>등록일</th>
+                <th>조회수</th>
+            </tr>
+            {% if notice_fixed %}
+            {% for notice in notice_fixed %}
+            <tr class="table-secondary text-center" style="font-weight: bold;">
+                <td>{{ notice.id }}</td>
+                <td class="text-left" style="width:50%"><a id="notice-{{ notice.id }}"
+                    href="/notice/{{ notice.id }}/">[공지] {{ notice.title|truncatechars:30 }}</a></tdc>
+                <td>{{ notice.writer }}</td>
+                <td>{{ notice.registered_date|date:'Y. m. d' }}</td>
+                <td>{{ notice.hits }}</td>
+            </tr>
+            {% endfor %}
+            {% endif %}
 
-        {% for notice in notice_list %}
-        <tr class="text-center">
-            <td>{{ notice.id }}</td>
-            <td class="text-left" style="width:50%"><a id="notice-{{ notice.id }}"
-                    href="/notice/{{ notice.id }}/">{{ notice.title|truncatechars:30 }}</a></td>
-            <td>{{ notice.writer }}</td>
-            <td>{{ notice.registered_date|date:'Y. m. d' }}</td>
-            <td>{{ notice.hits }}</td>
-        </tr>
-        {% endfor %}
+            {% for notice in notice_list %}
+            <tr class="text-center">
+                <td>{{ notice.id }}</td>
+                <td class="text-left" style="width:50%"><a id="notice-{{ notice.id }}"
+                        href="/notice/{{ notice.id }}/">{{ notice.title|truncatechars:30 }}</a></td>
+                <td>{{ notice.writer }}</td>
+                <td>{{ notice.registered_date|date:'Y. m. d' }}</td>
+                <td>{{ notice.hits }}</td>
+            </tr>
+            {% endfor %}
 
-    </table>
-</div>
-<br>
+        </table>
+    </div>
+    <br>
 
-<form action="" method="GET">
-    <div class="col">
-        <div style="float: right;" class="form-row">
-            <div class="form-row">
-                <div class="col">
-                    <select style="width: 6em;" class="custom-select custom-select-md" name="type">
-                        <option value="all">전체</option>
-                        <option value="title_content">제목+내용</option>
-                        <option value="title">제목</option>
-                        <option value="content">내용</option>
-                        <option value="writer">작성자</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
-                        style="width: 13em;">
-                </div>
-                <div class="col">
-                    <button class="btn btn-md btn-outline-dark" type="submit">검색</button>
+    <form action="" method="GET">
+        <div class="col">
+            <div style="float: right;" class="form-row">
+                <div class="form-row">
+                    <div class="col">
+                        <select style="width: 6em;" class="custom-select custom-select-md" name="type">
+                            <option value="all">전체</option>
+                            <option value="title_content">제목+내용</option>
+                            <option value="title">제목</option>
+                            <option value="content">내용</option>
+                            <option value="writer">작성자</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
+                            style="width: 13em;">
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-md btn-outline-dark" type="submit">검색</button>
+                    </div>
                 </div>
             </div>
         </div>
+    </form>
+    {% if request.user.level == '0' or request.user.level == '1' %}
+    <div>
+        <button class="btn btn-md btn-dark" onclick="location.href='/notice/write/'">글쓰기</button>
     </div>
-</form>
-{% if request.user.level == '0' or request.user.level == '1' %}
-<div>
-    <button class="btn btn-md btn-dark" onclick="location.href='/notice/write/'">글쓰기</button>
+    {% endif %}
 </div>
-{% endif %}
 <br>
 <div class="col-md-offset-6">
     {% if is_paginated %}
