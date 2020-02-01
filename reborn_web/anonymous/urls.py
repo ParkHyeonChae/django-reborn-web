@@ -6,5 +6,5 @@ from . import views
 app_name = 'anonymous'
 
 urlpatterns = [
-    # path('', views.AllListView.as_view(), name='all_list'),
+    path('', views.AnonymousListView.as_view(), name='Anonymous_list'),
 ]

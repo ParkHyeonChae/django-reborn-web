@@ -1,0 +1,27 @@
+{% extends "users/base.html" %}
+{% load humanize %}
+
+{% block contents %}
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h1>익명게시판 TEST PAGE</h1>
+    </div>
+</div>
+<br>
+<div class="container">
+
+</div>
+
+
+
+{% if messages %}
+{% for message in messages %}
+{% if message.tags %}
+<script>
+    alert("{{ message.message }}")
+</script>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% endblock %}
