@@ -267,7 +267,7 @@ def free_delete_view(request, pk):
 @login_message_required
 def free_download_view(request, pk):
     free = get_object_or_404(Free, pk=pk)
-    url = free.files.url[1:]
+    url = free.upload_files.url[1:]
     file_url = urllib.parse.unquote(url)
     
     if os.path.exists(file_url):

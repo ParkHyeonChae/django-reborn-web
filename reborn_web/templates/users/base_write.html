@@ -37,7 +37,7 @@
                 lang: 'ko-KR',
             });
         });
-    </script>
+    </script>    
     {% block header %}
     {% endblock %}
 </head>
@@ -57,7 +57,21 @@
             checkUnload = false;
             $("submit").submit();
         });
+
+        $(document).ready(function () {
+            var content1 = document.getElementsByTagName('p')[1].cloneNode(true);
+            $('#write').click(function () {
+                if (document.getElementsByName('title')[0].value != "") {
+                    var content2 = document.getElementsByTagName('p')[1];
+                    if (content2.isEqualNode(content1)) {
+                        alert("내용을 입력해주세요.");
+                    }
+                };
+            });
+        });
     </script>
+
+
 </body>
 
 </html>

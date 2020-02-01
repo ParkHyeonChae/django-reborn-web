@@ -22,4 +22,4 @@ class FreeWriteForm(forms.ModelForm):
 
     class Meta:
         model = Free
-        fields = ['category', 'title', 'content', 'files']
+        fields = ['category', 'title', 'content', 'upload_files']

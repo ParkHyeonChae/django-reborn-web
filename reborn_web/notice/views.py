@@ -175,7 +175,7 @@ def notice_delete_view(request, pk):
 @login_message_required
 def notice_download_view(request, pk):
     notice = get_object_or_404(Notice, pk=pk)
-    url = notice.files.url[1:]
+    url = notice.upload_files.url[1:]
     file_url = urllib.parse.unquote(url)
     
     if os.path.exists(file_url):

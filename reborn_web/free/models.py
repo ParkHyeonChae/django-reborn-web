@@ -13,18 +13,19 @@ class Free(models.Model):
     content = models.TextField(verbose_name='내용')
     hits = models.PositiveIntegerField(verbose_name='조회수', default=0)
     comments = models.PositiveIntegerField(verbose_name='댓글수', null=True)
-    files = models.FileField(upload_to='upload_file/%Y/%m/%d', null=True, blank=True, verbose_name='파일')
+    files = models.FileField(upload_to='upload_file/%Y/%m/%d', null=True, blank=True, verbose_name='이미지')
+    upload_files = models.FileField(upload_to='upload_file/%Y/%m/%d', null=True, blank=True, verbose_name='파일')
     registered_date = models.DateTimeField(auto_now_add=True, verbose_name='등록시간')
 
     def __str__(self):
         return self.title
 
     def filename(self):
-        return os.path.basename(self.files.name)
+        return os.path.basename(self.upload_files.name)
 
     def delete(self, *args, **kargs):
-        if self.files:
-            os.remove(os.path.join(settings.MEDIA_ROOT, self.files.path))
+        if self.upload_files:
+            os.remove(os.path.join(settings.MEDIA_ROOT, self.upload_files.path))
         super(Free, self).delete(*args, **kargs)
 
     @property
