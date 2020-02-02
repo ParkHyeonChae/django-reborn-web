@@ -1,6 +1,13 @@
 {% extends "users/base.html" %}
 {% load humanize %}
 
+{% block header %}
+{% load static %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
+<script src="{% static 'js/anonymous/infinite-scroll.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/loading.css' %}" type="text/css">
+{% endblock %}
+
 {% block contents %}
 <div class="row mt-5">
     <div class="col-12 text-center">
@@ -25,7 +32,8 @@
                                 </select>
                             </div>
                             <div class="col">
-                                <input style="width:38em;" type="text" name="q" value="{{ q }}" class="form-control form-control-md" placeholder="검색어를 입력해주세요." required>
+                                <input style="width:38em;" type="text" name="q" value="{{ q }}"
+                                    class="form-control form-control-md" placeholder="검색어를 입력해주세요." required>
                             </div>
                             <div class="col">
                                 <button class="btn btn-md btn-outline-dark" type="submit">검색</button>
@@ -42,28 +50,53 @@
     <hr width=82%;><br>
     <!--본문-->
     <div class="row justify-content-center">
-        {% for anonymous in anonymous_list %}
-        <div class="card" style="width: 80%; margin-bottom:15px;">
-            <div class="card-body" onClick="location.href ='/'" style="cursor:pointer;">
-                <h5><strong><p>{{ anonymous.title|truncatechars:30 }}</p></strong></h5>
-                <p style="color: gray;">{{ anonymous.content|truncatechars:40 }}</p>
-                <div class="row">
-                    <div class="col">
-                        {% if anonymous.created_string == False %}
-                        <span style="color:gray;">{{ anonymous.registered_date|date:'m월 d일' }} &middot; 익명</span>
-                        {% else %}
-                        <span style="color:gray;">{{ anonymous.created_string }} &middot; 익명</span>
-                        {% endif %}
-                    </div>
-                    <div class="col" style="color:gray; text-align: right;">
-                        <span>추천 {{ anonymous.like_count }} &middot; 댓글 {{ anonymous.comments }}</span>
+        <div class="infinite-container" >
+            {% for anonymous in anonymous_list %}
+                <div class="infinite-item">
+                    <div class="card" style="width: 55em; margin-bottom:15px;">
+                        <div class="card-body" onClick="location.href ='/'" style="cursor:pointer;">
+                            <h5><strong>
+                                    <p>{{ anonymous.title|truncatechars:30 }}</p>
+                                </strong></h5>
+                            <p style="color: gray;">{{ anonymous.content|truncatechars:40 }}</p>
+                            <div class="row">
+                                <div class="col">
+                                    {% if anonymous.created_string == False %}
+                                    <span style="color:gray;">{{ anonymous.registered_date|date:'m월 d일' }} &middot; 익명</span>
+                                    {% else %}
+                                    <span style="color:gray;">{{ anonymous.created_string }} &middot; 익명</span>
+                                    {% endif %}
+                                </div>
+                                <div class="col" style="color:gray; text-align: right;">
+                                    <span>추천 {{ anonymous.like_count }} &middot; 댓글 {{ anonymous.comments }}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+        {% if page_obj.has_next %}
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+        {% endif %}
     </div>
 </div>
+
+<div style="text-align: center;">
+    <div class="loading" style="display: none;"></div>
+</div>
+
+<script type="text/javascript">
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        onBeforePageLoad: function () {
+            $('.loading').show();
+        },
+        onAfterPageLoad: function ($items) {
+            $('.loading').hide();
+        }
+    });
+</script>
 
 <script type="text/javascript">
     target = window.location.search.split('&')[0].split('=')[1]
@@ -74,6 +107,7 @@
         }
     }
 </script>
+
 
 {% if messages %}
 {% for message in messages %}
