@@ -6,5 +6,6 @@ from . import views
 app_name = 'anonymous'
 
 urlpatterns = [
-    path('', views.AnonymousListView.as_view(), name='Anonymous_list'),
+    path('', views.AnonymousListView.as_view(), name='anonymous_list'),
+    path('write/', views.anonymous_write_view, name='anonymous_write'),
 ]

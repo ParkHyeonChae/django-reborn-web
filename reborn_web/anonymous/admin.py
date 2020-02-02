@@ -6,7 +6,6 @@ class AnonymousAdmin(admin.ModelAdmin):
     list_display = (
         'title', 
         'writer',
-        'hits',
         'comments',
         'registered_date',
         )

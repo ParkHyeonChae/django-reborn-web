@@ -27,18 +27,22 @@ class AnonymousListView(ListView):
 
         if search_keyword :
             if search_type == 'all':
-                anonymous_list = anonymous_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
+                anonymous_list = anonymous_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
             elif search_type == 'title_content':
                 anonymous_list = anonymous_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
             elif search_type == 'title':
                 anonymous_list = anonymous_list.filter(title__icontains=search_keyword)    
             elif search_type == 'content':
-                anonymous_list = anonymous_list.filter(content__icontains=search_keyword)    
-            elif search_type == 'writer':
-                anonymous_list = anonymous_list.filter(writer__user_id__icontains=search_keyword)
+                anonymous_list = anonymous_list.filter(content__icontains=search_keyword)
         if anonymous_list :
             return anonymous_list
         else:
             messages.error(self.request, '일치하는 검색 결과가 없습니다.')
             # anonymous_list = Anonymous.objects.order_by('-id')
             return anonymous_list
+
+
+@login_message_required
+def anonymous_write_view(request):
+    Anonymous.objects.create(writer=request.user, title='제목테스트', content='내용테스트')
+    return redirect('/anonymous')

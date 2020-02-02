@@ -45,31 +45,32 @@
         </table>
     </div>
     <br>
-
-    <form action="" method="GET">
-        <div class="col">
-            <div style="float: right;" class="form-row">
-                <div class="form-row">
-                    <div class="col">
-                        <select style="width: 6em;" class="custom-select custom-select-md" name="type">
-                            <option value="all">전체</option>
-                            <option value="title_content">제목+내용</option>
-                            <option value="title">제목</option>
-                            <option value="content">내용</option>
-                            <option value="writer">작성자</option>
-                        </select>
-                    </div>
-                    <div class="col">
-                        <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
-                            style="width: 13em;">
-                    </div>
-                    <div class="col">
-                        <button class="btn btn-md btn-outline-dark" type="submit">검색</button>
+    <div>
+        <form action="" method="GET">
+            <div class="col">
+                <div style="float: right;" class="form-row">
+                    <div class="form-row">
+                        <div class="col">
+                            <select style="width: 6em;" class="custom-select custom-select-md" name="type">
+                                <option value="all">전체</option>
+                                <option value="title_content">제목+내용</option>
+                                <option value="title">제목</option>
+                                <option value="content">내용</option>
+                                <option value="writer">작성자</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
+                                style="width: 13em;">
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-md btn-outline-dark" type="submit">검색</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
     {% if request.user.level == '0' or request.user.level == '1' %}
     <div>
         <button class="btn btn-md btn-dark" onclick="location.href='/notice/write/'">글쓰기</button>

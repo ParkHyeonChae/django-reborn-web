@@ -78,6 +78,6 @@ class Comment(models.Model):
             return False 
 
     class Meta:
-        db_table = '댓글'
-        verbose_name = '댓글'
-        verbose_name_plural = '댓글'
+        db_table = '자유게시판 댓글'
+        verbose_name = '자유게시판 댓글'
+        verbose_name_plural = '자유게시판 댓글'
