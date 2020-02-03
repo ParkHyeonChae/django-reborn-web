@@ -150,37 +150,37 @@
                             {% else %}
                                 {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
                                 <script type="text/javascript">
-                                        var reply_id = "{{ comment.id }}";
-                                        var comment_id = "{{ comment.reply }}";
-                                        var reply_writer = "{{ comment.writer }}";
-                                        var reply_created = "{{ comment.created_string }}";
-                                        if (reply_created == 'False') {
-                                        reply_created = "{{ comment.created|date:'m월 d일' }}"
-                                        };
-                                        var reply_content = "{{ comment.content }}";
+                                    var reply_id = "{{ comment.id }}";
+                                    var comment_id = "{{ comment.reply }}";
+                                    var reply_writer = "{{ comment.writer }}";
+                                    var reply_created = "{{ comment.created_string }}";
+                                    if (reply_created == 'False') {
+                                    reply_created = "{{ comment.created|date:'m월 d일' }}"
+                                    };
+                                    var reply_content = "{{ comment.content }}";
 
-                                        $('.'+comment_id).append(
-                                            '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+reply_id+'><strong>'+reply_writer+'</strong>'+
-                                            '<span style="float:right; color:gray;">'+reply_created+'</span>'+
-                                            '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="replyDelete('+reply_id+');">답글삭제</a></div></div></div></div></div><hr>'
-                                        );
+                                    $('.'+comment_id).append(
+                                        '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+reply_id+'><strong>'+reply_writer+'</strong>'+
+                                        '<span style="float:right; color:gray;">'+reply_created+'</span>'+
+                                        '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="replyDelete('+reply_id+');">답글삭제</a></div></div></div></div></div><hr>'
+                                    );
                                 </script>
                                 {% else %}
                                 <script type="text/javascript">
-                                        var reply_id = "{{ comment.id }}";
-                                        var comment_id = "{{ comment.reply }}";
-                                        var reply_writer = "{{ comment.writer }}";
-                                        var reply_created = "{{ comment.created_string }}";
-                                        if (reply_created == 'False') {
-                                        reply_created = "{{ comment.created|date:'m월 d일' }}"
-                                        };
-                                        var reply_content = "{{ comment.content }}";
+                                    var reply_id = "{{ comment.id }}";
+                                    var comment_id = "{{ comment.reply }}";
+                                    var reply_writer = "{{ comment.writer }}";
+                                    var reply_created = "{{ comment.created_string }}";
+                                    if (reply_created == 'False') {
+                                    reply_created = "{{ comment.created|date:'m월 d일' }}"
+                                    };
+                                    var reply_content = "{{ comment.content }}";
 
-                                        $('.'+comment_id).append(
-                                            '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+reply_id+'><strong>'+reply_writer+'</strong>'+
-                                            '<span style="float:right; color:gray;">'+reply_created+'</span>'+
-                                            '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right;"></div></div></div></div></div><hr>'
-                                        );
+                                    $('.'+comment_id).append(
+                                        '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+reply_id+'><strong>'+reply_writer+'</strong>'+
+                                        '<span style="float:right; color:gray;">'+reply_created+'</span>'+
+                                        '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right;"></div></div></div></div></div><hr>'
+                                    );
                                 </script>
                                 {% endif %}
                             {% endif %}

@@ -61,7 +61,10 @@ def anonymous_write_view(request):
 @login_message_required
 def anonymous_detail_view(request, pk):
     anonymous = get_object_or_404(Anonymous, pk=pk)
-    
+    comment = AnonymousComment.objects.filter(post=pk).order_by('created')
+    comment_count = comment.exclude(deleted=True).count()
+    reply = comment.exclude(reply='0')
+
     if request.user == anonymous.writer:
         anonymous_auth = True
     else:
@@ -70,6 +73,9 @@ def anonymous_detail_view(request, pk):
     context = {
         'anonymous': anonymous,
         'anonymous_auth': anonymous_auth,
+        'comments': comment,
+        'comment_count': comment_count,
+        'replys': reply,
     }
 
     return render(request, 'anonymous/anonymous_detail.html', context)
@@ -105,3 +111,46 @@ def anonymous_delete_view(request, pk):
     else:
         messages.error(request, "본인 게시글이 아닙니다.")
         return redirect('/anonymous/'+str(pk))
+
+
+@login_message_required
+def comment_write_view(request, pk):
+    post = get_object_or_404(Anonymous, id=pk)
+    content = request.POST.get('content')
+    writer = request.POST.get('writer')
+    reply = request.POST.get('reply')
+    if content:
+        comment = AnonymousComment.objects.create(post=post, content=content, writer=request.user, reply=reply)
+        comment_count = AnonymousComment.objects.filter(post=pk).exclude(deleted=True).count()
+        post.comments = comment_count
+        post.save()
+        data = {
+            'writer': writer,
+            'content': content,
+            'created': '방금 전',
+            'comment_count': comment_count,
+            'comment_id': comment.id
+        }
+        if request.user == post.writer:
+            data['self_comment'] = '(글쓴이)'
+        
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
+
+
+@login_message_required
+def comment_delete_view(request, pk):
+    post = get_object_or_404(Anonymous, id=pk)
+    comment_id = request.POST.get('comment_id')
+    target_comment = AnonymousComment.objects.get(pk = comment_id)
+
+    if request.user == target_comment.writer or request.user.level == '1' or request.user.level == '0':
+        target_comment.deleted = True
+        target_comment.save()
+        comment_count = AnonymousComment.objects.filter(post=pk).exclude(deleted=True).count()
+        post.comments = comment_count
+        post.save()
+        data = {
+            'comment_id': comment_id,
+            'comment_count': comment_count,
+        }
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")

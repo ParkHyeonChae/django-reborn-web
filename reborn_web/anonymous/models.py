@@ -10,7 +10,7 @@ class Anonymous(models.Model):
     title = models.CharField(max_length=128, verbose_name='제목')
     content = models.TextField(verbose_name='내용')
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likes', verbose_name='추천수', blank=True)
-    comments = models.PositiveIntegerField(verbose_name='댓글수', null=True)
+    comments = models.PositiveIntegerField(verbose_name='댓글수', default='0')
     files = models.ImageField(upload_to='image_file/%Y/%m/%d', null=True, blank=True, verbose_name='이미지')
     registered_date = models.DateTimeField(auto_now_add=True, verbose_name='등록시간')
 
