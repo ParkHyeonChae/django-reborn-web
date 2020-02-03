@@ -12,7 +12,7 @@ from django.conf import settings
 import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
-
+from .forms import AnonymousWriteForm
 
 class AnonymousListView(ListView):
     model = Anonymous
@@ -44,5 +44,15 @@ class AnonymousListView(ListView):
 
 @login_message_required
 def anonymous_write_view(request):
-    Anonymous.objects.create(writer=request.user, title='제목테스트', content='내용테스트')
-    return redirect('/anonymous')
+    if request.method == "POST":
+        form = AnonymousWriteForm(request.POST)
+        user_id = request.user
+
+        if form.is_valid():
+            free = form.save(commit = False)
+            free.writer = user_id
+            free.save()
+            return redirect('anonymous:anonymous_list')
+    else:
+        form = AnonymousWriteForm()
+    return render(request, "anonymous/anonymous_write.html", {'form': form})

@@ -3,9 +3,11 @@
 
 {% block header %}
 {% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
 <script src="{% static 'js/anonymous/infinite-scroll.js' %}"></script>
 <link rel="stylesheet" href="{% static 'css/loading.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'css/anonymous.css' %}" type="text/css">
 {% endblock %}
 
 {% block contents %}
@@ -47,43 +49,71 @@
             <button class="btn btn-md btn-dark" onclick="location.href='/anonymous/write'">글쓰기</button>
         </div>
     </div>
-    <hr width=82%;><br>
+    <hr><br>
     <!--본문-->
     <div class="row justify-content-center">
-        <div class="infinite-container" >
+        <div class="infinite-container">
             {% for anonymous in anonymous_list %}
-                <div class="infinite-item">
-                    <div class="card" style="width: 55em; margin-bottom:15px;">
-                        <div class="card-body" onClick="location.href ='/'" style="cursor:pointer;">
-                            <h5><strong>
-                                    <p>{{ anonymous.title|truncatechars:30 }}</p>
-                                </strong></h5>
-                            <p style="color: gray;">{{ anonymous.content|truncatechars:40 }}</p>
-                            <div class="row">
-                                <div class="col">
-                                    {% if anonymous.created_string == False %}
-                                    <span style="color:gray;">{{ anonymous.registered_date|date:'m월 d일' }} &middot; 익명</span>
-                                    {% else %}
-                                    <span style="color:gray;">{{ anonymous.created_string }} &middot; 익명</span>
-                                    {% endif %}
-                                </div>
-                                <div class="col" style="color:gray; text-align: right;">
-                                    <span>추천 {{ anonymous.like_count }} &middot; 댓글 {{ anonymous.comments }}</span>
-                                </div>
+            <div class="infinite-item">
+                <div class="card" style="width: 55em; margin-bottom:15px;">
+                    <div class="card-body" onClick="location.href ='/'" style="cursor:pointer;">
+                        <h5><strong>
+                        {% if user.is_authenticated %}
+                        <p>{{ anonymous.title|truncatechars:30 }}</p>
+                        {% else %}
+                        <p>로그인한 사용자만 볼 수 있습니다.</p>
+                        {% endif %}
+                        </strong></h5>
+                        
+                        {% if user.is_authenticated %}
+                            <p style="color: gray;">{{ anonymous.content|striptags|truncatechars:40 }}</p>
+                        {% endif %}
+
+                        <div class="row">
+                            <div class="col">
+                                {% if anonymous.created_string == False %}
+                                <span style="color:gray;">{{ anonymous.registered_date|date:'m월 d일' }} &middot;
+                                    익명</span>
+                                {% else %}
+                                <span style="color:gray;">{{ anonymous.created_string }} &middot; 익명</span>
+                                {% endif %}
+                            </div>
+                            <div class="col" style="color:gray; text-align: right;">
+                                <span>추천 {{ anonymous.like_count }} &middot; 댓글 {{ anonymous.comments }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             {% endfor %}
         </div>
-        {% if page_obj.has_next %}
-        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
-        {% endif %}
     </div>
 </div>
 
+{% if page_obj.has_next %}
+<a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">.</a>
+{% endif %}
+
 <div style="text-align: center;">
     <div class="loading" style="display: none;"></div>
+</div>
+
+<div class="fab">
+    <span class="fab-action-button">
+        <i class="fab-action-button__icon"></i>
+    </span>
+    <ul class="fab-buttons">
+        <li class="fab-buttons__item" id="move_top_btn">
+            <a class="fab-buttons__link" data-tooltip="상단으로">
+                <i class="fas fa-sort-up fa-2x"></i>
+            </a>
+        </li>
+        <li class="fab-buttons__item" id="write_btn">
+            <a href="/anonymous/write/" style="color: black" class="fab-buttons__link" data-tooltip="글쓰기">
+                <i class="fas fa-pen fa-lg"></i>
+            </a>
+        </li>
+    </ul>
 </div>
 
 <script type="text/javascript">
@@ -95,6 +125,25 @@
         onAfterPageLoad: function ($items) {
             $('.loading').hide();
         }
+    });
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 500) {
+                $('.fab').fadeIn();
+            } else {
+                $('.fab').fadeOut();
+            }
+        });
+
+        $("#move_top_btn").click(function () {
+            $('html, body').animate({
+                scrollTop: 0
+            }, 400);
+            return false;
+        });
     });
 </script>
 
