@@ -1,3 +1,4 @@
+import os
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -10,11 +11,16 @@ class Anonymous(models.Model):
     content = models.TextField(verbose_name='내용')
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likes', verbose_name='추천수', blank=True)
     comments = models.PositiveIntegerField(verbose_name='댓글수', null=True)
-    files = models.FileField(upload_to='upload_file/%Y/%m/%d', null=True, blank=True, verbose_name='이미지')
+    files = models.ImageField(upload_to='image_file/%Y/%m/%d', null=True, blank=True, verbose_name='이미지')
     registered_date = models.DateTimeField(auto_now_add=True, verbose_name='등록시간')
 
     def __str__(self):
         return self.title
+
+    def delete(self, *args, **kargs):
+        if self.files:
+            os.remove(os.path.join(settings.MEDIA_ROOT, self.files.path))
+        super(Anonymous, self).delete(*args, **kargs)
 
     @property
     def like_count(self):

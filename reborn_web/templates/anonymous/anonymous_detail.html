@@ -1,0 +1,87 @@
+{% extends "users/base.html" %}
+{% load humanize %}
+
+{% block contents %}
+
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h1>익명게시글 TEST PAGE</h1>
+    </div>
+</div>
+<br>
+<div class="row-mt-5">
+    <div class="col-12">
+        <!--본문-->
+        <div class="card" style="width: 100%;">
+            <!--제목,분류,작성일-->
+            <div class="card-header">
+                <strong>{{ anonymous.title }}</strong>
+                <span style="float:right;">{{ anonymous.registered_date|date:'Y.m.d. H:i' }}</span>
+            </div>
+            <div class="card-body">
+                {% if anonymous.files %}
+                <img style="max-width: 850px;" src="/anonymous{{ anonymous.files.url }}" alt="">
+                {% endif %}
+                <!--내용-->
+                <div>
+                    {{ anonymous.content|linebreaksbr }}
+                </div>
+            </div>
+        </div>
+        <br>
+
+
+        <br>
+        <div class="text-right">
+            {% if anonymous_auth or request.user.level == '0' %}
+            <button class="btn btn-md btn-dark" onclick="location.href='/anonymous/{{ anonymous.id }}/edit/'">수정</button>
+            <button class="btn btn-md btn-dark" data-toggle="modal" data-target="#delete_modal">삭제</button>
+            <button class="btn btn-md btn-dark" onclick="location.href='/anonymous/'">목록으로</button>
+            {% elif request.user.level == '1' %}
+            <button class="btn btn-md btn-dark" data-toggle="modal" data-target="#delete_modal">삭제</button>
+            <button class="btn btn-md btn-dark" onclick="location.href='/anonymous/'">목록으로</button>
+            {% else %}
+            <button class="btn btn-md btn-dark" onclick="location.href='/anonymous/'">목록으로</button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div id="delete_modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">삭제경고</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>게시글을 삭제하시겠습니까?</p>
+            </div>
+            <div class="modal-footer">
+                <button onclick="deleteModal()" type="button" class="btn btn-danger">삭제하기</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소하기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function deleteModal() {
+        location.replace('/anonymous/{{ anonymous.id }}/delete/');
+    }
+</script>
+        
+
+{% if messages %}
+{% for message in messages %}
+{% if message.tags %}
+<script>
+    alert("{{ message.message }}")
+</script>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% endblock %}

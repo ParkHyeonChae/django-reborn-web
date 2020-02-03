@@ -45,14 +45,63 @@ class AnonymousListView(ListView):
 @login_message_required
 def anonymous_write_view(request):
     if request.method == "POST":
-        form = AnonymousWriteForm(request.POST)
+        form = AnonymousWriteForm(request.POST, request.FILES)
         user_id = request.user
 
         if form.is_valid():
-            free = form.save(commit = False)
-            free.writer = user_id
-            free.save()
+            anonymous = form.save(commit = False)
+            anonymous.writer = user_id
+            anonymous.save()
             return redirect('anonymous:anonymous_list')
     else:
         form = AnonymousWriteForm()
     return render(request, "anonymous/anonymous_write.html", {'form': form})
+
+
+@login_message_required
+def anonymous_detail_view(request, pk):
+    anonymous = get_object_or_404(Anonymous, pk=pk)
+    
+    if request.user == anonymous.writer:
+        anonymous_auth = True
+    else:
+        anonymous_auth = False
+
+    context = {
+        'anonymous': anonymous,
+        'anonymous_auth': anonymous_auth,
+    }
+
+    return render(request, 'anonymous/anonymous_detail.html', context)
+
+
+@login_message_required
+def anonymous_edit_view(request, pk):
+    anonymous = Anonymous.objects.get(id=pk)
+    if request.method == "POST":
+        if(anonymous.writer == request.user or request.user.level == '0'):
+            form = AnonymousWriteForm(request.POST, request.FILES, instance=anonymous)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "수정되었습니다.")
+                return redirect('/anonymous/'+str(pk))
+    else:
+        anonymous = Anonymous.objects.get(id=pk)
+        if anonymous.writer == request.user or request.user.level == '0':
+            form = AnonymousWriteForm(instance=anonymous)
+            return render(request, "anonymous/anonymous_write.html", {'form': form})
+        else:
+            messages.error(request, "본인 게시글이 아닙니다.")
+            return redirect('/anonymous/'+str(pk))
+
+
+@login_message_required
+def anonymous_delete_view(request, pk):
+    anonymous = Anonymous.objects.get(id=pk)
+    if anonymous.writer == request.user or request.user.level == '1' or request.user.level == '0':
+        anonymous.delete()
+        messages.success(request, "삭제되었습니다.")
+        return redirect('/anonymous/')
+    else:
+        messages.error(request, "본인 게시글이 아닙니다.")
+        return redirect('/anonymous/'+str(pk))

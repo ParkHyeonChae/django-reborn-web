@@ -7,7 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
 <script src="{% static 'js/anonymous/infinite-scroll.js' %}"></script>
 <link rel="stylesheet" href="{% static 'css/loading.css' %}" type="text/css">
-<link rel="stylesheet" href="{% static 'css/anonymous.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'css/anonymous-list.css' %}" type="text/css">
 {% endblock %}
 
 {% block contents %}
@@ -56,7 +56,7 @@
             {% for anonymous in anonymous_list %}
             <div class="infinite-item">
                 <div class="card" style="width: 55em; margin-bottom:15px;">
-                    <div class="card-body" onClick="location.href ='/'" style="cursor:pointer;">
+                    <div class="card-body" onclick="location.href='/anonymous/{{ anonymous.id }}'" style="cursor:pointer;">
                         <h5><strong>
                         {% if user.is_authenticated %}
                         <p>{{ anonymous.title|truncatechars:30 }}</p>
@@ -66,16 +66,18 @@
                         </strong></h5>
                         
                         {% if user.is_authenticated %}
-                            <p style="color: gray;">{{ anonymous.content|striptags|truncatechars:40 }}</p>
+                            <p style="color: gray;">{{ anonymous.content|truncatechars:45 }}</p>
                         {% endif %}
 
                         <div class="row">
                             <div class="col">
                                 {% if anonymous.created_string == False %}
-                                <span style="color:gray;">{{ anonymous.registered_date|date:'m월 d일' }} &middot;
-                                    익명</span>
+                                <span style="color:gray;">{{ anonymous.registered_date|date:'m월 d일' }} &middot; 익명</span>
                                 {% else %}
                                 <span style="color:gray;">{{ anonymous.created_string }} &middot; 익명</span>
+                                {% endif %}
+                                {% if anonymous.files %}
+                                <span style="color:gray">&middot;&nbsp;</span><i style="color:rgb(182, 181, 181); margin-bottom: -21px; margin-top: -21px;" class="fas fa-image"></i>
                                 {% endif %}
                             </div>
                             <div class="col" style="color:gray; text-align: right;">

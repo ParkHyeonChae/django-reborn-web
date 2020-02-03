@@ -1,5 +1,6 @@
-{% extends "users/base_write.html" %}
+{% extends "users/base.html" %}
 {% load humanize %}
+
 {% block contents %}
 {% load static %}
 
@@ -36,6 +37,17 @@
                     </div>
                 </div>
             </div>
+            <br>
+            <div class="card-footer">
+                <div class="form-group">
+                    <div class=" col-sm-12">  
+                        {{ form.files }}
+                        <small id="help" class="form-text text-muted">
+                            [이미지 업로드]  익명게시판에서는 10MB 이하의 사진만 첨부 가능합니다.
+                        </small>
+                    </div>
+                </div>
+            </div><br>
             <br>
             <br>
             <div class="text-right">
