@@ -51,8 +51,14 @@
         <!--추천수 표시부분-->
         {% if like_user_info %}
         <script type="text/javascript">
+            var alone_like_count = "{{ anonymous.like_count }}"
             var like_count = "{{ anonymous.like_count }}" - 1
-            $('#id_like_count').replaceWith('<span id="id_like_count" style="color:gray;">회원님 외 '+like_count+'명이 추천하였습니다.</span>')
+
+            if (alone_like_count == '1') {
+                $('#id_like_count').replaceWith('<span id="id_like_count" style="color:gray;">회원님이 추천하였습니다.</span>')
+            } else {
+                $('#id_like_count').replaceWith('<span id="id_like_count" style="color:gray;">회원님 외 '+like_count+'명이 추천하였습니다.</span>')
+            }
             $(".button-like").toggleClass("liked");
         </script>
         {% endif %}
@@ -482,14 +488,19 @@
                     'csrfmiddlewaretoken': '{{csrf_token}}',
                 },
                 success: function (response) {
+                    var alone_like_count = response.like_count
                     var like_count = response.like_count - 1
+
                     if (response.user_info) {
-                        $('#id_like_count').replaceWith('<span id="id_like_count" style="color:gray;">회원님 외 '+like_count+'명이 추천하였습니다.</span>')
+                        if (alone_like_count == '1') {
+                            $('#id_like_count').replaceWith('<span id="id_like_count" style="color:gray;">회원님이 추천하였습니다.</span>')
+                        } else {
+                            $('#id_like_count').replaceWith('<span id="id_like_count" style="color:gray;">회원님 외 '+like_count+'명이 추천하였습니다.</span>')
+                        }
                     }
                     else {
                         $('#id_like_count').replaceWith('<span id="id_like_count" style="color:gray;">'+response.like_count+'명이 추천하였습니다.</span>')
                     }
-                    
                 },
                 error: function (error) {
                     console.log(error)
@@ -498,7 +509,6 @@
         });
     });
 </script>
-
 
 {% if messages %}
 {% for message in messages %}

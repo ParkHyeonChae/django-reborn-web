@@ -15,6 +15,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from .forms import AnonymousWriteForm
 from django.views.decorators.http import require_GET, require_POST
 
+
 class AnonymousListView(ListView):
     model = Anonymous
     paginate_by = 10
@@ -22,25 +23,33 @@ class AnonymousListView(ListView):
     context_object_name = 'anonymous_list'
 
     def get_queryset(self):
-        search_keyword = self.request.GET.get('q', '')
-        search_type = self.request.GET.get('type', '')
-        anonymous_list = Anonymous.objects.order_by('-id') 
+        anonymous_list = Anonymous.objects.order_by('-id')
+        return anonymous_list
 
-        if search_keyword :
-            if search_type == 'all':
-                anonymous_list = anonymous_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
-            elif search_type == 'title_content':
-                anonymous_list = anonymous_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
-            elif search_type == 'title':
-                anonymous_list = anonymous_list.filter(title__icontains=search_keyword)    
-            elif search_type == 'content':
-                anonymous_list = anonymous_list.filter(content__icontains=search_keyword)
-        if anonymous_list :
-            return anonymous_list
-        else:
-            messages.error(self.request, '일치하는 검색 결과가 없습니다.')
-            # anonymous_list = Anonymous.objects.order_by('-id')
-            return anonymous_list
+
+@require_GET
+def anonymous_search_view(request):
+    search_keyword = request.GET.get('q', '')
+    search_type = request.GET.get('type', '')
+
+    if search_type == 'all':
+        anonymous_list = Anonymous.objects.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword)).order_by('-id') 
+    elif search_type == 'title_content':
+        anonymous_list = Anonymous.objects.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword)).order_by('-id') 
+    elif search_type == 'title':
+        anonymous_list = Anonymous.objects.filter(title__icontains=search_keyword).order_by('-id')  
+    elif search_type == 'content':
+        anonymous_list = Anonymous.objects.filter(content__icontains=search_keyword).order_by('-id')
+
+    if anonymous_list.count() == 0:
+        messages.error(request, '일치하는 검색 결과가 없습니다.')
+        return redirect('/anonymous/')
+    else:
+        context = {
+            'anonymous_list': anonymous_list,
+            'q': search_keyword,
+        }
+        return render(request, 'anonymous/anonymous_list.html', context)
 
 
 @login_message_required

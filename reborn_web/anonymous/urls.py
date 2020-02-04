@@ -7,6 +7,7 @@ app_name = 'anonymous'
 
 urlpatterns = [
     path('', views.AnonymousListView.as_view(), name='anonymous_list'),
+    path('search/', views.anonymous_search_view, name='anonymous_search'),
     path('write/', views.anonymous_write_view, name='anonymous_write'),
 
     path('<int:pk>/', views.anonymous_detail_view, name='anonymous_detail'),
