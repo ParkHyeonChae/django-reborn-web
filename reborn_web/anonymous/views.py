@@ -13,6 +13,7 @@ import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from .forms import AnonymousWriteForm
+from django.views.decorators.http import require_GET, require_POST
 
 class AnonymousListView(ListView):
     model = Anonymous
@@ -43,6 +44,32 @@ class AnonymousListView(ListView):
 
 
 @login_message_required
+def anonymous_detail_view(request, pk):
+    anonymous = get_object_or_404(Anonymous, pk=pk)
+    comment = AnonymousComment.objects.filter(post=pk).order_by('created')
+    comment_count = comment.exclude(deleted=True).count()
+    reply = comment.exclude(reply='0')
+
+    if anonymous.likes.filter(id=request.user.id):
+        like_user_info = True
+    else: like_user_info = False
+
+    if request.user == anonymous.writer:
+        anonymous_auth = True
+    else: anonymous_auth = False
+
+    context = {
+        'anonymous': anonymous,
+        'anonymous_auth': anonymous_auth,
+        'comments': comment,
+        'comment_count': comment_count,
+        'replys': reply,
+        'like_user_info': like_user_info,
+    }
+    return render(request, 'anonymous/anonymous_detail.html', context)
+
+
+@login_message_required
 def anonymous_write_view(request):
     if request.method == "POST":
         form = AnonymousWriteForm(request.POST, request.FILES)
@@ -56,29 +83,6 @@ def anonymous_write_view(request):
     else:
         form = AnonymousWriteForm()
     return render(request, "anonymous/anonymous_write.html", {'form': form})
-
-
-@login_message_required
-def anonymous_detail_view(request, pk):
-    anonymous = get_object_or_404(Anonymous, pk=pk)
-    comment = AnonymousComment.objects.filter(post=pk).order_by('created')
-    comment_count = comment.exclude(deleted=True).count()
-    reply = comment.exclude(reply='0')
-
-    if request.user == anonymous.writer:
-        anonymous_auth = True
-    else:
-        anonymous_auth = False
-
-    context = {
-        'anonymous': anonymous,
-        'anonymous_auth': anonymous_auth,
-        'comments': comment,
-        'comment_count': comment_count,
-        'replys': reply,
-    }
-
-    return render(request, 'anonymous/anonymous_detail.html', context)
 
 
 @login_message_required
@@ -154,3 +158,25 @@ def comment_delete_view(request, pk):
             'comment_count': comment_count,
         }
         return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
+
+
+# 추천하기
+@login_message_required
+@require_POST
+def post_like_view(request):
+    post_id = request.POST.get('post')
+    like_user = request.user
+    post = get_object_or_404(Anonymous, id=post_id)
+    
+    if post.likes.filter(id=like_user.id):
+        post.likes.remove(like_user)
+        user_info = False
+    else:
+        post.likes.add(like_user)
+        user_info = True
+
+    data = {
+        'like_count': post.like_count,
+        'user_info': user_info
+    }
+    return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")

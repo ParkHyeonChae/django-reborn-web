@@ -2,7 +2,9 @@
 {% load humanize %}
 
 {% block header %}
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/anonymous-detail.css' %}" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 {% endblock %}
 
 {% block contents %}
@@ -30,9 +32,30 @@
                 <div>
                     {{ anonymous.content|linebreaksbr }}
                 </div>
+                <!--추천-->
+                <hr>
+                <div style="margin-bottom:-10px; margin-top: -6px; display:grid; grid-template-columns: 0.48fr 0.52fr">
+                    <div style="padding-top: 13px;">
+                        <span id="id_like_count" style="color:gray;">{{ anonymous.like_count }}명이 추천하였습니다.</span>
+                    </div>
+                    <div>
+                        <div class="button button-like">
+                            <i class="fa fa-thumbs-up"></i>
+                            <span>추천</span>  
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <br>
+        <!--추천수 표시부분-->
+        {% if like_user_info %}
+        <script type="text/javascript">
+            var like_count = "{{ anonymous.like_count }}" - 1
+            $('#id_like_count').replaceWith('<span id="id_like_count" style="color:gray;">회원님 외 '+like_count+'명이 추천하였습니다.</span>')
+            $(".button-like").toggleClass("liked");
+        </script>
+        {% endif %}
 
         <!--댓글-->
         <div class="card" style="width: 100%;">
@@ -440,8 +463,40 @@
             },
         })
     };
+       
+</script>
 
-    
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.button-like').click(function () {
+            $(".button-like").toggleClass("liked");
+
+            var post='{{ anonymous.id }}'
+            $.ajax({
+                type: "POST",
+                url: "{% url 'anonymous:post_like' %}",
+                dataType: "json",
+                data: {
+                    'post': post,
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                },
+                success: function (response) {
+                    var like_count = response.like_count - 1
+                    if (response.user_info) {
+                        $('#id_like_count').replaceWith('<span id="id_like_count" style="color:gray;">회원님 외 '+like_count+'명이 추천하였습니다.</span>')
+                    }
+                    else {
+                        $('#id_like_count').replaceWith('<span id="id_like_count" style="color:gray;">'+response.like_count+'명이 추천하였습니다.</span>')
+                    }
+                    
+                },
+                error: function (error) {
+                    console.log(error)
+                },
+            })
+        });
+    });
 </script>
 
 
