@@ -1,5 +1,6 @@
 {% extends "users/base.html" %}
 {% block contents %}
+{% load static %}
 
 {% if user.is_authenticated %}
 <br>
@@ -8,7 +9,6 @@
 <br><br>
 <button onclick="location.href='/users/logout'">로그아웃</button>
 <button onclick="location.href='/users/profile'">마이페이지</button>
-
 {% else %}
 <br>
 <p>이 유저는 로그아웃 되어 있습니다..</p>

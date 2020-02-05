@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>404 error</title>
+    <link rel="stylesheet" href="{% static 'css/404error.css' %}" type="text/css">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body>
+    <div>
+        <img style="width:50%; margin-bottom: -10%; " src = "{% static 'img/logo1.jpg' %}">
+        <h1><p>페이지를 찾을 수 없습니다</p></h1>
+        <button onclick="location.href='/'">메인으로</button>
+        <button onclick="goBack();">이전으로</button>
+    </div>
+
+    <script type="text/javascript">
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    
+</body>
+</html>

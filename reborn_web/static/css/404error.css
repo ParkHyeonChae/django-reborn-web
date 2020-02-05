@@ -1,0 +1,50 @@
+html,
+
+
+body {
+    text-align: center;
+}
+
+button {
+    background: rgb(167, 3, 3);
+    color: #fff;
+    border: none;
+    position: relative;
+    width: 195px;
+    height: 50px;
+    font-size: 1.4em;
+    padding: 0 2em;
+    cursor: pointer;
+    transition: 800ms ease all;
+    outline: none;
+}
+
+button:hover {
+    background: #fff;
+    color:rgb(167, 3, 3);
+}
+
+button:before,
+button:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2px;
+    width: 0;
+    background: rgb(167, 3, 3);
+    transition: 400ms ease all;
+}
+
+button:after {
+    right: inherit;
+    top: inherit;
+    left: 0;
+    bottom: 0;
+}
+
+button:hover:before,
+button:hover:after {
+    width: 100%;
+    transition: 800ms ease all;
+}

@@ -24,4 +24,5 @@ urlpatterns = [
     path('notice/', include('notice.urls')),
     path('free/', include('free.urls')),
     path('anonymous/', include('anonymous.urls')),
+    path('about/', include('about.urls')),
 ]
