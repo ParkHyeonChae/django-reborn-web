@@ -14,6 +14,8 @@ from django.views.generic import CreateView, FormView, TemplateView
 from django.views.generic import View
 # from django.contrib.auth.views import PasswordResetConfirmView
 from .models import User
+from free.models import Free
+from anonymous.models import Anonymous
 from .forms import CsRegisterForm, RegisterForm, LoginForm, CustomUserChangeForm, CheckPasswordForm, RecoveryIdForm, RecoveryPwForm, CustomSetPasswordForm
 from django.http import HttpResponse
 import json
@@ -23,6 +25,7 @@ from .helper import send_mail, email_auth_num
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, Http404
 from django.forms.utils import ErrorList
+from django.views.decorators.http import require_GET, require_POST
 
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
@@ -421,3 +424,17 @@ class LoginView(FormView):
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+
+# 내가 쓴 글
+@require_GET
+def profile_post_view(request):
+    free_list = Free.objects.filter(writer=request.user.id).order_by('-registered_date')
+    anonymous_list = Anonymous.objects.filter(writer=request.user).order_by('-registered_date')
+
+    context = {
+        'free_list': free_list,
+        'anonymous_list': anonymous_list,
+    }
+    return render(request, 'users/profile_post.html', context)
+

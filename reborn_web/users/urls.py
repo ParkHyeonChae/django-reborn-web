@@ -25,6 +25,7 @@ urlpatterns = [
     path('activate/<str:uid64>/<str:token>/', views.activate, name='activate'),
 
     path('profile/', views.profile_view, name='profile'),
+    path('profile/post', views.profile_post_view, name='profile_post'),
     path('profile/update/', views.profile_update_view, name='profile_update'),
     path('profile/delete/', views.profile_delete_view, name='profile_delete'),
     path('profile/password/', views.password_edit_view, name='password_edit'),
