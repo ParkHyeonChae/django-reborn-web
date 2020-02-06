@@ -9,6 +9,39 @@
 </div>
 <br>
 <div class="container">
+    {% if notice_list %}
+    <div>
+        <h5><strong>공지사항</strong></h5>
+        <table class="table table-hover">
+            <tr class="text-center">
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>등록일</th>
+                <th>조회수</th>
+            </tr>
+            {% for notice in notice_list %}
+            <tr class="text-center">
+                <td>{{ notice.id }}</td>
+                <td class="text-left" style="width:50%">
+                    <a id="notice-{{ notice.id }}" href="{% url 'notice:notice_detail' notice.id %}">{{ notice.title|truncatechars:30 }}</a>
+                    {% if notice.comments %}
+                    &nbsp;<span style="color:gray;">[{{ notice.comments }}]</span>
+                    {% endif %}
+                    </td>
+                <td>{{ notice.writer }}</td>
+                {% if notice.created_string == False %}
+                <td>{{ notice.registered_date|date:'m월 d일' }}</td>
+                {% else %}
+                <td>{{ notice.created_string }}</td>
+                {% endif %}
+                <td>{{ notice.hits }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <br>
+    {% endif %}
     <div>
         <h5><strong>자유게시판</strong></h5>
         <table class="table table-hover">
@@ -62,10 +95,7 @@
             <tr class="text-center">
                 <td>{{ anonymous.id }}</td>
                 <td class="text-left" style="width:50%">
-                    <a id="free-{{ anonymous.id }}" href="{% url 'anonymous:anonymous_detail' anonymous.id %}">{{ anonymous.title|truncatechars:30 }}</a>
-                    {% if free.comments %}
-                    &nbsp;<span style="color:gray;">[{{ free.comments }}]</span>
-                    {% endif %}
+                    <a id="anonymous-{{ anonymous.id }}" href="{% url 'anonymous:anonymous_detail' anonymous.id %}">{{ anonymous.title|truncatechars:30 }}</a>
                 </td>
                 {% if anonymous.created_string == False %}
                 <td>{{ anonymous.registered_date|date:'m월 d일' }}</td>

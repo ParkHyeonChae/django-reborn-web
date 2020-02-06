@@ -16,6 +16,7 @@ from django.views.generic import View
 from .models import User
 from free.models import Free
 from anonymous.models import Anonymous
+from notice.models import Notice
 from .forms import CsRegisterForm, RegisterForm, LoginForm, CustomUserChangeForm, CheckPasswordForm, RecoveryIdForm, RecoveryPwForm, CustomSetPasswordForm
 from django.http import HttpResponse
 import json
@@ -430,11 +431,14 @@ def logout_view(request):
 @require_GET
 def profile_post_view(request):
     free_list = Free.objects.filter(writer=request.user.id).order_by('-registered_date')
-    anonymous_list = Anonymous.objects.filter(writer=request.user).order_by('-registered_date')
-
+    anonymous_list = Anonymous.objects.filter(writer=request.user.id).order_by('-registered_date')
     context = {
         'free_list': free_list,
         'anonymous_list': anonymous_list,
     }
+    if request.user.level == '0' or request.user.level == '1' :
+        notice_list = Notice.objects.filter(writer=request.user.id).order_by('-registered_date')
+        context['notice_list'] = notice_list
+
     return render(request, 'users/profile_post.html', context)
 
