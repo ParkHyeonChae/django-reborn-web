@@ -130,8 +130,13 @@
               </span>
               <span class="text-white">Watch the video</span>
             </a> -->
+            {% if user.is_authenticated %}
+            <button onclick="location.href='/users/main/'">마이페이지</button>
+            <button onclick="location.href='/users/logout/'">로그아웃</button>
+            {% else %}
             <button onclick="location.href='/users/login/'">로그인</button>
             <button onclick="location.href='/users/registerinfo/'">회원가입</button>
+            {% endif %}
           </div>
         </div>
       </div>
