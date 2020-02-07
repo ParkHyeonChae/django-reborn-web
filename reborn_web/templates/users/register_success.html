@@ -9,15 +9,5 @@
 </div>
 <button onclick="location.href='/'">홈으로 이동</button>
 
-{% if messages %}
-{% for message in messages %}
-{% if message.tags %}
-<script>
-    alert("{{ message.message }}")
-</script>
-{% endif %}
-{% endfor %}
-{% endif %}
-
 {% endblock %}
 

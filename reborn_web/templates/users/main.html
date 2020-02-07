@@ -22,14 +22,4 @@
 <button onclick="location.href='/anonymous/'">익명게시판</button>
 <button onclick="location.href='/about/'">About</button>
 
-{% if messages %}
-{% for message in messages %}
-{% if message.tags %}
-<script>
-    alert("{{ message.message }}")
-</script>
-{% endif %}
-{% endfor %}
-{% endif %}
-
 {% endblock %}
