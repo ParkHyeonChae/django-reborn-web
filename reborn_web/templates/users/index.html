@@ -1,35 +1,628 @@
-{% extends "users/base.html" %}
-{% block contents %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>INJE:REBORN</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'font/index/icomoon/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index/bootstrap-datepicker.css' %}">
+    
+    
+    <link rel="stylesheet" href="{% static 'font/index/flaticon/font/flaticon.css' %}">
+  
+    <link rel="stylesheet" href="{% static 'css/index/aos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index/jquery.fancybox.min.css' %}">
+    
 
-{% if user.is_authenticated %}
-<br>
-<p>이 유저는 로그인 되어 있습니다.</p>
-로그인 상태 : {{ user.user_id }}
-<br><br>
-<button onclick="location.href='/users/logout'">로그아웃</button>
-<button onclick="location.href='/users/profile'">마이페이지</button>
-{% else %}
-<br>
-<p>이 유저는 로그아웃 되어 있습니다..</p>
-<br>
-<button onclick="location.href='/users/login'">로그인</button>
-<button onclick="location.href='/users/registerinfo'">회원가입</button>
+    <link rel="stylesheet" href="{% static 'css/index/style.css' %}">
+    
+  </head>
+  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+  
+  <div id="overlayer"></div>
+  <div class="loader">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
 
-{% endif %}
-<button onclick="location.href='/notice/'">공지사항</button>
-<button onclick="location.href='/free/'">자유게시판</button>
-<button onclick="location.href='/anonymous/'">익명게시판</button>
-<button onclick="location.href='/about/'">About</button>
+  <div class="site-wrap">
 
-{% if messages %}
-{% for message in messages %}
-{% if message.tags %}
-<script>
-    alert("{{ message.message }}")
-</script>
-{% endif %}
-{% endfor %}
-{% endif %}
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div> <!-- .site-mobile-menu -->
+    
+    
+    <div class="site-navbar-wrap">
+      <div class="site-navbar-top">
+        <div class="container py-3">
+          <div class="row align-items-center">
+            <div class="col-6">
+              <div class="d-flex mr-auto">
+                <a href="#" class="d-flex align-items-center mr-4">
+                  <span class="icon-envelope mr-2"></span>
+                  <span class="d-none d-md-inline-block">cshouse@inje.ac.kr</span>
+                </a>
+                <a href="#" class="d-flex align-items-center mr-auto">
+                  <span class="icon-phone mr-2"></span>
+                  <span class="d-none d-md-inline-block">055-320-3269</span>
+                </a>
+              </div>
+            </div>
+            <div class="col-6 text-right">
+              <div class="mr-auto">
+                <a href="#" class="p-2 pl-0"><span class="icon-twitter"></span></a>
+                <a href="#" class="p-2 pl-0"><span class="icon-facebook"></span></a>
+                <a href="#" class="p-2 pl-0"><span class="icon-linkedin"></span></a>
+                <a href="#" class="p-2 pl-0"><span class="icon-instagram"></span></a>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
 
-{% endblock %}
+      <div class="site-navbar site-navbar-target js-sticky-header">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-2">
+              <h1 class="my-0 site-logo"><a href="/">Inje:Reborn</a></h1>
+            </div>
+            <div class="col-10">
+              <nav class="site-navigation text-right" role="navigation">
+                <div class="container">
+                  <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a></div>
+
+                  <ul class="site-menu main-menu js-clone-nav d-none d-lg-block">
+                    <li><a href="#home-section" class="nav-link">Home</a></li>
+                    <li><a href="#classes-section" class="nav-link">Classes</a></li>
+                    <li class="has-children">
+                      <a href="classes.html" class="nav-link">Pages</a>
+                      <ul class="dropdown arrow-top">
+                        <li><a href="team.html" class="nav-link">Team</a></li>
+                        <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+                        <li><a href="faq.html" class="nav-link">FAQ</a></li>
+                        <li class="has-children">
+                          <a href="#">More Links</a>
+                          <ul class="dropdown">
+                            <li><a href="#">Menu One</a></li>
+                            <li><a href="#">Menu Two</a></li>
+                            <li><a href="#">Menu Three</a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li><a href="#about-section" class="nav-link">About</a></li>
+                    <li><a href="#events-section" class="nav-link">Events</a></li>
+                    <li><a href="#gallery-section" class="nav-link">Gallery</a></li>
+                    <li><a href="#contact-section" class="nav-link">Contact</a></li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="site-blocks-cover overlay" style="background-image: url('{{ STATIC_URL }}img/logo1.jpg')" data-aos="fade" data-stellar-background-ratio="0.5"id="home-section">
+      <div class="container">
+        <div class="row align-items-center text-center justify-content-center">
+          <div class="col-md-8">
+           
+            <h1 class="font-weight-bold">Inje:Reborn</h1>
+            <p class="sub-text mb-4 d-block">인제대학교 컴퓨터공학부 Reborn 홈페이지</p>
+             <!-- <a data-fancybox data-ratio="2" href="https://vimeo.com/332538199" class="d-inline-flex align-items-center">
+              <span class="play-button d-block mr-3">
+                <span class="icon-play"></span>
+              </span>
+              <span class="text-white">Watch the video</span>
+            </a> -->
+            <button onclick="location.href='/users/login/'">로그인</button>
+            <button onclick="location.href='/users/registerinfo/'">회원가입</button>
+          </div>
+        </div>
+      </div>
+    </div>  
+
+    
+    <section class="site-section" id="classes-section">
+
+      <div class="clearfix mb-5 pb-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-7 text-left heading-wrap">
+              <h2 class="mt-0">Featured Classes</h2>
+              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+            </div>
+            <div class="col-md-5 align-self-center text-md-right">
+              <a href="#" class="btn btn-primary customPrevBtn">Previous</a>
+              <a href="#" class="btn btn-primary customNextBtn">Next</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="owl-carousel centernonloop">
+        <a href="#" class="item-class">
+          <div class="text">
+            <p class="class-price">$29.99</p>
+            <h2 class="class-heading">Ashtanga Foundations</h2>
+          </div>
+          <img src="{% static 'img/logo1.jpg' %}" alt="" class="img-fluid">
+        </a>
+        <a href="#" class="item-class">
+          <div class="text">
+            <p class="class-price">$32.99</p>
+            <h2 class="class-heading">Surya Vinyasa</h2>
+          </div>
+          <img src="{% static 'img/logo1.jpg' %}" alt="" class="img-fluid">
+        </a>
+        <a href="#" class="item-class">
+          <div class="text">
+            <p class="class-price">$22.99</p>
+            <h2 class="class-heading">Chandra Vinyasa</h2>
+          </div>
+          <img src="{% static 'img/logo1.jpg' %}" alt="" class="img-fluid">
+        </a>
+        <a href="#" class="item-class">
+          <div class="text">
+            <p class="class-price">$34.99</p>
+            <h2 class="class-heading">Yinyasa</h2>
+          </div>
+          <img src="{% static 'img/logo1.jpg' %}" alt="" class="img-fluid">
+        </a>
+      </div>
+    </section> <!-- .section -->
+
+    <section class="site-section" id="schedule-section">
+        <div class="container">
+          <div class="row mb-5">
+            <div class="col-md-7 text-left heading-wrap mb-5">
+              <h2 class="mt-0">Schedule</h2>
+              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+            </div>
+            
+          </div>
+        </div>
+
+        <div class="container-fluid">
+
+          <div class="row no-gutters">
+            <div class="col-md-6">
+              <div class="sched d-block d-lg-flex">
+                <div class="bg-image order-2" style="background-image: url('{{ STATIC_URL }}img/logo1.jpg')"></div>
+                <div class="text order-1">
+                  <h3>Yinyasa</h3>
+                  <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts...</p>
+                  <p class="sched-time">
+                    <span><span class="fa fa-clock-o"></span> 5:30 PM</span> <br>
+                    <span><span class="fa fa-calendar"></span> April 22, 2019</span> <br>
+                  </p>
+                  <p><a href="#" class="btn btn-primary btn-sm">Join from $15</a></p>
+                  
+                </div>
+                
+              </div>
+
+              <div class="sched d-block d-lg-flex">
+                <div class="bg-image" style="background-image: url('{{ STATIC_URL }}img/logo1.jpg')"></div>
+                <div class="text">
+                  <h3>Chandra Vinyasa</h3>
+                  <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts...</p>
+                  <p class="sched-time">
+                    <span><span class="fa fa-clock-o"></span> 5:30 PM</span> <br>
+                    <span><span class="fa fa-calendar"></span> April 22, 2019</span> <br>
+                  </p>
+                  <p><a href="#" class="btn btn-primary btn-sm">Join from $15</a></p>
+                  
+                </div>
+                
+              </div>
+
+            </div>
+
+            <div class="col-md-6">
+              <div class="sched d-block d-lg-flex">
+                <div class="bg-image order-2" style="background-image: url('{{ STATIC_URL }}img/logo1.jpg')"></div>
+                <div class="text order-1">
+                  <h3>Surya Vinyasa</h3>
+                  <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts...</p>
+                  <p class="sched-time">
+                    <span><span class="fa fa-clock-o"></span> 5:30 PM</span> <br>
+                    <span><span class="fa fa-calendar"></span> April 22, 2019</span> <br>
+                  </p>
+                  <p><a href="#" class="btn btn-primary btn-sm">Join from $15</a></p>
+                  
+                </div>
+                
+              </div>
+
+              <div class="sched d-block d-lg-flex">
+                <div class="bg-image" style="background-image: url('{{ STATIC_URL }}img/logo1.jpg')"></div>
+                <div class="text">
+                  <h3>Ashtanga Foundations</h3>
+                  <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts...</p>
+                  <p class="sched-time">
+                    <span><span class="fa fa-clock-o"></span> 5:30 PM</span> <br>
+                    <span><span class="fa fa-calendar"></span> April 22, 2019</span> <br>
+                  </p>
+                  <p><a href="#" class="btn btn-primary btn-sm">Join from $15</a></p>
+                  
+                </div>
+                
+              </div>
+
+            </div>
+          </div>
+        </div>
+      
+      </div>
+    </section> <!-- .section -->
+
+    <section class="site-section" id="about-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-5 mr-auto">
+            <div class="text-left heading-wrap mb-5">
+              <h2 class="mt-0 mb-5">About Us</h2>
+              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+              <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+            </div>
+          </div>
+          <div class="col-md-6 position-relative align-self-center">
+            <img src="{% static 'img/logo1.jpg' %}" alt="Image" class="img-overlap-1">
+            <img src="{% static 'img/logo1.jpg' %}" alt="Image" class="img-overlap-2">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="site-section" id="events-section">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-12 heading-wrap text-left mb-5">
+            <h2 class="mb-5">Events</h2>
+          </div>
+        
+          <div class="col-md-6">
+            <div class="blog d-block d-lg-flex">
+              <div class="bg-image" style="background-image: url('{{ STATIC_URL }}img/logo1.jpg')"></div>
+              <div class="text">
+                <h3>Fitness Class Name Here</h3>
+                <p class="sched-time">
+                  <span><span class="fa fa-calendar"></span> April 22, 2018</span> <br>
+                </p>
+                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia..</p>
+                
+                <p><a href="#" class="btn btn-primary btn-sm">Read More</a></p>
+                
+              </div>
+              
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="blog d-block d-lg-flex">
+              <div class="bg-image" style="background-image: url('{{ STATIC_URL }}img/logo1.jpg')"></div>
+              <div class="text">
+                <h3>Fitness Class Name Here</h3>
+                <p class="sched-time">
+                  <span><span class="fa fa-calendar"></span> April 22, 2018</span> <br>
+                </p>
+                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia..</p>
+                
+                <p><a href="#" class="btn btn-primary btn-sm">Read More</a></p>
+                
+              </div>
+              
+            </div>
+          </div>
+        
+        </div>
+      </div>
+    </section>
+
+    <section class="site-section" id="gallery-section">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-12 heading-wrap text-center mb-5">
+            <h2 class="mb-5">Yoga Gallery</h2>
+          </div>
+        </div>
+
+        <div class="row justify-content-center mb-5" data-aos="fade">
+          <div id="filters" class="filters text-center button-group col-md-7">
+            <button class="btn btn-primary active" data-filter="*">All</button>
+            <button class="btn btn-primary" data-filter=".web">Classes</button>
+            <button class="btn btn-primary" data-filter=".design">Intern</button>
+            <button class="btn btn-primary" data-filter=".brand">Training</button>
+          </div>
+        </div>  
+
+        <div id="posts" class="row no-gutter">
+          <div class="item web col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+            <a href="#" class="item-wrap fancybox">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'img/logo1.jpg' %}">
+            </a>
+          </div>
+          <div class="item web col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+            <a href="#" class="item-wrap fancybox">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'img/logo1.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item brand col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+            <a href="#" class="item-wrap fancybox">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'img/logo1.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item design col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+
+            <a href="#" class="item-wrap fancybox">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'img/logo1.jpg' %}">
+            </a>
+
+          </div>
+
+          <div class="item web col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+            <a href="#" class="item-wrap fancybox">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'img/logo1.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item brand col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+            <a href="#" class="item-wrap fancybox">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'img/logo1.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item web col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+            <a href="#" class="item-wrap fancybox">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'img/logo1.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item design col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+            <a href="#" class="item-wrap fancybox">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'img/logo1.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item web col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+            <a href="#" class="item-wrap fancybox">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'img/logo1.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item design col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+            <a href="#" class="item-wrap fancybox">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'img/logo1.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item brand col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+            <a href="#" class="item-wrap fancybox">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'img/logo1.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item brand col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+            <a href="#" class="item-wrap fancybox">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'img/logo1.jpg' %}">
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section> 
+
+    <section class="site-section element-animate" id="contact-section">
+      <div class="mb-5">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12 text-center heading-wrap">
+              <h2>Get In Touch</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <form action="#" method="post">
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <label for="name">Name</label>
+                  <input type="text" id="name" class="form-control ">
+                </div>
+                <div class="col-md-6 form-group">
+                  <label for="phone">Phone</label>
+                  <input type="text" id="phone" class="form-control ">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 form-group">
+                  
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" class="form-control ">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 form-group">
+                  <label for="message">Write Message</label>
+                  <textarea name="message" id="message" class="form-control " cols="30" rows="8"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <input type="submit" value="Send Message" class="btn btn-primary">
+                </div>
+              </div>
+            </form>
+          </div>
+          
+          <div class="col-lg-6 pl-2 pl-lg-5">
+
+            <div class="col-md-8 mx-auto contact-form-contact-info">
+              <h4 class="mb-5">Contact Details</h4>
+                <p class="d-flex">
+                  <span class="ion-ios-location icon mr-5"></span>
+                  <span>34 Street Name, City Name Here, United States</span>
+                </p>
+
+                <p class="d-flex">
+                  <span class="ion-ios-telephone icon mr-5"></span>
+                  <span>+1 242 4942 290</span>
+                </p>
+
+                <p class="d-flex">
+                  <span class="ion-android-mail icon mr-5"></span>
+                  <span>info@yourdomain.com</span>
+                </p>
+              </div>
+
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 mb-5 mb-lg-0">
+            <div class="row mb-5">
+              <div class="col-12">
+                <h3 class="footer-heading mb-4">About Us</h3>
+                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+              </div>
+            </div>
+            
+
+            
+          </div>
+          <div class="col-lg-4">
+           
+            <div class="row mb-5">
+              <div class="col-md-12">
+                <h3 class="footer-heading mb-4">Quck Links</h3>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <ul class="list-unstyled">
+                  <li><a href="#">Home</a></li>
+                  <li><a href="#">Services</a></li>
+                  <li><a href="#">Events</a></li>
+                  <li><a href="#">Team</a></li>
+                </ul>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <ul class="list-unstyled">
+                  <li><a href="#">Ashtanga Foundations</a></li>
+                  <li><a href="#">Surya Vinyasa</a></li>
+                  <li><a href="#">Chandra Vinyasa</a></li>
+                  <li><a href="#">Yinyasa</a></li>
+                </ul>
+              </div>
+            </div>
+            
+          </div>
+          
+
+          <div class="col-lg-4 mb-5 mb-lg-0">
+
+            <div class="mb-5">
+              <h3 class="footer-heading mb-2">Subscribe Newsletter</h3>
+              <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+
+              <form action="#" method="post" class="form-subscribe">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control border-white text-white bg-transparent" placeholder="Enter Email" aria-label="Enter Email" aria-describedby="button-addon2">
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" id="button-addon2">Send</button>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <h3 class="footer-heading mb-4">Follow Us</h3>
+
+                <div>
+                  <a href="#" class="pl-0 pr-3"><span class="icon-facebook"></span></a>
+                  <a href="#" class="pl-3 pr-3"><span class="icon-twitter"></span></a>
+                  <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
+                  <a href="#" class="pl-3 pr-3"><span class="icon-linkedin"></span></a>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          
+        </div>
+        <div class="row pt-5 mt-5 text-center">
+          <div class="col-md-12">
+            <p>
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          </p>
+          </div>
+          
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="{% static 'js/index/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'js/index/jquery-ui.js' %}"></script>
+  <script src="{% static 'js/index/popper.min.js' %}"></script>
+  <script src="{% static 'js/index/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/index/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'js/index/jquery.countdown.min.js' %}"></script>
+  <script src="{% static 'js/index/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'js/index/bootstrap-datepicker.min.js' %}"></script>
+  <script src="{% static 'js/index/aos.js' %}"></script>
+  <script src="{% static 'js/index/jquery.sticky.js' %}"></script>
+  <script src="{% static 'js/index/jquery.easing.1.3.js' %}"></script>
+  <script src="{% static 'js/index/isotope.pkgd.min.js' %}"></script>
+  
+  <script src="{% static 'js/index/jquery.fancybox.min.js' %}"></script>
+  <script src="{% static 'js/index/main.js' %}"></script>
+     
+  </body>
+</html>

@@ -37,6 +37,9 @@ from django.contrib.auth.tokens import default_token_generator
 def index(request):
     return render(request, 'users/index.html')
 
+def main_view(request):
+    return render(request, 'users/main.html')
+
 def register_success(request):
     return render(request, 'users/register_success.html')
 
@@ -366,7 +369,7 @@ class RecoveryView(View):
 class LoginView(FormView):
     template_name = 'users/login.html'
     form_class = LoginForm
-    success_url = '/'
+    success_url = '/users/main/'
 
     def form_valid(self, form):
         user_id = form.cleaned_data.get("user_id")
