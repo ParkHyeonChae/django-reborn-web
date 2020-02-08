@@ -1,6 +1,10 @@
 {% extends "users/user_base.html" %}
 {% load static %}
 
+{% block header %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+{% endblock %}
+
 {% block contents %}
 
 <div class="container">
@@ -16,7 +20,7 @@
                         {% csrf_token %}
 
                         <div class="mb-4 md-form">
-                            <label for="validationServer015">{{ form.user_id.label }}</label>
+                            <label for="validationServer015"><i class="fas fa-user"></i>&nbsp;&nbsp;{{ form.user_id.label }}</label>
                             <input type="text" class="form-control" id="validationServer015"
                                 name="{{ form.user_id.name }}" />
 
@@ -34,7 +38,7 @@
                         </div>
 
                         <div class="mb-4 md-form">
-                            <label for="validationServer040">{{ form.password.label }}</label>
+                            <label for="validationServer040"><i class="fas fa-lock"></i>&nbsp;&nbsp;{{ form.password.label }}</label>
                             <input type="password" class="form-control" id="validationServer040"
                                 name="{{ form.password.name }}" />
 
@@ -52,10 +56,11 @@
                         </div>
 
                         <!-- {{ login_form }} -->
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" name="remember_session" class="custom-control-input" id="defaultUnchecked">
-                            <label class="custom-control-label" for="defaultUnchecked" style="font-size: 14px;">로그인 상태 유지</label>
-                        </div><br>
+                        <label>
+                            <input type="checkbox" name="remember_session"/>
+                            <span style="padding-bottom: 35px;">로그인 상태 유지</span>
+                        </label>
+                        <br>
                         <!-- <input type="checkbox" name="remember_session" > 로그인 상태 유지<br><br> -->
 
                         <button type="submit" style="opacity: 90%; font-size: 16px; margin-top: -5px;" class="btn btn-red btn-lg btn-block">로그인</button>

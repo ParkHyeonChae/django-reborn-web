@@ -117,8 +117,8 @@ def notice_detail_view(request, pk):
     return render(request, 'notice/notice_detail.html', context)
 
 
-@admin_required
 @login_message_required
+@admin_required
 def notice_write_view(request):
     if request.method == "POST":
         form = NoticeWriteForm(request.POST, request.FILES)

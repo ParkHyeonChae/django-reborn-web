@@ -57,7 +57,7 @@ class AgreementView(View):
     def post(self, request, *args, **kwarg):
         if request.POST.get('agreement1', False) and request.POST.get('agreement2', False):
             request.session['agreement'] = True
-            if request.POST.get('csregister') == '컴공회원가입':       
+            if request.POST.get('csregister') == 'csregister':       
                 return redirect('/users/csregister/')
             else:
                 return redirect('/users/register/')

@@ -11,15 +11,16 @@
 <div class="container">
     <div>
         <div class="dropdown" style="text-align: right; padding-right: 1%;">
-            <a class="btn btn-md btn-outline dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="btn btn-md btn-outline dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
                 분류별로 보기</a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="{% url 'free:all_list' %}">전체보기</a>
-              <a class="dropdown-item" href="{% url 'free:free_list' %}">자유만 보기</a>
-              <a class="dropdown-item" href="{% url 'free:question_list' %}">질문만 보기</a>
-              <a class="dropdown-item" href="{% url 'free:information_list' %}">정보만 보기</a>
+                <a class="dropdown-item" href="{% url 'free:all_list' %}">전체보기</a>
+                <a class="dropdown-item" href="{% url 'free:free_list' %}">자유만 보기</a>
+                <a class="dropdown-item" href="{% url 'free:question_list' %}">질문만 보기</a>
+                <a class="dropdown-item" href="{% url 'free:information_list' %}">정보만 보기</a>
             </div>
-          </div>
+        </div>
         <table class="table table-hover">
             <tr class="text-center">
                 <th>번호</th>
@@ -40,11 +41,12 @@
                     <span class="badge badge-info">{{ free.category }}</span>&nbsp;
                     {% endif %}
                     <!-- <a id="free-{{ free.id }}" href="/free/{{ free.id }}/">{{ free.title|truncatechars:30 }}</a> -->
-                    <a id="free-{{ free.id }}" href="{% url 'free:free_detail' free.id %}">{{ free.title|truncatechars:30 }}</a>
+                    <a id="free-{{ free.id }}"
+                        href="{% url 'free:free_detail' free.id %}">{{ free.title|truncatechars:30 }}</a>
                     {% if free.comments %}
                     &nbsp;<span style="color:gray;">[{{ free.comments }}]</span>
                     {% endif %}
-                    </td>
+                </td>
                 <td>{{ free.writer }}</td>
                 {% if free.created_string == False %}
                 <td>{{ free.registered_date|date:'m월 d일' }}</td>
@@ -58,68 +60,72 @@
         </table>
     </div>
     <br>
-<div>
-    <form action="" method="GET">
-        <div class="col">
-            <div style="float: right;" class="form-row">
-                <div class="form-row">
-                    <div class="col">
-                        <select style="width: 6em;" class="custom-select custom-select-md" name="type">
-                            <option value="all">전체</option>
-                            <option value="title_content">제목+내용</option>
-                            <option value="title">제목</option>
-                            <option value="content">내용</option>
-                            <option value="writer">작성자</option>
-                        </select>
-                    </div>
-                    <div class="col">
-                        <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
-                            style="width: 13em;" placeholder="검색어를 입력해주세요." required>
-                    </div>
-                    <div class="col">
-                        <button class="btn btn-md btn-outline-dark" type="submit">검색</button>
+    <div>
+        <form action="" method="GET">
+            <div class="col">
+                <div style="float: right;" class="form-row">
+                    <div class="form-row">
+                        <div class="col">
+                            <select style="width: 6em;" class="custom-select custom-select-md" name="type">
+                                <option value="all">전체</option>
+                                <option value="title_content">제목+내용</option>
+                                <option value="title">제목</option>
+                                <option value="content">내용</option>
+                                <option value="writer">작성자</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
+                                style="width: 13em;" placeholder="검색어를 입력해주세요." required>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-md btn-outline-dark" type="submit">검색</button>
+                        </div>
                     </div>
                 </div>
             </div>
+        </form>
+        <div>
+            <div>
+                <button class="btn btn-md btn-dark" onclick="location.href='/free/write/'">글쓰기</button>
+            </div>
         </div>
-    </form>
-    <div>
-    <div>
-        <button class="btn btn-md btn-dark" onclick="location.href='/free/write/'">글쓰기</button>
+        <br>
+        <div class="col-md-offset-6">
+            {% if is_paginated %}
+            <!-- <ul class="pagination justify-content-center pagination-sm"> -->
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_obj.previous_page_number }}"
+                        tabindex="-1">&laquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">&laquo;</a>
+                </li>
+                {% endif %}
+
+                {% for page in page_range %}
+                <li class="page-item {% if page == page_obj.number %} disabled {% endif %}">
+                    <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page }}">{{ page }}</a>
+                </li>
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="?type={{ type }}&q={{ q }}&page={{ page_obj.next_page_number }}">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </div>
     </div>
-</div>
-<br>
-<div class="col-md-offset-6">
-    {% if is_paginated %}
-    <!-- <ul class="pagination justify-content-center pagination-sm"> -->
-    <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_obj.previous_page_number }}" tabindex="-1">&laquo;</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">&laquo;</a>
-        </li>
-        {% endif %}
-
-        {% for page in page_range %}
-        <li class="page-item {% if page == page_obj.number %} disabled {% endif %}">
-            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page }}">{{ page }}</a>
-        </li>
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-        <li class="page-item">
-            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_obj.next_page_number }}">&raquo;</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#">&raquo;</a>
-        </li>
-        {% endif %}
-    </ul>
-    {% endif %}
 </div>
 
 <script type="text/javascript">

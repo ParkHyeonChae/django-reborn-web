@@ -23,7 +23,7 @@
             <tr class="table-secondary text-center" style="font-weight: bold;">
                 <td>{{ notice.id }}</td>
                 <td class="text-left" style="width:50%"><a id="notice-{{ notice.id }}"
-                    href="/notice/{{ notice.id }}/">[공지] {{ notice.title|truncatechars:30 }}</a></tdc>
+                        href="/notice/{{ notice.id }}/">[공지] {{ notice.title|truncatechars:30 }}</a></tdc>
                 <td>{{ notice.writer }}</td>
                 <td>{{ notice.registered_date|date:'Y. m. d' }}</td>
                 <td>{{ notice.hits }}</td>
@@ -70,45 +70,51 @@
                 </div>
             </div>
         </form>
-    </div>
-    {% if request.user.level == '0' or request.user.level == '1' %}
-    <div>
-        <button class="btn btn-md btn-dark" onclick="location.href='/notice/write/'">글쓰기</button>
-    </div>
-    {% endif %}
-</div>
-<br>
-<div class="col-md-offset-6">
-    {% if is_paginated %}
-    <!-- <ul class="pagination justify-content-center pagination-sm"> -->
-    <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_obj.previous_page_number }}" tabindex="-1">&laquo;</a>
-        </li>
+        {% if request.user.level == '0' or request.user.level == '1' %}
+        <div>
+            <div>
+                <button class="btn btn-md btn-dark" onclick="location.href='/notice/write/'">글쓰기</button>
+            </div>
+        </div>
+        <br>
         {% else %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">&laquo;</a>
-        </li>
+        <br><br>
         {% endif %}
+        <div class="col-md-offset-6">
+            {% if is_paginated %}
+            <!-- <ul class="pagination justify-content-center pagination-sm"> -->
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_obj.previous_page_number }}"
+                        tabindex="-1">&laquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">&laquo;</a>
+                </li>
+                {% endif %}
 
-        {% for page in page_range %}
-        <li class="page-item {% if page == page_obj.number %} disabled {% endif %}">
-            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page }}">{{ page }}</a>
-        </li>
-        {% endfor %}
+                {% for page in page_range %}
+                <li class="page-item {% if page == page_obj.number %} disabled {% endif %}">
+                    <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page }}">{{ page }}</a>
+                </li>
+                {% endfor %}
 
-        {% if page_obj.has_next %}
-        <li class="page-item">
-            <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_obj.next_page_number }}">&raquo;</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#">&raquo;</a>
-        </li>
-        {% endif %}
-    </ul>
-    {% endif %}
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="?type={{ type }}&q={{ q }}&page={{ page_obj.next_page_number }}">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
