@@ -27,6 +27,7 @@ from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, Http404
 from django.forms.utils import ErrorList
 from django.views.decorators.http import require_GET, require_POST
+from django.core.exceptions import PermissionDenied
 
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
@@ -41,10 +42,29 @@ def main_view(request):
     return render(request, 'users/main.html')
 
 def register_success(request):
+    if not request.session.get('register_auth', False):
+        raise PermissionDenied
+    request.session['register_auth'] = False
+
     return render(request, 'users/register_success.html')
 
-def register_info_view(request):
-    return render(request, 'users/register_info.html')
+
+class AgreementView(View):
+    def get(self, request, *args, **kwargs):
+        request.session['agreement'] = False
+        return render(request, 'users/agreement.html')
+
+    def post(self, request, *args, **kwarg):
+        if request.POST.get('agreement1', False) and request.POST.get('agreement2', False):
+            request.session['agreement'] = True
+            if request.POST.get('csregister') == '컴공회원가입':       
+                return redirect('/users/csregister/')
+            else:
+                return redirect('/users/register/')
+        else:
+            messages.info(request, "약관에 모두 동의해주세요.")
+            return render(request, 'users/agreement.html')   
+
 
 # def cs_register_view(request):
 #     if request.method == 'POST':
@@ -89,18 +109,18 @@ class CsRegisterView(CreateView):
     form_class = CsRegisterForm
 
     def get(self, request, *args, **kwargs):
+        if not request.session.get('agreement', False):
+            raise PermissionDenied
+        request.session['agreement'] = False
+
         url = settings.LOGIN_REDIRECT_URL
         if request.user.is_authenticated:
-            if url == request.path:
-                raise ValueError(
-                    "Redirection loop for authenticated user detected. Check that "
-                    "your LOGIN_REDIRECT_URL doesn't point to a login page."
-                )
             return HttpResponseRedirect(url)
         return super().get(request, *args, **kwargs)
 
     def get_success_url(self):
         # messages.success(self.request, "회원가입 성공.")
+        self.request.session['register_auth'] = True
         messages.success(self.request, '회원님의 입력한 Email 주소로 인증 메일이 발송되었습니다. 인증 후 로그인이 가능합니다.')
         # return settings.LOGIN_URL
         return reverse('users:register_success')

@@ -5,10 +5,10 @@
 
 <div class="container">
     <div class="row justify-content-md-center">
-        <div class="row mt-5">
-            <div class="card" style="width: 30em;">
+        <div style="position: absolute; top:15%;">
+            <div class="card" style="width: 30rem;">
                 <div class="card-body">
-                    <div class="col-12 text-center">
+                    <div class="text-center">
                         <img src="{% static 'img/logo2.jpg' %}" style="width:60%; margin:30px;">
                     </div>
 
@@ -54,14 +54,14 @@
                         <!-- {{ login_form }} -->
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" name="remember_session" class="custom-control-input" id="defaultUnchecked">
-                            <label class="custom-control-label" for="defaultUnchecked">로그인상태유지</label>
+                            <label class="custom-control-label" for="defaultUnchecked" style="font-size: 14px;">로그인 상태 유지</label>
                         </div><br>
                         <!-- <input type="checkbox" name="remember_session" > 로그인 상태 유지<br><br> -->
 
-                        <button type="submit" style="opacity: 90%;" class="btn btn-red btn-lg btn-block">로그인</button>
+                        <button type="submit" style="opacity: 90%; font-size: 16px; margin-top: -5px;" class="btn btn-red btn-lg btn-block">로그인</button>
                     </form>
                     <div style="text-align: center;">
-                        <a style="color:gray; font-size:14px;" href='/users/recovery'>아이디&nbsp;&middot;&nbsp;비밀번호찾기</a>
+                        <a style="color:gray; font-size: 14px;" href='/users/recovery'>아이디&nbsp;&middot;&nbsp;비밀번호찾기</a>
                     </div>
                 </div>
             </div>

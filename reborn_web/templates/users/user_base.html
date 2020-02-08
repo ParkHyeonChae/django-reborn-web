@@ -42,10 +42,10 @@
 </head>
 
 <body style="background-color: #d6d6d6;">
-    <div class="container">
-        {% block contents %}
-        {% endblock %}
-    </div>
+    
+    {% block contents %}
+    {% endblock %}
+    
 
     {% if messages %}
     {% for message in messages %}

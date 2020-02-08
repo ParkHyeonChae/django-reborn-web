@@ -17,7 +17,7 @@ urlpatterns = [
     path('recovery/reset/', views.auth_pw_reset_view, name='recovery_pw_reset'),
     # path('recovery/reset/', views.AuthPwResetView.as_view(), name='recovery_pw_reset'),
 
-    path('registerinfo/', views.register_info_view, name='register_info'),
+    path('agreement/', views.AgreementView.as_view(), name='agreement'),
     # path('register/', views.register_view, name='register'),
     path('register/', views.RegisterView.as_view(), name='register'),
     # path('csregister/', views.cs_register_view, name='csregister'),
