@@ -1,6 +1,5 @@
 {% extends "users/user_base.html" %}
 {% load static %}
-
 {% block contents %}
 
 <div class="container">
@@ -47,8 +46,32 @@
                                 <div class="form-row">
                                     <div class="col-md-6" style="margin-top:-25px; margin-bottom: -25px;">
                                         <div class="mb-4 md-form">
+                                            <label name="label_password2" for="{{ form.password2.id_for_label }}"><i
+                                                    class="fas fa-unlock"></i>&nbsp;&nbsp;비밀번호</label>
+                                            {{ form.password2 }}
+                                            <script type="text/javascript">
+                                                if (document.getElementsByName('password2')[0].value != '') {
+                                                    document.getElementsByName('label_password2')[0].setAttribute('class', 'active');
+                                                }
+                                            </script>
+                                            {% if form.password2.errors %}
+                                            <script type="text/javascript">
+                                                document.getElementsByName('password2')[0].setAttribute('class',
+                                                    'form-control is-invalid')
+                                            </script>
+                                            {% for error in form.password2.errors %}
+                                            <div style="white-space: nowrap;" class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <!--비밀번호확인-->
+                                    <div class="col-md-6" style="margin-top:-25px; margin-bottom: -25px;">
+                                        <div class="mb-4 md-form">
                                             <label name="label_password1" for="{{ form.password1.id_for_label }}"><i
-                                                    class="fas fa-unlock"></i>&nbsp;&nbsp;{{ form.password1.label }}</label>
+                                                    class="fas fa-unlock-alt"></i>&nbsp;&nbsp;비밀번호 확인</label>
                                             {{ form.password1 }}
                                             <script type="text/javascript">
                                                 if (document.getElementsByName('password1')[0].value != '') {
@@ -68,31 +91,7 @@
                                             {% endif %}
                                         </div>
                                     </div>
-                                    <!--비밀번호확인-->
-                                    <div class="col-md-6" style="margin-top:-25px; margin-bottom: -25px;">
-                                        <div class="mb-4 md-form">
-                                            <label name="label_password2" for="{{ form.password2.id_for_label }}"><i
-                                                    class="fas fa-unlock-alt"></i>&nbsp;&nbsp;{{ form.password2.label }}</label>
-                                            {{ form.password2 }}
-                                            <script type="text/javascript">
-                                                if (document.getElementsByName('password2')[0].value != '') {
-                                                    document.getElementsByName('label_password2')[0].setAttribute('class', 'active');
-                                                }
-                                            </script>
-                                            {% if form.password2.errors %}
-                                            <script type="text/javascript">
-                                                document.getElementsByName('password2')[0].setAttribute('class',
-                                                    'form-control is-invalid')
-                                            </script>
-                                            {% for error in form.password2.errors %}
-                                            <div class="invalid-feedback">
-                                                {{ error }}
-                                            </div>
-                                            {% endfor %}
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <small class="form-text text-muted">
+                                    <small style="margin-left: 4px; margin-top:8px;" class="form-text text-muted">
                                         최소 8개의 숫자와 문자 또는 특수기호를 입력해주세요. 일상적인 비밀번호는 사용할 수 없습니다.
                                     </small>
                                 </div>
@@ -224,7 +223,6 @@
                                     </div>
                                     <!--동아리-->
                                     <div class="col-md-6">
-                                        <!-- Material input -->
                                         <div class="form-group">
                                             <label style="color:gray;" name="label_circles"
                                                 for="{{ form.circles.id_for_label }}"><i

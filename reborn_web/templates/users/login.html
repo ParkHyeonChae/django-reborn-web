@@ -19,8 +19,7 @@
                             {{ form.user_id }}
                             <script type="text/javascript">
                                 if (document.getElementsByName('user_id')[0].value != '') {
-                                    document.getElementsByName('label_user_id')[0].setAttribute('class',
-                                        'active');
+                                    document.getElementsByName('label_user_id')[0].setAttribute('class', 'active');
                                 }
                             </script>
                             {% if form.user_id.errors %}
@@ -42,8 +41,7 @@
 
                             {% if form.password.errors %}
                             <script type="text/javascript">
-                                document.getElementsByName('password')[0].setAttribute('class',
-                                    'form-control is-invalid')
+                                document.getElementsByName('password')[0].setAttribute('class', 'form-control is-invalid')
                             </script>
                             {% for error in form.password.errors %}
                             <div class="invalid-feedback">

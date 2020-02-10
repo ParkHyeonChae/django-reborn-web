@@ -394,7 +394,7 @@ class CsRegisterForm(UserCreationForm):
 
 class RegisterForm(UserCreationForm):
     student_id = forms.IntegerField(required=False, label='학번', widget=forms.NumberInput(
-        attrs={'class': 'form-control', 'placeholder': '학번을 입력해주세요.'}), 
+        attrs={'class': 'form-control',}), 
     )
     grade = forms.ChoiceField(choices=GRADE_CHOICES, label='학년', widget=forms.Select(
         attrs={'class': 'form-control'}),
@@ -410,32 +410,33 @@ class RegisterForm(UserCreationForm):
         self.fields['user_id'].widget.attrs.update({
             # 'class': 'form-control col-sm-10',
             'class': 'form-control',
-            'placeholder': '아이디를 입력해주세요.',
+            'autofocus': False,
+            # 'placeholder': '아이디를 입력해주세요.',
         })
         self.fields['password1'].label = '비밀번호'
         self.fields['password1'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': '비밀번호를 입력해주세요.',
+            # 'placeholder': '비밀번호를 입력해주세요.',
         })
         self.fields['password2'].label = '비밀번호 확인'
         self.fields['password2'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': '비밀번호를 다시 입력해주세요.',
+            # 'placeholder': '비밀번호를 다시 입력해주세요.',
         })
         self.fields['email'].label = '이메일'
         self.fields['email'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': '회원가입 후 입력하신 메일로 본인인증 메일이 전송됩니다.',
+            # 'placeholder': '회원가입 후 입력하신 메일로 본인인증 메일이 전송됩니다.',
         })
         self.fields['name'].label = '이름'
         self.fields['name'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': "아이디, 비밀번호 찾기에 이용됩니다.",
+            # 'placeholder': "아이디, 비밀번호 찾기에 이용됩니다.",
         })
         self.fields['hp'].label = '핸드폰번호'
         self.fields['hp'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': "'-'를 제외한 숫자로 입력해주세요",
+            # 'placeholder': "'-'를 제외한 숫자로 입력해주세요",
         })
 
     class Meta:
