@@ -1,24 +1,19 @@
 {% extends "users/user_base.html" %}
-
-{% block header %}
 {% load static %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-{% endblock %}
-
 {% block contents %}
 <div class="container">
     <div class="row justify-content-md-center">
-        <div style="position: absolute;">
+        <div style="position: absolute; top: 50%; height: 778.98px; margin-top: -389.49px;">
             <div class="card" style="width: 40rem;">
                 <div class="card-body">
                     <div class="text-center">
-                        <img src="{% static 'img/logo2.jpg' %}" style="width: 30%; margin-bottom: -30px;">
+                        <img src="{% static 'img/logo2.jpg' %}" style="width: 30%; margin-top:10px; margin-bottom: -30px;">
                     </div>
                     <div class="row mt-5">
                         <div class="col-12">
                             <p style="font-weight: bold;"><i class="fas fa-check"></i> 이용약관</p>
                             <div class="z-depth-1"
-                                style="font-size: 13px; background-color: white; border:1px solid #ddd; height:185px;overflow:auto;padding:5px;">
+                                style="font-size: 13px; background-color: white; border:1px solid #ddd; height:195px;overflow:auto;padding:5px;">
                                 <dl>
                                     <dt>
                                         시행일자: 2020년 03월 01일
@@ -345,7 +340,7 @@
                                 <br>
                                 <p style="font-weight: bold;"><i class="fas fa-check"></i> 개인정보 수집 및 이용</p>
                                 <div class="z-depth-1"
-                                    style="font-size: 13px; background-color: white; border:1px solid #ddd; height:185px;overflow:auto;padding:5px;">
+                                    style="font-size: 13px; background-color: white; border:1px solid #ddd; height:195px;overflow:auto;padding:5px;">
                                     <dl>
                                         <dt>
                                             시행일자: 2020년 03월 01일
@@ -542,9 +537,9 @@
                         <div class="col-12 text-center">
                             <button type="submit" name="csregister" style="opacity: 90%; font-size: 16px;"
                                 class="btn btn-red" data-toggle="tooltip" data-placement="top"
-                                title="인제대 컴퓨터공학부 학생용">컴공회원가입</button>
+                                title="인제대 컴퓨터공학부 학생용" value="csregister">컴공회원가입</button>
                             <button type="submit" name="register" style="opacity: 90%; font-size: 16px;"
-                                class="btn btn-red">일반회원가입</button>
+                                class="btn btn-red" value="register">일반회원가입</button>
                             <!-- <button type="submit" class="btn btn-dark" name="csregister" value="csregister">컴공회원가입</button>
         <button type="submit" class="btn btn-dark" name="register" value="register">일반회원가입</button> -->
                             <!-- <button class="btn btn-dark" name="csregister" disabled="true"

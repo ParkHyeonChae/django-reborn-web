@@ -1,29 +1,28 @@
 {% extends "users/user_base.html" %}
 {% load static %}
-
-{% block header %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-{% endblock %}
-
 {% block contents %}
 
 <div class="container">
     <div class="row justify-content-md-center">
-        <div style="position: absolute; top:15%;">
+        <div style="position: absolute; top: 40%; height: 476.06px; margin-top: -238.03px;">
             <div class="card" style="width: 30rem;">
                 <div class="card-body">
                     <div class="text-center">
                         <img src="{% static 'img/logo2.jpg' %}" style="width:60%; margin:30px;">
                     </div>
 
-                    <form method="POST" action=".">
+                    <form method="POST" action="." novalidate>
                         {% csrf_token %}
 
                         <div class="mb-4 md-form">
-                            <label for="validationServer015"><i class="fas fa-user"></i>&nbsp;&nbsp;{{ form.user_id.label }}</label>
-                            <input type="text" class="form-control" id="validationServer015"
-                                name="{{ form.user_id.name }}" />
-
+                            <label name="label_user_id" for="{{ form.user_id.id_for_label }}"><i class="fas fa-user"></i>&nbsp;&nbsp;{{ form.user_id.label }}</label>
+                            {{ form.user_id }}
+                            <script type="text/javascript">
+                                if (document.getElementsByName('user_id')[0].value != '') {
+                                    document.getElementsByName('label_user_id')[0].setAttribute('class',
+                                        'active');
+                                }
+                            </script>
                             {% if form.user_id.errors %}
                             <script type="text/javascript">
                                 document.getElementsByName('user_id')[0].setAttribute('class',
@@ -38,9 +37,8 @@
                         </div>
 
                         <div class="mb-4 md-form">
-                            <label for="validationServer040"><i class="fas fa-lock"></i>&nbsp;&nbsp;{{ form.password.label }}</label>
-                            <input type="password" class="form-control" id="validationServer040"
-                                name="{{ form.password.name }}" />
+                            <label for="{{ form.password.id_for_label }}"><i class="fas fa-lock"></i>&nbsp;&nbsp;{{ form.password.label }}</label>
+                            {{ form.password }}
 
                             {% if form.password.errors %}
                             <script type="text/javascript">

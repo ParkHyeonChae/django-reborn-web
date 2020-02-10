@@ -185,16 +185,22 @@ from .choice import *
                 
 class LoginForm(forms.Form):
     user_id = forms.CharField(
+        widget=forms.TextInput(
+        attrs={'class': 'form-control',}), 
         error_messages={
             'required': '아이디을 입력해주세요.'
         },
-        max_length=64, label='아이디'
+        max_length=32,
+        label='아이디'
     )
+
     password = forms.CharField(
+        widget=forms.PasswordInput(
+        attrs={'class': 'form-control',}), 
         error_messages={
             'required': '비밀번호를 입력해주세요.'
         },
-        widget=forms.PasswordInput, label='비밀번호'
+        label='비밀번호'
     )
 
     def clean(self):
@@ -330,32 +336,33 @@ class CsRegisterForm(UserCreationForm):
         self.fields['user_id'].widget.attrs.update({
             # 'class': 'form-control col-sm-10',
             'class': 'form-control',
-            'placeholder': '아이디를 입력해주세요.',
+            # 'placeholder': '아이디를 입력해주세요.',
+            'autofocus': False
         })
         self.fields['password1'].label = '비밀번호'
         self.fields['password1'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': '비밀번호를 입력해주세요.',
+            # 'placeholder': '비밀번호를 입력해주세요.',
         })
         self.fields['password2'].label = '비밀번호 확인'
         self.fields['password2'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': '비밀번호를 다시 입력해주세요.',
+            # 'placeholder': '비밀번호를 다시 입력해주세요.',
         })
         self.fields['email'].label = '이메일'
         self.fields['email'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': '회원가입 후 입력하신 메일로 본인인증 메일이 전송됩니다.',
+            # 'placeholder': '회원가입 후 입력하신 메일로 본인인증 메일이 전송됩니다.',
         })
         self.fields['name'].label = '이름'
         self.fields['name'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': "아이디, 비밀번호 찾기에 이용됩니다.",
+            # 'placeholder': "아이디, 비밀번호 찾기에 이용됩니다.",
         })
         self.fields['hp'].label = '핸드폰번호'
         self.fields['hp'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': "'-'를 제외한 숫자로 입력해주세요",
+            # 'placeholder': "'-'를 제외한 숫자로 입력해주세요",
         })
         self.fields['grade'].label = '학년'
         self.fields['grade'].widget.attrs.update({
@@ -364,7 +371,7 @@ class CsRegisterForm(UserCreationForm):
         self.fields['student_id'].label = '학번'
         self.fields['student_id'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': "학번을 입력해주세요.",
+            # 'placeholder': "학번을 입력해주세요.",
         })
         self.fields['circles'].label = '학술동아리'
         self.fields['circles'].widget.attrs.update({
