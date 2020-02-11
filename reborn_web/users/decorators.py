@@ -25,3 +25,14 @@ def admin_required(function):
         return redirect('/users/main/')
 
     return wrap
+
+
+def logout_message_required(function):
+    def wrap(request, *args, **kwargs):
+        if request.user.is_authenticated:
+            messages.info(request, "접속중인 사용자입니다.")
+            return redirect('/users/main/')
+
+        return function(request, *args, **kwargs)
+
+    return wrap

@@ -628,6 +628,17 @@
   
   <script src="{% static 'js/index/jquery.fancybox.min.js' %}"></script>
   <script src="{% static 'js/index/main.js' %}"></script>
-     
+
+  {% if messages %}
+  {% for message in messages %}
+  {% if message.tags %}
+  <script>
+    alert("{{ message.message }}")
+  </script>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+  
   </body>
 </html>
+

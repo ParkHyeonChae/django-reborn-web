@@ -6,7 +6,7 @@ from django.contrib.auth import login, logout, authenticate, update_session_auth
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .decorators import login_message_required, admin_required
+from .decorators import login_message_required, admin_required, logout_message_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.shortcuts import render, redirect, get_object_or_404
 # from django.views.decorators.csrf import csrf_exempt
@@ -38,8 +38,11 @@ from django.contrib.auth.tokens import default_token_generator
 def index(request):
     return render(request, 'users/index.html')
 
+
+@login_message_required
 def main_view(request):
     return render(request, 'users/main.html')
+
 
 def register_success(request):
     if not request.session.get('register_auth', False):
@@ -49,6 +52,7 @@ def register_success(request):
     return render(request, 'users/register_success.html')
 
 
+@method_decorator(logout_message_required, name='dispatch')
 class AgreementView(View):
     def get(self, request, *args, **kwargs):
         request.session['agreement'] = False
@@ -219,7 +223,7 @@ def profile_delete_view(request):
         if password_form.is_valid():
             request.user.delete()
             logout(request)
-            messages.success(request, "회원탈퇴 완료.")
+            messages.success(request, "회원탈퇴가 완료되었습니다.")
             return redirect('/')
     else:
         password_form = CheckPasswordForm(request.user)
@@ -268,7 +272,7 @@ def ajax_find_pw_view(request):
                 'auth_num': auth_num,
             }),
         )
-    print(auth_num)
+    # print(auth_num)
     return HttpResponse(json.dumps({"result": result_pw.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")
 
 
@@ -307,7 +311,13 @@ def auth_confirm_view(request):
 #         messages.info(self.request, '비밀번호를 변경 하였습니다.')
 #         return super().form_valid(form)
 
+
+@logout_message_required
 def auth_pw_reset_view(request):
+    if request.method == 'GET':
+        if not request.session.get('auth', False):
+            raise PermissionDenied
+
     if request.method == 'POST':
         session_user = request.session['auth']
         current_user = User.objects.get(user_id=session_user)
@@ -329,6 +339,8 @@ def auth_pw_reset_view(request):
 
     return render(request, 'users/password_reset.html', {'form':reset_password_form})
 
+
+@method_decorator(logout_message_required, name='dispatch')
 class RecoveryView(View):
     template_name = 'users/recovery.html'
     recovery_id = RecoveryIdForm
@@ -386,6 +398,8 @@ class RecoveryView(View):
 
         # return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_id':result_id })
 
+
+@method_decorator(logout_message_required, name='dispatch')
 class LoginView(FormView):
     template_name = 'users/login.html'
     form_class = LoginForm
