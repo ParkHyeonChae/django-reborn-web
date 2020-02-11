@@ -1,13 +1,31 @@
-{% extends "users/base.html" %}
+{% extends "users/user_base.html" %}
+{% load static %}
 {% block contents %}
 
-<div class="row mt-5">
-    <div class="col-12 text-center">
-        <h4>인증을 위한 메일이 발송되었습니다. 메일을 확인해주세요.</h4><br>
-        <h5>인증을 하지 않으시면 로그인이 되지 않습니다.</h5>
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div style="position: absolute; top: 40%; height: 320px; margin-top: -160px;">
+            <div class="card" style="width: 32rem;">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img src="{% static 'img/logo2.jpg' %}"
+                            style="width: 40%; margin-top:10px; margin-bottom: -20px;">
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-12" style="margin-left: 35px;">
+                            <h4 style="font-weight: bold; margin-bottom: 20px;">인증을 위한 메일이 발송되었습니다.</h4>
+                            <p>입력하신 메일을 확인해주세요.<br>인증을 하지 않으시면 로그인이 되지 않습니다.</p>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="row justify-content-md-center">
+                        <button onclick="location.href='/'" style="opacity: 90%; font-size: 16px; margin-top: -5px;"
+                            class="btn btn-red"><i class="fas fa-home"></i>&nbsp;&nbsp;메인으로</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<button onclick="location.href='/'">홈으로 이동</button>
 
 {% endblock %}
-
