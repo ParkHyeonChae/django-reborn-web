@@ -35,15 +35,56 @@ from django.utils.encoding import force_bytes, force_text
 from django.contrib.auth.tokens import default_token_generator
 
 
+# 메인화면(로그인 전)
 def index(request):
     return render(request, 'users/index.html')
 
 
+# 메인화면(로그인 후)
 @login_message_required
 def main_view(request):
     return render(request, 'users/main.html')
 
 
+# 로그인
+@method_decorator(logout_message_required, name='dispatch')
+class LoginView(FormView):
+    template_name = 'users/login.html'
+    form_class = LoginForm
+    success_url = '/users/main/'
+
+    def form_valid(self, form):
+        user_id = form.cleaned_data.get("user_id")
+        password = form.cleaned_data.get("password")
+
+        user = authenticate(self.request, username=user_id, password=password)
+        if user is not None:
+            self.request.session['user_id'] = user_id
+            login(self.request, user)
+
+            # Session Maintain Test
+
+            remember_session = self.request.POST.get('remember_session', False)
+            if remember_session:
+                settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+            # try:
+            #     remember_session = self.request.POST['remember_session']
+            #     if remember_session:
+            #         settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+            # except MultiValueDictKeyError:
+            #     settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+            
+        return super().form_valid(form)
+
+
+# 로그아웃
+def logout_view(request):
+    logout(request)
+    return redirect('/')
+
+
+# 회원가입 약관동의
 @method_decorator(logout_message_required, name='dispatch')
 class AgreementView(View):
     def get(self, request, *args, **kwargs):
@@ -62,6 +103,7 @@ class AgreementView(View):
             return render(request, 'users/agreement.html')   
 
 
+# 회원가입 성공 안내 창
 def register_success(request):
     if not request.session.get('register_auth', False):
         raise PermissionDenied
@@ -70,43 +112,7 @@ def register_success(request):
     return render(request, 'users/register_success.html')
 
 
-# def cs_register_view(request):
-#     if request.method == 'POST':
-#         register_form = CsRegisterForm(request.POST)
-
-#         if register_form.is_valid():
-#             user = register_form.save(commit=False)
-#             user.set_password(register_form.cleaned_data['password'])
-#             user.level = '2'
-#             user.department = '컴퓨터공학부'
-#             user.save()
-#             messages.success(request, "회원가입 성공.")
-#             return redirect('users:login')
-#     else:
-#         register_form = CsRegisterForm()
-
-#     return render(request, 'users/register_cs.html', {'register_form':register_form})
-
-# def register_view(request):
-#     if request.method == 'POST':
-#         register_form = RegisterForm(request.POST)
-
-#         if register_form.is_valid():
-#             user = register_form.save(commit=False)
-#             user.set_password(register_form.cleaned_data['password'])
-#             user.level = '3'
-#             user.save()
-#             messages.success(request, "회원가입 성공.")
-#             return redirect('users:login')
-#     else:
-#         register_form = RegisterForm()
-
-#     return render(request, 'users/register.html', {'register_form':register_form})
-
-#----------------------------------------------------------------------------------------------
-# 회원가입 뷰 수정 TEST
-
-
+# 컴공 회원가입 
 class CsRegisterView(CreateView):
     model = User
     template_name = 'users/register_cs.html'
@@ -146,12 +152,14 @@ class CsRegisterView(CreateView):
         )
         return redirect(self.get_success_url())
 
+
+# 일반 회원가입
 class RegisterView(CsRegisterView):
     template_name = 'users/register.html'
     form_class = RegisterForm
 
 
-# 이메일 인증 활성화 뷰
+# 이메일 인증 활성화
 def activate(request, uid64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uid64))
@@ -171,14 +179,15 @@ def activate(request, uid64, token):
     return redirect('users:login')
 
 
- #------------------------------------------------------------------------------------------------       
-
+# 프로필 보기
 @login_message_required
 def profile_view(request):
     if request.method == 'GET':
 
         return render(request, 'users/profile.html')
 
+
+# 프로필 수정
 @login_message_required
 def profile_update_view(request):
     if request.method == 'POST':
@@ -193,28 +202,8 @@ def profile_update_view(request):
 
     return render(request, 'users/profile_update.html', {'user_change_form':user_change_form})
 
-# @login_required
-# def profile_delete_view(request):  # form 안쓰고 회원탈퇴 구현
-#     if request.method == 'POST':
-#         password_form = CheckPasswordForm(request.POST)
-#         password = request.user.password
 
-#         if password_form.is_valid():
-#             confirm_password = password_form.cleaned_data.get('password')
-#             check_pw = check_password(confirm_password, password)
-
-#             if check_pw:
-#                 request.user.delete()
-#                 logout(request)
-#                 return redirect('/')
-#             else:
-#                 pass
-#     else:
-#         password_form = CheckPasswordForm()
-
-#     return render(request, 'users/profile_delete.html', {'password_form':password_form})
-
-
+# 회원탈퇴
 @login_message_required
 def profile_delete_view(request):
     if request.method == 'POST':
@@ -230,6 +219,8 @@ def profile_delete_view(request):
 
     return render(request, 'users/profile_delete.html', {'password_form':password_form})
 
+
+# 비밀번호 수정
 @login_message_required
 def password_edit_view(request):
     if request.method == 'POST':
@@ -246,6 +237,31 @@ def password_edit_view(request):
     return render(request, 'users/profile_password.html', {'password_change_form':password_change_form})
 
 
+# 아이디찾기
+@method_decorator(logout_message_required, name='dispatch')
+class RecoveryIdView(View):
+    template_name = 'users/recovery_id.html'
+    recovery_id = RecoveryIdForm
+
+    def get(self, request):
+        if request.method=='GET':
+            form_id = self.recovery_id(None)
+        return render(request, self.template_name, { 'form_id':form_id, })
+
+
+# 비밀번호찾기
+@method_decorator(logout_message_required, name='dispatch')
+class RecoveryPwView(View):
+    template_name = 'users/recovery_pw.html'
+    recovery_pw = RecoveryPwForm
+
+    def get(self, request):
+        if request.method=='GET':
+            form_pw = self.recovery_pw(None)
+            return render(request, self.template_name, { 'form_pw':form_pw, })
+
+
+# 아이디찾기 AJAX 통신
 def ajax_find_id_view(request):
     name = request.POST.get('name')
     email = request.POST.get('email')
@@ -254,6 +270,7 @@ def ajax_find_id_view(request):
     return HttpResponse(json.dumps({"result_id": result_id.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")    
 
 
+# 비밀번호찾기 AJAX 통신
 def ajax_find_pw_view(request):
     user_id = request.POST.get('user_id')
     name = request.POST.get('name')
@@ -276,6 +293,7 @@ def ajax_find_pw_view(request):
     return HttpResponse(json.dumps({"result": result_pw.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")
 
 
+# 비밀번호찾기 인증번호 확인
 def auth_confirm_view(request):
     # if request.method=='POST' and 'auth_confirm' in request.POST:
     user_id = request.POST.get('user_id')
@@ -288,30 +306,8 @@ def auth_confirm_view(request):
     
     return HttpResponse(json.dumps({"result": user.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")
 
-        # try:
-        #     user = User.objects.get(auth=input_auth_num)
-        #     return render(request, 'users/password_reset.html')
-        # except ObjectDoesNotExist:
-        #     error = "인증번호가 일치하지 않습니다."
-        #     # messages.info(request, "인증번호가 일치하지 않습니다.")
-        #     return HttpResponse(error)
-        #     # return render(request, 'users/recovery.html')
-
-        # password_change_form = PasswordChangeForm(request.user, request.POST)
-        # return render(request, 'users/profile_password.html', {'password_change_form':password_change_form})
-
-
-
-# class AuthPwResetView(ForView):
-#     success_url = 'users:login'
-#     template_name = 'users/password_reset.html'
-#     form_class = CustomSetPasswordForm
-
-#     def form_valid(self, form):
-#         messages.info(self.request, '비밀번호를 변경 하였습니다.')
-#         return super().form_valid(form)
-
-
+        
+# 비밀번호찾기 새비밀번호 등록
 @logout_message_required
 def auth_pw_reset_view(request):
     if request.method == 'GET':
@@ -340,141 +336,7 @@ def auth_pw_reset_view(request):
     return render(request, 'users/password_reset.html', {'form':reset_password_form})
 
 
-@method_decorator(logout_message_required, name='dispatch')
-class RecoveryIdView(View):
-    template_name = 'users/recovery_id.html'
-    recovery_id = RecoveryIdForm
-
-    def get(self, request):
-        if request.method=='GET':
-            form_id = self.recovery_id(None)
-        return render(request, self.template_name, { 'form_id':form_id, })
-
-
-@method_decorator(logout_message_required, name='dispatch')
-class RecoveryPwView(View):
-    template_name = 'users/recovery_pw.html'
-    recovery_pw = RecoveryPwForm
-
-    def get(self, request):
-        if request.method=='GET':
-            form_pw = self.recovery_pw(None)
-            return render(request, self.template_name, { 'form_pw':form_pw, })
-
-
-    # def post(self, request):
-    #     if request.method=='POST' and 'auth_confirm' in request.POST:
-    #         user_id = request.POST.get('user_id')
-    #         name = request.POST.get('name')
-    #         email = request.POST.get('email')
-    #         print(user_id)
-    #         print(name)
-    #         print(email)
-    #         # user = authenticate(self.request, username=user_id, password=password)
-    #         # if user is not None:
-    #         #     login(self.request, user)
-    #         password_change_form = PasswordChangeForm(request.user, request.POST)
-    #         return render(request, 'users/profile_password.html', {'password_change_form':password_change_form})
-
-    # def post(self, request):
-    #     form_id = self.recovery_id(None)
-    #     form_pw = self.recovery_pw(None)
-
-    #     if request.method=='POST' and 'recovery_id' in request.POST:
-    #         name = request.POST.get('name')
-    #         email = request.POST.get('email')
-    #         try:
-    #             result_id = User.objects.get(name=name, email=email)
-                
-    #             return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_id':result_id.user_id })
-    #         except ObjectDoesNotExist:
-    #             messages.info(request, "이름 또는 이메일이 일치하지 않습니다.")
-
-    #             return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw }) 
-
-        # if request.method=='POST' and 'recovery_pw' in request.POST:
-        #     user_id = request.POST.get('user_id')
-        #     name = request.POST.get('name')
-        #     email = request.POST.get('email')
-        #     try:
-        #         result_pw = User.objects.get(user_id=user_id, name=name, email=email)
-        #         messages.success(request, "회원님의 이메일로 인증코드를 발송하였습니다.")
-
-        #         return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_pw':result_pw.password })
-        #     except ObjectDoesNotExist:
-        #         messages.info(request, "아이디 또는 회원정보가 일치하지 않습니다.")
-
-        #         return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw })
-
-        # return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw, 'result_id':result_id })
-
-
-@method_decorator(logout_message_required, name='dispatch')
-class LoginView(FormView):
-    template_name = 'users/login.html'
-    form_class = LoginForm
-    success_url = '/users/main/'
-
-    def form_valid(self, form):
-        user_id = form.cleaned_data.get("user_id")
-        password = form.cleaned_data.get("password")
-
-        user = authenticate(self.request, username=user_id, password=password)
-        if user is not None:
-            self.request.session['user_id'] = user_id
-            login(self.request, user)
-
-            # Session Maintain Test
-
-            remember_session = self.request.POST.get('remember_session', False)
-            if remember_session:
-                settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-
-            # try:
-            #     remember_session = self.request.POST['remember_session']
-            #     if remember_session:
-            #         settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-            # except MultiValueDictKeyError:
-            #     settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-            
-        return super().form_valid(form)
-
-
-# class LoginView(FormView):
-#     template_name = 'users/login.html'
-#     form_class = LoginForm
-#     success_url = '/'
-
-#     def form_valid(self, form):
-#         self.request.session['user_id'] = form.data.get('user_id')
-
-#         return super().form_valid(form)
-
-# def logout_view(request):
-#     if 'user_id' in request.session:
-#         del(request.session['user_id'])
-
-#     return redirect('/')
-
-
-# def login_view(request):
-#     if request.method == 'POST':
-#         login_form = AuthenticationForm(request, request.POST)  
-        
-#         if login_form.is_valid():
-#             login(request, login_form.get_user())
-#             return render(request, 'users/index.html')
-#     else:
-#         login_form = LoginForm()
-    
-#     return render(request, 'users/login.html', {'login_form' : login_form})
-
-def logout_view(request):
-    logout(request)
-    return redirect('/')
-
-
-# 내가 쓴 글
+# 내가 쓴 글 보기
 @require_GET
 def profile_post_view(request):
     free_list = Free.objects.filter(writer=request.user.id).order_by('-registered_date')
