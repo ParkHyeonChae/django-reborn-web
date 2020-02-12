@@ -1,0 +1,166 @@
+{% extends "users/user_base.html" %}
+{% load static %}
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/loading.css' %}" type="text/css">
+{% endblock %}
+{% block contents %}
+
+
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div style="position: absolute; top: 45%; height: 504.18px; margin-top: -252.09px;">
+            <div class="card" style="width: 32rem;">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img src="{% static 'img/logo2.jpg' %}"
+                            style="width: 40%; margin-top:10px; margin-bottom: -30px;">
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            {% csrf_token %}
+                            <!--아이디-->
+                            <div class="mb-4 md-form">
+                                <label name="label_user_id" for="{{ form_pw.user_id.id_for_label }}"><i
+                                    class="fas fa-user"></i>&nbsp;&nbsp;{{ form_pw.user_id.label }}</label>
+                                    {{ form_pw.user_id }}
+                            </div>
+                            <!--이름-->
+                            <div class="mb-4 md-form">
+                                <label name="label_name" for="{{ form_pw.name.id_for_label }}"><i
+                                    class="fas fa-user-edit"></i>&nbsp;&nbsp;{{ form_pw.name.label }}</label>
+                                    {{ form_pw.name }}
+                            </div>
+                            <!--이메일-->
+                            <div class="mb-4 md-form">
+                                <label name="label_email" for="{{ form_pw.email.id_for_label }}"><i
+                                        class="fas fa-envelope"></i>&nbsp;&nbsp;{{ form_pw.email.label }}</label>
+                                    {{ form_pw.email }}
+                                <small class="form-text text-muted">
+                                    등록하신 메일로 인증번호가 발송됩니다.
+                                </small>
+                            </div>
+                            <!--비밀번호찾기 버튼-->
+                            <div id="div_find_pw" style="padding-top:10px;" class="row justify-content-md-center">
+                                <button id="find_pw" class="btn btn-red" style="opacity: 90%; font-size: 16px;" name="recovery_pw"><i class="fas fa-search"></i>&nbsp;&nbsp;비밀번호찾기</button>
+                            </div>
+
+                            <div style="text-align: center; margin-top: 10px; margin-bottom: -10px;">
+                                <div id="loading"></div>
+                            </div>
+
+                            <div id="result_pw"></div>
+
+                            <br>
+                            <span style="color:gray; font-size: 14px;" >&middot;&nbsp;아이디를 잊으셨나요?</span>
+                            <a style="text-decoration:underline; color:black; font-size: 14px;" href="{% url 'users:recovery_id' %}">아이디찾기</a>
+
+                            <script type="text/javascript">
+                                $(document).ready(function () {
+                                    $('#find_pw').click(function () {
+                                        $('#loading').replaceWith('<div id="loading_end" class="loading"></div>')
+                                        var user_id = $("#pw_form_id").val();
+                                        var name = $("#pw_form_name").val();
+                                        var email = $("#pw_form_email").val();
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/users/recovery/pw/find/",
+                                            dataType: "json",
+                                            data: {
+                                                'user_id': user_id,
+                                                'name': name,
+                                                'email': email,
+                                                'csrfmiddlewaretoken': '{{csrf_token}}',
+                                            },
+                                            success: function (response) {
+                                                $('#loading_end').remove()
+                                                alert('회원님의 이메일로 인증코드를 발송하였습니다.');
+                                                // $('#result_pw').replaceWith('<h5><p id="result_pw">회원님의 비밀번호는 <strong>'+response.result_pw+'</strong> 입니다.</p></h5>')
+                                                $('#div_find_pw').remove()
+                                                $('#result_pw').replaceWith(
+                                                    // '<br><form action="{% url "users:recovery_auth" %}" method="POST"><input type="text" name="input_auth_num" placeholder="인증번호를 입력해주세요." class="form-control" /><br><button type="submit" name="auth_confirm" class="btn btn-danger">인증확인</button></form>'
+                                                    '<hr><div class="row justify-content-md-center"><form class="form-inline" style="margin-bottom:-15px; margin-top:-10px;"><div class="md-form md-outline"><label for="input_auth_num">인증번호 입력</label><input type="text" id="input_auth_num" class="form-control mx-sm-2" autofocus/><small id="timeset" class="text-muted" style="font-size:15px; margin-right:5px;"></small></div></form>'+
+                                                    '<button type="submit" name="auth_confirm" id="id_auth_confirm" class="btn btn-red" style="opacity: 90%; height:30%; margin-top:10px; font-size: 12px;"><i class="fas fa-check"></i>&nbsp;&nbsp;인증확인</button></div><hr>'
+                                                )
+                                                function countdown( elementName, minutes, seconds ) {
+                                                    var elementName, endTime, hours, mins, msLeft, time;
+                                                    function twoDigits( n ) {
+                                                        return (n <= 9 ? "0" + n : n);
+                                                    }
+                                                    function updateTimer() {
+                                                        msLeft = endTime - (+new Date);
+                                                        if ( msLeft < 1000 ) {
+                                                            alert("인증시간이 초과되었습니다.");
+                                                            $("" + elementName).remove();
+                                                            cert_ok = false;
+                                                            certificationNum = false;
+                                                            location.href = "{% url 'users:recovery_pw' %}"
+                                                        } else {
+                                                            time = new Date( msLeft );
+                                                            hours = time.getUTCHours();
+                                                            mins = time.getUTCMinutes();
+                                                            $("" + elementName).html((hours ? hours + ':' + twoDigits( mins ) : twoDigits(mins))
+                                                            + ':' + twoDigits( time.getUTCSeconds()));
+                                                            setTimeout( updateTimer, time.getUTCMilliseconds() + 500 );
+                                                        }
+                                                    }
+                                                    endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
+                                                    updateTimer();
+                                                }
+                                                countdown("#timeset", 5, 0);
+
+                                                var user = response.result
+
+                                                $(document).ready(function () {
+                                                    $('#id_auth_confirm').click(function () {
+                                                        var input_auth_num = $("#input_auth_num").val();
+
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: "/users/recovery/pw/auth/",
+                                                            dataType: "json",
+                                                            data: {
+                                                                'user_id': user,
+                                                                'input_auth_num': input_auth_num,
+                                                                'csrfmiddlewaretoken': '{{csrf_token}}',
+                                                            },
+                                                            success: function (response) {
+                                                                // location.href = "/users/profile/password/";
+                                                                location.href = "{% url 'users:recovery_pw_reset' %}";
+                                                            },
+                                                            error: function () {
+                                                                if ($('#input_auth_num').val()=="") {
+                                                                    alert('회원님의 이메일로 전송된 인증번호를 입력해주세요.');
+                                                                } else {
+                                                                    alert('인증번호가 일치하지 않습니다.');
+                                                                }
+                                                            },
+                                                        });
+                                                    })
+                                                })
+                                            },
+                                            error: function () {
+                                                $('#loading_end').remove()
+                                                if (user_id == "" || name == "" || email == "") {
+                                                    alert('아이디, 이름, 이메일을 모두 입력해주세요.');
+                                                } else {
+                                                    alert('입력하신 정보가 일치하지 않거나 존재하지 않습니다.');
+                                                }
+                                            },
+                                        });
+                                    })
+                                });
+                            </script>
+                            <!-- {% if result_pw %}
+                            <h5>회원님의 비밀번호는 <strong>{{ result_pw }}</strong>입니다.</h5>
+                            {% endif %}
+                            <br><br> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

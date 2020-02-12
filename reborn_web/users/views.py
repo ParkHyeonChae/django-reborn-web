@@ -44,14 +44,6 @@ def main_view(request):
     return render(request, 'users/main.html')
 
 
-def register_success(request):
-    if not request.session.get('register_auth', False):
-        raise PermissionDenied
-    request.session['register_auth'] = False
-
-    return render(request, 'users/register_success.html')
-
-
 @method_decorator(logout_message_required, name='dispatch')
 class AgreementView(View):
     def get(self, request, *args, **kwargs):
@@ -68,6 +60,14 @@ class AgreementView(View):
         else:
             messages.info(request, "약관에 모두 동의해주세요.")
             return render(request, 'users/agreement.html')   
+
+
+def register_success(request):
+    if not request.session.get('register_auth', False):
+        raise PermissionDenied
+    request.session['register_auth'] = False
+
+    return render(request, 'users/register_success.html')
 
 
 # def cs_register_view(request):
@@ -272,7 +272,7 @@ def ajax_find_pw_view(request):
                 'auth_num': auth_num,
             }),
         )
-    # print(auth_num)
+    print(auth_num)
     return HttpResponse(json.dumps({"result": result_pw.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")
 
 
@@ -341,16 +341,26 @@ def auth_pw_reset_view(request):
 
 
 @method_decorator(logout_message_required, name='dispatch')
-class RecoveryView(View):
-    template_name = 'users/recovery.html'
+class RecoveryIdView(View):
+    template_name = 'users/recovery_id.html'
     recovery_id = RecoveryIdForm
-    recovery_pw = RecoveryPwForm
 
     def get(self, request):
         if request.method=='GET':
             form_id = self.recovery_id(None)
+        return render(request, self.template_name, { 'form_id':form_id, })
+
+
+@method_decorator(logout_message_required, name='dispatch')
+class RecoveryPwView(View):
+    template_name = 'users/recovery_pw.html'
+    recovery_pw = RecoveryPwForm
+
+    def get(self, request):
+        if request.method=='GET':
             form_pw = self.recovery_pw(None)
-            return render(request, self.template_name, { 'form_id':form_id, 'form_pw':form_pw })
+            return render(request, self.template_name, { 'form_pw':form_pw, })
+
 
     # def post(self, request):
     #     if request.method=='POST' and 'auth_confirm' in request.POST:

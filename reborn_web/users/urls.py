@@ -10,11 +10,12 @@ urlpatterns = [
     path('login/', views.LoginView.as_view(), name='login'),
     path('logout/', views.logout_view, name='logout'),
 
-    path('recovery/', views.RecoveryView.as_view(), name='recovery'),
-    path('recovery/id', views.ajax_find_id_view, name='recovery_id'),
-    path('recovery/pw', views.ajax_find_pw_view, name='recovery_pw'),
-    path('recovery/auth', views.auth_confirm_view, name='recovery_auth'),
-    path('recovery/reset/', views.auth_pw_reset_view, name='recovery_pw_reset'),
+    path('recovery/id/', views.RecoveryIdView.as_view(), name='recovery_id'),
+    path('recovery/pw/', views.RecoveryPwView.as_view(), name='recovery_pw'),
+    path('recovery/id/find/', views.ajax_find_id_view, name='ajax_id'),
+    path('recovery/pw/find/', views.ajax_find_pw_view, name='ajax_pw'),
+    path('recovery/pw/auth/', views.auth_confirm_view, name='recovery_auth'),
+    path('recovery/pw/reset/', views.auth_pw_reset_view, name='recovery_pw_reset'),
     # path('recovery/reset/', views.AuthPwResetView.as_view(), name='recovery_pw_reset'),
 
     path('agreement/', views.AgreementView.as_view(), name='agreement'),

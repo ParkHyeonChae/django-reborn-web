@@ -62,7 +62,8 @@
                         <button type="submit" style="opacity: 90%; font-size: 16px; margin-top: -5px;" class="btn btn-red btn-lg btn-block">로그인</button>
                     </form>
                     <div style="text-align: center;">
-                        <a style="color:gray; font-size: 14px;" href='/users/recovery'>아이디&nbsp;&middot;&nbsp;비밀번호찾기</a>
+                        <a style="color:gray; font-size: 14px;" href="{% url 'users:recovery_id' %}">아이디</a>&nbsp;&middot;
+                        <a style="color:gray; font-size: 14px;" href="{% url 'users:recovery_pw' %}">비밀번호찾기</a>
                     </div>
                 </div>
             </div>
