@@ -79,7 +79,7 @@
                                                 $('#div_find_pw').remove()
                                                 $('#result_pw').replaceWith(
                                                     // '<br><form action="{% url "users:recovery_auth" %}" method="POST"><input type="text" name="input_auth_num" placeholder="인증번호를 입력해주세요." class="form-control" /><br><button type="submit" name="auth_confirm" class="btn btn-danger">인증확인</button></form>'
-                                                    '<hr><div class="row justify-content-md-center"><form class="form-inline" style="margin-bottom:-15px; margin-top:-10px;"><div class="md-form md-outline"><label for="input_auth_num">인증번호 입력</label><input type="text" id="input_auth_num" class="form-control mx-sm-2" autofocus/><small id="timeset" class="text-muted" style="font-size:15px; margin-right:5px;"></small></div></form>'+
+                                                    '<hr><div class="row justify-content-md-center"><form class="form-inline" style="margin-bottom:-15px; margin-top:-10px;"><div class="md-form md-outline"><label for="input_auth_num">인증번호 입력 (<span id="timeset"></span>)</label><input type="text" id="input_auth_num" class="form-control mx-sm-2" autofocus/></div></form>'+
                                                     '<button type="submit" name="auth_confirm" id="id_auth_confirm" class="btn btn-red" style="opacity: 90%; height:30%; margin-top:10px; font-size: 12px;"><i class="fas fa-check"></i>&nbsp;&nbsp;인증확인</button></div><hr>'
                                                 )
                                                 function countdown( elementName, minutes, seconds ) {
