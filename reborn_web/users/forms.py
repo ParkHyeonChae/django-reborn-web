@@ -6,6 +6,14 @@ from django.contrib.auth import get_user_model
 from .choice import *
 
 
+def hp_validator(value):
+	if len(str(value)) != 11:
+		raise forms.ValidationError('정확한 핸드폰 번호를 입력해주세요.')
+
+def student_id_validator(value):
+	if len(str(value)) != 8:
+		raise forms.ValidationError('본인의 학번 8자리를 입력해주세요.')
+
 # 로그인 폼
 class LoginForm(forms.Form):
     user_id = forms.CharField(
@@ -190,6 +198,7 @@ class CsRegisterForm(UserCreationForm):
             # 'placeholder': "아이디, 비밀번호 찾기에 이용됩니다.",
         })
         self.fields['hp'].label = '핸드폰번호'
+        self.fields['hp'].validators = [hp_validator]
         self.fields['hp'].widget.attrs.update({
             'class': 'form-control',
             # 'placeholder': "'-'를 제외한 숫자로 입력해주세요",
@@ -199,6 +208,7 @@ class CsRegisterForm(UserCreationForm):
             'class': 'form-control',
         })
         self.fields['student_id'].label = '학번'
+        self.fields['student_id'].validators = [student_id_validator]
         self.fields['student_id'].widget.attrs.update({
             'class': 'form-control',
             # 'placeholder': "학번을 입력해주세요.",
@@ -224,7 +234,7 @@ class CsRegisterForm(UserCreationForm):
 
 # 일반 회원가입 폼
 class RegisterForm(UserCreationForm):
-    student_id = forms.IntegerField(required=False, label='학번', widget=forms.NumberInput(
+    student_id = forms.IntegerField(validators=[student_id_validator], required=False, label='학번', widget=forms.NumberInput(
         attrs={'class': 'form-control',}), 
     )
     grade = forms.ChoiceField(choices=GRADE_CHOICES, label='학년', widget=forms.Select(
@@ -265,6 +275,7 @@ class RegisterForm(UserCreationForm):
             # 'placeholder': "아이디, 비밀번호 찾기에 이용됩니다.",
         })
         self.fields['hp'].label = '핸드폰번호'
+        self.fields['hp'].validators = [hp_validator]
         self.fields['hp'].widget.attrs.update({
             'class': 'form-control',
             # 'placeholder': "'-'를 제외한 숫자로 입력해주세요",

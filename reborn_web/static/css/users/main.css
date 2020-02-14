@@ -8251,7 +8251,8 @@ h1, h2, h3, h4, h5,
     #sidebar {
       margin-left: -300px; }
       #sidebar.active {
-        margin-left: 0; } }
+        margin-left: 0; }
+      }
 
 a[data-toggle="collapse"] {
   position: relative; }

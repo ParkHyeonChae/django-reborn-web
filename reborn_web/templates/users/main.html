@@ -14,55 +14,59 @@
 
         <div id="side_hide">
             <div style="text-align: right;">
-                <button type="button" id="sidebarCollapseHide" class="btn btn-primary" onclick="hide()" style="margin-bottom: -30px;">
+                <!-- <button type="button" id="sidebarCollapseHide" class="btn btn-primary" onclick="hide()" style="margin-bottom: -50px;">
                     <i class="fa fa-chevron-left"></i>
                     <span class="sr-only">Toggle Menu</span>
-                </button>
+                </button> -->
+                <div id="sidebarCollapseHide" onclick="hide()" style="margin-top: 15px; margin-right:15px; margin-bottom: -30px; cursor: pointer">
+                    <i class="fa fa-chevron-left fa-lg"></i>
+                </div>
             </div>
         </div>
 
         <div class="p-4 pt-5">
             {% if user.is_authenticated %}
-            {% if user.level == '0' %}
-            <span style="font-size: 22px;">{{ user.user_id }}</span> 님 환영합니다. (개발자)
-            {% elif user.level == '1' %}
-            <span style="font-size: 22px;">{{ user.user_id }}</span> 님 환영합니다. (관리자)
-            {% else %}
-            <span style="font-size: 22px;">{{ user.user_id }}</span> 님 환영합니다.
-            {% endif %}
-
-            <br>
-            <a href="{% url 'users:logout' %}">로그아웃</a>&nbsp;&middot;
-            <a href="{% url 'users:profile_post' %}">작성글보기</a>&nbsp;&middot;
-            <a href="{% url 'users:profile' %}">프로필수정</a>
+                {% if user.level == '0' %}
+                <span style="font-size: 22px;">{{ user.name }}</span> 님 환영합니다. (개발자)
+                <div style="text-align: right; margin-bottom: -25px;">
+                    <a href="{% url 'users:logout' %}">로그아웃</a>
+                </div>
+                {% elif user.level == '1' %}
+                <span style="font-size: 22px;">{{ user.name }}</span> 님 환영합니다. (관리자)
+                <div style="text-align: right; margin-bottom: -25px;">
+                    <a href="{% url 'users:logout' %}">로그아웃</a>
+                </div>
+                {% else %}
+                <span style="font-size: 22px;">{{ user.name }}</span> 님 환영합니다.
+                <a href="{% url 'users:logout' %}" style="margin-left:33px;">로그아웃</a>
+                <br>
+                {% endif %}
             {% else %}
             <p>이 유저는 로그아웃 되어 있습니다..</p>
             <br>
             <a href="{% url 'users:login' %}">로그인</a>&nbsp;&middot;
             <a href="{% url 'users:agreement' %}">회원가입</a>
             {% endif %}
-
+            <br>
             <ul class="list-unstyled components mb-5">
-                <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+                <!-- <li class="active"> -->
+                <li>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user" style="margin:0 2.5px;"></i>&nbsp;&nbsp;마이페이지</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
                         <li>
-                            <a href="#">Home 1</a>
+                            <a href="{% url 'users:profile' %}"><i class="fas fa-user-cog"></i>&nbsp;&nbsp;프로필수정</a>
                         </li>
                         <li>
-                            <a href="#">Home 2</a>
+                            <a href="{% url 'users:profile_post' %}"><i class="fas fa-user-edit"></i>&nbsp;&nbsp;작성글보기</a>
                         </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
+                        
                     </ul>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="#">About</a>
-                </li>
+                </li> -->
                 <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"
-                        class="dropdown-toggle">Pages</a>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-graduation-cap"></i>&nbsp;&nbsp;학사정보</a>
                     <ul class="collapse list-unstyled" id="pageSubmenu">
                         <li>
                             <a href="#">Page 1</a>
@@ -84,17 +88,17 @@
             </ul>
 
             <!--사이드바 FOOTER-->
-            <div class="footer">
+            <div class="footer" style="position: fixed; bottom: 0; margin-left:-7px;">
                 <p>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     Copyright &copy;<script>
                         document.write(new Date().getFullYear());
-                    </script> All rights reserved | This template is made with <i class="icon-heart"
+                    </script>All rights<br>reserved | This template is made with<br><i class="icon-heart"
                         aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib.com</a>
+                        &nbsp;&&nbsp;<a href="https://github.com/ParkHyeonChae" target="_blank">ParkHyeonChae</a>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 </p>
             </div>
-
         </div>
     </nav>
     
@@ -150,7 +154,6 @@
 
         
         <!--내용-->
-
         {% if user.is_authenticated %}
         <br>
         <p>이 유저는 로그인 되어 있습니다.</p>
@@ -175,6 +178,12 @@
 </div>
 
 <script type="text/javascript">
+    if (screen.width <= 991.98) {
+        // document.getElementById("sidebar").setAttribute('class','active')
+        document.getElementById('sidebarCollapseShow').removeAttribute('hidden')
+        document.getElementById('sidebarCollapseHide').setAttribute('hidden', '')
+    }
+
     (function ($) {
         "use strict";
         var fullHeight = function () {
@@ -191,17 +200,15 @@
     })(jQuery);
 
     function hide () {
-        document.getElementById('sidebar').setAttribute('class','active')
+        $('#sidebar').toggleClass('active');
         document.getElementById('sidebarCollapseShow').removeAttribute('hidden')
         document.getElementById('sidebarCollapseHide').setAttribute('hidden', '')
     };
     function show () {
-        document.getElementById('sidebar').setAttribute('class','')
+        $('#sidebar').toggleClass('active');
         document.getElementById('sidebarCollapseShow').setAttribute('hidden', '')
         document.getElementById('sidebarCollapseHide').removeAttribute('hidden')
     };
-    
-
 </script>
 
 {% endblock %}
