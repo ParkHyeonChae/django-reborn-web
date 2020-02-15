@@ -8195,7 +8195,7 @@ h1, h2, h3, h4, h5,
   border-radius: 0;
   margin-bottom: 40px;
   -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); }
+  box-shadow: 3px 2px 4px rgba(0, 0, 0, 0.1); }
 
 .navbar-btn {
   -webkit-box-shadow: none;

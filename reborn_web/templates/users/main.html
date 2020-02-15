@@ -11,7 +11,6 @@
 <div class="wrapper d-flex align-items-stretch">
     <!--사이드바-->
     <nav id="sidebar">
-
         <div id="side_hide">
             <div style="text-align: right;">
                 <!-- <button type="button" id="sidebarCollapseHide" class="btn btn-primary" onclick="hide()" style="margin-bottom: -50px;">
@@ -23,7 +22,6 @@
                 </div>
             </div>
         </div>
-
         <div class="p-4 pt-5">
             {% if user.is_authenticated %}
                 {% if user.level == '0' %}
@@ -54,20 +52,36 @@
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user" style="margin:0 2.5px;"></i>&nbsp;&nbsp;마이페이지</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
                         <li>
-                            <a href="{% url 'users:profile' %}"><i class="fas fa-user-cog"></i>&nbsp;&nbsp;프로필수정</a>
+                            <a href="{% url 'users:profile' %}"><i class="fas fa-user-cog"></i>&nbsp;&nbsp;프로필 수정</a>
                         </li>
                         <li>
-                            <a href="{% url 'users:profile_post' %}"><i class="fas fa-user-edit"></i>&nbsp;&nbsp;작성글보기</a>
+                            <a href="{% url 'users:profile_post' %}"><i class="fas fa-user-edit"></i>&nbsp;&nbsp;작성한 글</a>
                         </li>
-                        
+                        <li>
+                            <a href="{% url 'users:profile_post' %}"><i class="fas fa-comments"></i>&nbsp;&nbsp;댓글단 글</a>
+                        </li>
                     </ul>
                 </li>
                 <!-- <li>
                     <a href="#">About</a>
                 </li> -->
                 <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-graduation-cap"></i>&nbsp;&nbsp;학사정보</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                    <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-pen" style="margin-right:4px;"></i>&nbsp;&nbsp;커뮤니티</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu1">
+                        <li>
+                            <a href="{% url 'notice:notice_list' %}"><i class="fas fa-clipboard-check"></i>&nbsp;&nbsp;공지사항</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'free:free_list' %}"><i class="fas fa-clipboard-list"></i>&nbsp;&nbsp;자유게시판</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'anonymous:anonymous_list' %}"><i class="fas fa-clipboard"></i>&nbsp;&nbsp;익명게시판</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-graduation-cap"></i>&nbsp;&nbsp;학사정보</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu2">
                         <li>
                             <a href="#">Page 1</a>
                         </li>
@@ -102,19 +116,18 @@
         </div>
     </nav>
     
-    <div id="side_show">
-        <button type="button" id="sidebarCollapseShow" onclick="show()" class="btn btn-primary" hidden>
-            <i class="fa fa-chevron-right"></i>
-            <span class="sr-only">Toggle Menu</span>
-        </button>
-    </div>
-
     <!-- 메뉴  -->
-    <div id="content" class="p-4 p-md-5">
+    <div id="content" class="p-5">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin:-48px;">
+            <!--사이드바 보기 버튼-->
+            <div id="side_show" style="position:absolute; z-index: 1; cursor: pointer; margin-left: 3px;">
+                <div id="sidebarCollapseShow" onclick="show()" hidden>
+                    <i class="fa fa-bars fa-lg"></i>
+                    <span class="sr-only">Toggle Menu</span>
+                </div>
+            </div>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-
                 <!-- <button type="button" id="sidebarCollapse" class="btn btn-primary">
                     <i class="fa fa-bars"></i>
                     <span class="sr-only">Toggle Menu</span>
@@ -126,9 +139,10 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <a href="/" style="margin-left: 20px; font-size: 22px; font-weight: bold; color:#d14040f2; cursor: pointer;">INJE:REBORN</a>
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Home</a>
+                            <a class="nav-link" href="/">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">About</a>
@@ -152,27 +166,10 @@
             nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
             anim id est laborum.</p> -->
 
-        
         <!--내용-->
-        {% if user.is_authenticated %}
-        <br>
-        <p>이 유저는 로그인 되어 있습니다.</p>
-        로그인 상태 : {{ user.user_id }}
-        <br><br>
-        <button onclick="location.href='/users/logout'">로그아웃</button>
-        <button onclick="location.href='/users/profile'">마이페이지</button>
-        {% else %}
-        <br>
-        <p>이 유저는 로그아웃 되어 있습니다..</p>
-        <br>
-        <button onclick="location.href='/users/login'">로그인</button>
-        <button onclick="location.href='/users/registerinfo'">회원가입</button>
-
-        {% endif %}
-        <button onclick="location.href='/notice/'">공지사항</button>
-        <button onclick="location.href='/free/'">자유게시판</button>
-        <button onclick="location.href='/anonymous/'">익명게시판</button>
-        <button onclick="location.href='/about/'">About</button>
+        <div style="margin: 70px -20px;">
+            내용
+        </div>
 
     </div>
 </div>
