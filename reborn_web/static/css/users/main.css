@@ -2386,23 +2386,23 @@ fieldset:disabled a.btn {
       box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5); }
 
 .btn-outline-danger {
-  color: #dc3545;
-  border-color: #dc3545; }
+  color: #d14040f2;
+  border-color:#d14040f2; }
   .btn-outline-danger:hover {
     color: #fff;
-    background-color: #dc3545;
-    border-color: #dc3545; }
+    background-color: #d14040f2;
+    border-color: #d14040f2; }
   .btn-outline-danger:focus, .btn-outline-danger.focus {
     -webkit-box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
     box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5); }
   .btn-outline-danger.disabled, .btn-outline-danger:disabled {
-    color: #dc3545;
+    color: #d14040f2;
     background-color: transparent; }
   .btn-outline-danger:not(:disabled):not(.disabled):active, .btn-outline-danger:not(:disabled):not(.disabled).active,
   .show > .btn-outline-danger.dropdown-toggle {
     color: #fff;
-    background-color: #dc3545;
-    border-color: #dc3545; }
+    background-color: #d14040f2;
+    border-color: #d14040f2; }
     .btn-outline-danger:not(:disabled):not(.disabled):active:focus, .btn-outline-danger:not(:disabled):not(.disabled).active:focus,
     .show > .btn-outline-danger.dropdown-toggle:focus {
       -webkit-box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
@@ -6483,7 +6483,8 @@ button.bg-dark:focus {
 
 .shadow-none {
   -webkit-box-shadow: none !important;
-  box-shadow: none !important; }
+  box-shadow: none !important;
+}
 
 .w-25 {
   width: 25% !important; }
@@ -6756,6 +6757,7 @@ button.bg-dark:focus {
 .p-5 {
   padding: 3rem !important;
 }
+
 
 .pt-5,
 .py-5 {
@@ -8301,4 +8303,13 @@ a[data-toggle="collapse"] {
   border: 1px solid gray;
   border-radius: 20%;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+
+.notice_box {
+  /* box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2); */
+  transition: 0.3s;
+}
+
+.notice_box:hover {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }

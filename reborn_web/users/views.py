@@ -43,7 +43,11 @@ def index(request):
 # 메인화면(로그인 후)
 @login_message_required
 def main_view(request):
-    return render(request, 'users/main.html')
+    notice_list = Notice.objects.order_by('-id')[:5]
+    context = {
+        'notice_list' : notice_list
+    }
+    return render(request, 'users/main.html', context)
 
 
 # 로그인

@@ -139,7 +139,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <a href="/" style="margin-left: 20px; font-size: 22px; font-weight: bold; color:#d14040f2; cursor: pointer;">INJE:REBORN</a>
+                    <a href="/" style="margin-left: 30px; font-size: 22px; font-weight: bold; color:#d14040f2; cursor: pointer;">INJE:REBORN</a>
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
                             <a class="nav-link" href="/">Home</a>
@@ -171,32 +171,51 @@
             <div class="row"> 
                 <div class="col-sm-6" style="height: 45vh;">
                     <div class="shadow p-3 mb-5 bg-white rounded" style="height: 90%; width:98%">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <span style="font-size: 20px; font-weight: bold; float:left;"><i class="fas fa-check"></i>&nbsp;공지사항</span>
+                        <div style="text-align: right; margin-bottom: 50px;">
+                            <a href="{% url 'notice:notice_list' %}" class="btn btn-outline-danger">전체보기</a>
+                        </div>
+
+                        {% for notice in notice_list %}
+                        <div class="notice_box">
+                            <div class="shadow-none p-3 mb-5 bg-light rounded" onclick="location.href='/notice/{{ notice.id }}'" style="margin-top: -35px; cursor:pointer;">
+                                <span style="color: gray; font-size:16px"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;{{ notice.title|truncatechars:30 }}</span>
+                                <div style="float:right">
+                                    <span style="color: gray; font-size:16px">{{ notice.registered_date|date:'Y. m. d' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
                     </div>
                 </div>
                 <div class="col-sm-6" style="height: 45vh;">
                     <div class="shadow p-3 mb-5 bg-white rounded" style="height: 90%; width:98%">
-                        <h5 class="card-title">Special title treatment</h5>
+                        <span style="font-size: 20px; font-weight: bold; float:left;"><i class="fas fa-check"></i>&nbsp;자유게시판</span>
+                        <div style="text-align: right; margin-bottom: 10px;">
+                            <a href="#" class="btn btn-outline-danger">전체보기</a>
+                        </div>
                         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
                     </div>
                 </div>
             </div>
             <div class="row"> 
                 <div class="col-sm-6" style="height: 45vh;">
                     <div class="shadow p-3 mb-5 bg-white rounded" style="height: 90%; width:98%">
-                        <h5 class="card-title">Special title treatment</h5>
+                        <span style="font-size: 20px; font-weight: bold; float:left;"><i class="fas fa-check"></i>&nbsp;익명게시판</span>
+                        <div style="text-align: right; margin-bottom: 10px;">
+                            <a href="#" class="btn btn-outline-danger">전체보기</a>
+                        </div>
                         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
                     </div>
                 </div>
                 <div class="col-sm-6" style="height: 45vh;">
                     <div class="shadow p-3 mb-5 bg-white rounded" style="height: 90%; width:98%">
-                        <h5 class="card-title">Special title treatment</h5>
+                        <span style="font-size: 20px; font-weight: bold; float:left;"><i class="fas fa-check"></i>&nbsp;공지사항</span>
+                        <div style="text-align: right; margin-bottom: 10px;">
+                            <a href="#" class="btn btn-outline-danger">전체보기</a>
+                        </div>
                         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
                     </div>
                 </div>
             </div>
