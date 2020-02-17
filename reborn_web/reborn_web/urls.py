@@ -25,4 +25,5 @@ urlpatterns = [
     path('free/', include('free.urls')),
     path('anonymous/', include('anonymous.urls')),
     path('about/', include('about.urls')),
+    path('calender/', include('calender.urls')),
 ]
