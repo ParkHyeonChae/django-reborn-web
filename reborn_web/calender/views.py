@@ -5,10 +5,12 @@ import json
 from .models import Calender
 
 
+# 학사일정
 def calender_view(request):
-	return render(request, 'calender/index.html')
+	return render(request, 'calender/calender.html')
 
 
+# 일정추가, 수정
 def updateEvent(request):
 	event_id = request.GET['eventId']
 	event_name = request.GET['eventName']
@@ -19,7 +21,7 @@ def updateEvent(request):
 	description = request.GET['eventDescription']
 	flag = 0
 	id_start = 1
-    
+
 	if event_id == "":
 		while flag == 0:
 			if Calender.objects.filter(event_id = (str(id_start) + "-eve-" + start_date)).count() == 1:
@@ -43,6 +45,7 @@ def updateEvent(request):
 	return HttpResponse(json.dumps({"result": result, "event_id": new_event_id}), content_type = "application/json")
 
 
+# 일정표시
 def allEvents(request):
 	response = ""
 	q = Calender.objects.filter(deleted = False).values()
@@ -51,6 +54,7 @@ def allEvents(request):
 	return HttpResponse(response)
 
 
+# 일정 json응답
 def allEventsJSON(request):
 	response = {}
 	q = Calender.objects.values()
@@ -69,12 +73,14 @@ def allEventsJSON(request):
 	return HttpResponse(json.dumps({"response": response}), content_type = "application/json")
 
 
+# 세부일정보기
 def viewEvent(request):
 	event_id = request.GET['eventId']
 	q = Calender.objects.get(event_id = event_id)
-	return HttpResponse(json.dumps({"event_name": q.event_name, "location": q.location, "start_date": q.start_date, "start_time": q.start_time, "end_date": q.end_date, "end_time": q.end_time, "all_day": q.all_day, "description": q.description}), content_type = "application/json")
+	return HttpResponse(json.dumps({"event_name": q.event_name, "location": q.location, "start_date": q.start_date, "end_date": q.end_date, "all_day": q.all_day, "description": q.description}), content_type = "application/json")
 
 
+# 일정삭제
 def forceDelete(request):
 	event_id = request.GET['eventId']
 	try:
