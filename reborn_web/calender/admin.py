@@ -1,3 +1,15 @@
 from django.contrib import admin
+from .models import Calender
 
-# Register your models here.
+
+class CalenderAdmin(admin.ModelAdmin):
+    list_display = (
+        'event_name',
+        'location',
+        'start_date',
+        'end_date',
+        'all_day',
+        'deleted',
+    )
+
+admin.site.register(Calender, CalenderAdmin)

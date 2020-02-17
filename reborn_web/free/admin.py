@@ -10,7 +10,7 @@ class FreeAdmin(admin.ModelAdmin):
         'hits',
         'comments',
         'registered_date',
-        )
+    )
     search_fields = ('title', 'content', 'writer__user_id',)
 
 
@@ -21,7 +21,7 @@ class CommentAdmin(admin.ModelAdmin):
         'writer',
         'created',
         'deleted',
-        )
+    )
     search_fields = ('post__title', 'content', 'writer__user_id',)
 
 
