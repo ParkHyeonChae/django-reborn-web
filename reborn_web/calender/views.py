@@ -3,14 +3,17 @@ from django.http import HttpResponse
 from django.utils import timezone
 import json
 from .models import Calender
+from users.decorators import login_message_required, admin_required
 
 
 # 학사일정
-def calender_view(request):
-	return render(request, 'calender/calender.html')
+@login_message_required
+def calendar_view(request):
+	return render(request, 'calendar/calendar.html')
 
 
 # 일정추가, 수정
+@admin_required
 def updateEvent(request):
 	event_id = request.GET['eventId']
 	event_name = request.GET['eventName']
@@ -81,6 +84,7 @@ def viewEvent(request):
 
 
 # 일정삭제
+@admin_required
 def forceDelete(request):
 	event_id = request.GET['eventId']
 	try:
