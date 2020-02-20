@@ -6,8 +6,11 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     {% block header %}
     {% endblock %}
-     <!-- JQuery -->
+    <!-- JQuery -->
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- JQuery Cookie-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
     <!-- https://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -204,51 +207,7 @@
         </div>
     </div>
 
-    <script type="text/javascript">
-        if (screen.width <= 991.98) {
-            // document.getElementById("sidebar").setAttribute('class','active')
-            document.getElementById('sidebarCollapseShow').removeAttribute('hidden')
-            document.getElementById('sidebarCollapseHide').setAttribute('hidden', '')
-            $('#navbar').css({
-                left: "48px",
-            });
-        }
-
-        (function ($) {
-            "use strict";
-            var fullHeight = function () {
-                $('.js-fullheight').css('height', $(window).height());
-                $(window).resize(function () {
-                    $('.js-fullheight').css('height', $(window).height());
-                });
-            };
-            fullHeight();
-            // $('#sidebarCollapseHide').on('click', function () {
-            //     $('#sidebar').toggleClass('active');
-            // });
-
-        })(jQuery);
-
-        function hide() {
-            $('#sidebar').toggleClass('active');
-            document.getElementById('sidebarCollapseShow').removeAttribute('hidden')
-            document.getElementById('sidebarCollapseHide').setAttribute('hidden', '')
-            $('#navbar').css({
-                left: "48px",
-                transition: "0.3s"
-            });
-        };
-
-        function show() {
-            $('#sidebar').toggleClass('active');
-            document.getElementById('sidebarCollapseShow').setAttribute('hidden', '')
-            document.getElementById('sidebarCollapseHide').removeAttribute('hidden')
-            $('#navbar').css({
-                left: "348px",
-                transition: "0.3s"
-            });
-        };
-    </script>
+    <script src="{% static 'js/users/sidebar.js' %}"></script>
 
     {% block script %}
     {% endblock %}

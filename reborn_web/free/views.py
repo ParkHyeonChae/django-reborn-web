@@ -46,7 +46,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 class AllListView(ListView):
     model = Free
-    paginate_by = 10
+    paginate_by = 15
     template_name = 'free/free_list.html'  #DEFAULT : <app_label>/<model_name>_list.html
     context_object_name = 'free_list'        #DEFAULT : <app_label>_list
 
