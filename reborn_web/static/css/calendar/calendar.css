@@ -102,8 +102,8 @@ td {
 
 .eveBoxClose {
 	position: absolute;
-	top: 3px;
-	right: 9px;
+	top: 9px;
+	right: 11px;
 	cursor: pointer;
 	color: #b3b3b3;
 }
@@ -112,7 +112,7 @@ td {
 	color: #d14040f2;
 	display: inline-block;
 	font-weight: bold;
-	font-size: 0.9em;
+	font-size: 16px;
 	margin-top: 11px;
 	margin-left: 15px;
 }
@@ -131,20 +131,22 @@ input, textarea {
 }
 
 #eventName {
-	font-size: 1.1em;
-	width: 90%;
-	height: 25px;
-	margin-top: 5px;
+	font-size: 16px;
+	width: 91%;
+	/* height: 25px; */
+	margin-top: 15px;
 	margin-bottom: 10px;
 }
 
 #eventLocation {
-	width: 90%;
-	height: 18px;
-	margin-bottom: 7px;
+	width: 91%;
+	/* height: 18px; */
+	font-size: 16px;
+	margin-top: -10px;
 }
-#eventStartDate, #eventStartTime, #eventEndDate, #eventEndTime {
+#eventStartDate, #eventEndDate {
 	margin-bottom: 10px;
+	width: 94.5%;
 }
 
 textarea {
@@ -274,20 +276,20 @@ textarea {
 }
 
 .viewEveBoxName {
-	font-size: 1.2em;
+	font-size: 1.3em;
 	color: #d14040f2;
 	font-weight: bold;
 }
 
 .viewEveLabel {
-	font-size: 0.8em;
-	color: #5f5f5f;
-	/* font-weight: bold; */
+	font-size: 0.9em;
+	color: gray;
+	font-weight: bold;
 }
 
 .viewLocation, .viewDay, .viewDescription, .viewTitle {
-	font-size: 0.85em;
-	font-weight: bold;
+	font-size: 15px;
+	/* font-weight: bold; */
 	color: black;
 }
 
@@ -299,6 +301,7 @@ textarea {
 	color: #777777;
 	border: none;
 	cursor:pointer;
+	margin-bottom: 12px;
 }
 
 #eventEditButton {
@@ -385,3 +388,20 @@ textarea {
 		left: 10px;
 	}
 }
+
+/*mdb input background color*/
+@-webkit-keyframes autofill {
+to {
+color: #666;
+background: transparent; } }
+
+@keyframes autofill {
+to {
+color: #666;
+background: transparent; } }
+
+input:-webkit-autofill {
+-webkit-animation-name: autofill;
+animation-name: autofill;
+-webkit-animation-fill-mode: both;
+animation-fill-mode: both; }

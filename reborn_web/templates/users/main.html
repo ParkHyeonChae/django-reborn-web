@@ -1,14 +1,14 @@
 {% extends "users/main_base.html" %}
 {% load static %}
 {% block contents %}
-<div style="margin: 85px -10px -50px 5px;">
+<div style="margin: 55px -10px -40px 5px;">
     <div class="row">
         <div class="col-sm-6" style="height: 45vh;">
             <div class="shadow p-3 mb-5 bg-white rounded" style="height: 90%; width:98%">
                 <span style="font-size: 20px; font-weight: bold; float:left;"><i
                         class="fas fa-check"></i>&nbsp;공지사항</span>
-                <div style="text-align: right; margin-bottom: 50px;">
-                    <a href="{% url 'notice:notice_list' %}" class="btn btn-outline-danger">전체보기</a>
+                <div style="text-align: right; margin-bottom: 50px; padding-top: -5px;">
+                    <a href="{% url 'notice:notice_list' %}" style="background-color: #d14040f2; color:white; font-size: 13px; margin-top: -5px; margin-right: -5px;" class="btn btn btn-sm">전체보기</a>
                 </div>
 
                 {% for notice in notice_list %}
@@ -31,7 +31,7 @@
                 <span style="font-size: 20px; font-weight: bold; float:left;"><i
                         class="fas fa-check"></i>&nbsp;자유게시판</span>
                 <div style="text-align: right; margin-bottom: 10px;">
-                    <a href="#" class="btn btn-outline-danger">전체보기</a>
+                    <a href="{% url 'free:free_list' %}" style="background-color: #d14040f2; color:white; font-size: 13px; margin-top: -5px; margin-right: -5px;" class="btn btn btn-sm">전체보기</a>
                 </div>
                 <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
             </div>
@@ -43,7 +43,7 @@
                 <span style="font-size: 20px; font-weight: bold; float:left;"><i
                         class="fas fa-check"></i>&nbsp;익명게시판</span>
                 <div style="text-align: right; margin-bottom: 10px;">
-                    <a href="#" class="btn btn-outline-danger">전체보기</a>
+                    <a href="{% url 'anonymous:anonymous_list' %}" style="background-color: #d14040f2; color:white; font-size: 13px; margin-top: -5px; margin-right: -5px;" class="btn btn btn-sm">전체보기</a>
                 </div>
                 <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
             </div>
@@ -53,7 +53,7 @@
                 <span style="font-size: 20px; font-weight: bold; float:left;"><i
                         class="fas fa-check"></i>&nbsp;공지사항</span>
                 <div style="text-align: right; margin-bottom: 10px;">
-                    <a href="#" class="btn btn-outline-danger">전체보기</a>
+                    <a href="{% url 'notice:notice_list' %}" style="background-color: #d14040f2; color:white; font-size: 13px; margin-top: -5px; margin-right: -5px;" class="btn btn btn-sm">전체보기</a>
                 </div>
                 <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
             </div>

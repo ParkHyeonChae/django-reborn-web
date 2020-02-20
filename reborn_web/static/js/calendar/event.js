@@ -110,17 +110,19 @@ function event_rectangle_clicked(event) {
 	event.stopPropagation();
 	closeEveBox(event);
 
-	$(".viewEveBoxName").text(event.target.innerHTML);
+	// $(".viewEveBoxName").text(event.target.innerHTML);
 	var event_id = event.target.id;
 	$("[id=" + event_id + "]").addClass("event-rectangle-select");
 	$("#viewEveBoxEveId").text(event_id);
 	$.getJSON("viewEvent/", {eventId: event_id}, function(data) {
+		$(".viewEveBoxName").text(data["event_name"]);
 		$(".viewTitle").text(data["event_name"]);
 		$(".viewLocation").text(data["location"]);
+		$(".viewDescription").text(data["description"]);
 		
-		if (data["description"] != "") {
-			$(".viewDescription").text(data["description"]);
-		}
+		// if (data["description"] != "") {
+		// 	$(".viewDescription").text(data["description"]);
+		// }
 		
 		var start_date = new Date(data["start_date"].replace(/-/g,'/'));
 		var day_num = start_date.getDay();

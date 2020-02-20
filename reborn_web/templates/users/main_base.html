@@ -21,6 +21,10 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
 
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.11.0/css/mdb.min.css" rel="stylesheet">
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.11.0/js/mdb.min.js"></script>
 
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
@@ -36,18 +40,19 @@
         <!--사이드바-->
         <nav id="sidebar">
             <div id="side_hide">
-                <div style="text-align: right;">
+                <!-- <div style="text-align: right;"> -->
+                <div style="position:fixed; left: 273px; z-index:3;">
                     <!-- <button type="button" id="sidebarCollapseHide" class="btn btn-primary" onclick="hide()" style="margin-bottom: -50px;">
                         <i class="fa fa-chevron-left"></i>
                         <span class="sr-only">Toggle Menu</span>
                     </button> -->
                     <div id="sidebarCollapseHide" onclick="hide()"
-                        style="margin-top: 15px; margin-right:15px; margin-bottom: -30px; cursor: pointer">
+                        style="margin-top: 15px; margin-right:15px; margin-bottom: -30px; cursor: pointer;">
                         <i class="fa fa-chevron-left fa-lg"></i>
                     </div>
                 </div>
             </div>
-            <div class="p-4 pt-5">
+            <div class="p-4 pt-5" style="position: fixed; width:300px;">
                 {% if user.is_authenticated %}
                 {% if user.level == '0' %}
                 <span style="font-size: 22px;">{{ user.name }}</span> 님 환영합니다. (개발자)
@@ -74,6 +79,9 @@
                 <ul class="list-unstyled components mb-5">
                     <!-- <li class="active"> -->
                     <li>
+                        <a href="{% url 'users:main' %}"><i class="fas fa-home" style="margin-left:1px;"></i>&nbsp;&nbsp;메인으로</a>
+                    </li>
+                    <li>
                         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
                                 class="fas fa-user" style="margin:0 2.5px;"></i>&nbsp;&nbsp;마이페이지</a>
                         <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -81,10 +89,10 @@
                                 <a href="{% url 'users:profile' %}"><i class="fas fa-user-cog"></i>&nbsp;&nbsp;프로필수정</a>
                             </li>
                             <li>
-                                <a href="{% url 'users:profile_post' %}"><i class="fas fa-user-edit"></i>&nbsp;&nbsp;작성한글</a>
+                                <a href="{% url 'users:profile_post' %}"><i class="fas fa-user-edit"></i>&nbsp;&nbsp;작성한 글</a>
                             </li>
                             <li>
-                                <a href="{% url 'users:profile_post' %}"><i class="fas fa-comments"></i>&nbsp;&nbsp;댓글단글</a>
+                                <a href="{% url 'users:profile_post' %}"><i class="fas fa-comments"></i>&nbsp;&nbsp;댓글단 글</a>
                             </li>
                         </ul>
                     </li>
@@ -150,9 +158,10 @@
 
         <!-- 메뉴  -->
         <div id="content" class="p-5">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin:-48px;">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar" style="margin:-48px; position:fixed; left:348px; right:40px; z-index:2;">
+            <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin:-48px;"> -->
                 <!--사이드바 보기 버튼-->
-                <div id="side_show" style="position:absolute; z-index: 1; cursor: pointer; margin-left: 3px;">
+                <div id="side_show" style="position:absolute; z-index: 1; cursor: pointer; margin-left: 11px;">
                     <div id="sidebarCollapseShow" onclick="show()" hidden>
                         <i class="fa fa-bars fa-lg"></i>
                         <span class="sr-only">Toggle Menu</span>
@@ -171,8 +180,7 @@
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <a href="/"
-                            style="margin-left: 30px; font-size: 22px; font-weight: bold; color:#d14040f2; cursor: pointer;">INJE:REBORN</a>
+                        <a href="/" style="margin-left: 30px; font-size: 22px; font-weight: bold; color:#d14040f2; cursor: pointer; left:20">INJE:REBORN</a>
                         <ul class="nav navbar-nav ml-auto">
                             <!-- <li class="nav-item active"> -->
                             <li class="nav-item">
@@ -201,6 +209,9 @@
             // document.getElementById("sidebar").setAttribute('class','active')
             document.getElementById('sidebarCollapseShow').removeAttribute('hidden')
             document.getElementById('sidebarCollapseHide').setAttribute('hidden', '')
+            $('#navbar').css({
+                left: "48px",
+            });
         }
 
         (function ($) {
@@ -222,12 +233,20 @@
             $('#sidebar').toggleClass('active');
             document.getElementById('sidebarCollapseShow').removeAttribute('hidden')
             document.getElementById('sidebarCollapseHide').setAttribute('hidden', '')
+            $('#navbar').css({
+                left: "48px",
+                transition: "0.3s"
+            });
         };
 
         function show() {
             $('#sidebar').toggleClass('active');
             document.getElementById('sidebarCollapseShow').setAttribute('hidden', '')
             document.getElementById('sidebarCollapseHide').removeAttribute('hidden')
+            $('#navbar').css({
+                left: "348px",
+                transition: "0.3s"
+            });
         };
     </script>
 

@@ -6,13 +6,10 @@
 <!-- Font Awesome Icon -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/calendar/calendar.css' %}" />
-
-<!-- Material Design Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.11.0/css/mdb.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block contents %}
-<div class="row justify-content-md-center" style="margin-top: 70px;">
+<div class="row justify-content-md-center" style="margin-top: 40px;">
 	<div id="right-area">
 		<div id="menu-bar" style="font-weight: bold;">
 			<i class="fas fa-angle-double-left" onclick="prevMonth();" style="cursor: pointer;"></i>&nbsp;
@@ -34,11 +31,13 @@
 			<div class="form-container">
 				<form id="addEventForm" onsubmit="updateEvent(event);">
 					<input type="text" id="eventId" value="" hidden>
+					<div class="md-form" style="margin-top: -1px;">
+						<input type="text" placeholder="제목" id="eventName" value="" required>
+					</div>
+					<div class="md-form">
+						<input type="text" placeholder="장소" id="eventLocation" value="">
+					</div>
 					
-					<input type="text" placeholder="제목" id="eventName" value="" required>
-
-					<input type="text" placeholder="장소" id="eventLocation" value="">
-					<br>
 					<strong>시작일</strong><br>
 					<input type="date" id="eventStartDate" disabled="true" required>
 					<br>
@@ -47,16 +46,14 @@
 					<br>
 					<i class="far fa-check-square fa-lg" id="eventAllDay" onclick="allDay();"
 						style="color:black; cursor:pointer;"></i>
-					<span style="color:black; font-size: 13.5px;">하루종일</span>
-					<br><br>
+					<span style="color:black; font-size: 13.5px;">&nbsp;하루종일</span>
 					<div id="error"></div>
 					<strong>설명</strong><br>
-					<textarea id="eventDescription" cols="36" rows="6"></textarea>
+					<textarea id="eventDescription" cols="36" rows="4"></textarea>
 					<br>
 					<button id="eventCancelButton"
 						onclick="resetCloseEveBox(event);"><strong>취소</strong></button>
 					<input type="submit" id="eventSaveButton" value="저장">
-					<br><br>
 				</form>
 			</div>
 		</div>
@@ -64,21 +61,21 @@
 		<!--일정보기-->
 		<div id="viewEvent">
 			<span class="viewEveBoxName"></span>
+			<br>
 			<span id="viewEveBoxEveId"></span>
 			<span class="eveBoxClose" onclick="closeEveBox(event);"><i class="fas fa-times"></i></span>
-			<br><br>
+			<br>
 			<div class="viewEveLabel">제목</div>
 			<div class="viewTitle"></div><br>
 			<div class="viewEveLabel">장소</div>
 			<div class="viewLocation"></div><br>
 			<div class="viewEveLabel">설명</div>
 			<div class="viewDescription"></div>
+			<br><br>
 			{% if user.level == '0' or user.level == '1' %}
-			<br><br><br><br>
 			<button id="eventDeleteButton" onclick="deleteEve(event);"><strong>삭제</strong></button>
 			<button id="eventEditButton" onclick="editEve(event);"><strong>수정</strong></button>
 			{% endif %}
-			<br><br>
 		</div>
 	</div>
 </div>
