@@ -1,29 +1,27 @@
-{% extends "users/base.html" %}
+{% extends "users/main_base.html" %}
 {% load humanize %}
 
 {% block contents %}
-<div class="row mt-5">
-    <div class="col-12 text-center">
-        <h1>공지사항 TEST PAGE</h1>
-    </div>
-</div>
-<br>
 <div class="container">
+    <div class="row mt-5">
+        <div class="col-12">
+            <h4 style="font-weight: bold;">공지사항</h4>
+        </div>
+    </div>
     <div>
         <table class="table table-hover">
             <tr class="text-center">
-                <th>번호</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>등록일</th>
-                <th>조회수</th>
+                <th style="font-weight: bold; font-size: 16px;">번호</th>
+                <th style="font-weight: bold; font-size: 16px;">제목</th>
+                <th style="font-weight: bold; font-size: 16px;">작성자</th>
+                <th style="font-weight: bold; font-size: 16px;">등록일</th>
+                <th style="font-weight: bold; font-size: 16px;">조회수</th>
             </tr>
             {% if notice_fixed %}
             {% for notice in notice_fixed %}
-            <tr class="table-secondary text-center" style="font-weight: bold;">
+            <tr class="table-secondary text-center" style="font-weight: bold; cursor:pointer;" onclick="location.href='/notice/{{ notice.id }}/'">
                 <td>{{ notice.id }}</td>
-                <td class="text-left" style="width:50%"><a id="notice-{{ notice.id }}"
-                        href="/notice/{{ notice.id }}/">[공지] {{ notice.title|truncatechars:30 }}</a></tdc>
+                <td class="text-left" style="width:50%"><a id="notice-{{ notice.id }}"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;&nbsp;{{ notice.title|truncatechars:30 }}</a></td>
                 <td>{{ notice.writer }}</td>
                 <td>{{ notice.registered_date|date:'Y. m. d' }}</td>
                 <td>{{ notice.hits }}</td>
@@ -32,25 +30,23 @@
             {% endif %}
 
             {% for notice in notice_list %}
-            <tr class="text-center">
+            <tr class="text-center" style="cursor:pointer;" onclick="location.href='/notice/{{ notice.id }}/'">
                 <td>{{ notice.id }}</td>
-                <td class="text-left" style="width:50%"><a id="notice-{{ notice.id }}"
-                        href="/notice/{{ notice.id }}/">{{ notice.title|truncatechars:30 }}</a></td>
+                <td class="text-left" style="width:50%;"><a id="notice-{{ notice.id }}">{{ notice.title|truncatechars:30 }}</a></td>
                 <td>{{ notice.writer }}</td>
                 <td>{{ notice.registered_date|date:'Y. m. d' }}</td>
                 <td>{{ notice.hits }}</td>
             </tr>
             {% endfor %}
-
         </table>
     </div>
-    <br>
-    <div>
+    
+    <div style="margin-top: 30px;">
         <form action="" method="GET">
             <div class="col">
                 <div style="float: right;" class="form-row">
                     <div class="form-row">
-                        <div class="col">
+                        <div class="col" style="margin-top: 10px;">
                             <select style="width: 6em;" class="custom-select custom-select-md" name="type">
                                 <option value="all">전체</option>
                                 <option value="title_content">제목+내용</option>
@@ -59,12 +55,13 @@
                                 <option value="writer">작성자</option>
                             </select>
                         </div>
-                        <div class="col">
+                        <div class="col" style="margin-top: 10px;">
                             <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
-                                style="width: 13em;">
+                                style="width: 15em;" placeholder="검색어를 입력해주세요.">
                         </div>
                         <div class="col">
-                            <button class="btn btn-md btn-outline-dark" type="submit">검색</button>
+                            <!-- <button class="btn btn-md btn-outline-dark" type="submit">검색</button> -->
+                            <button class="btn btn-sm" type="submit" id="search_btn">검색</button>
                         </div>
                     </div>
                 </div>
@@ -73,12 +70,13 @@
         {% if request.user.level == '0' or request.user.level == '1' %}
         <div>
             <div>
-                <button class="btn btn-md btn-dark" onclick="location.href='/notice/write/'">글쓰기</button>
+                <!-- <button class="btn btn-danger" style="opacity: 80%; font-size:16px;" onclick="location.href='/notice/write/'">글쓰기</button> -->
+                <a href="{% url 'notice:notice_write' %}" id="write_btn" class="btn btn-sm">글쓰기</a>
             </div>
         </div>
         <br>
         {% else %}
-        <br><br>
+        <br><br><br>
         {% endif %}
         <div class="col-md-offset-6">
             {% if is_paginated %}
@@ -87,28 +85,28 @@
                 {% if page_obj.has_previous %}
                 <li class="page-item">
                     <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page_obj.previous_page_number }}"
-                        tabindex="-1">&laquo;</a>
+                        tabindex="-1" style="font-size: 15px;">이전</a>
                 </li>
                 {% else %}
                 <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">&laquo;</a>
+                    <a class="page-link" href="#" tabindex="-1" style="font-size: 15px;">이전</a>
                 </li>
                 {% endif %}
 
                 {% for page in page_range %}
-                <li class="page-item {% if page == page_obj.number %} disabled {% endif %}">
-                    <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page }}">{{ page }}</a>
+                <li class="page-item {% if page == page_obj.number %} activate {% endif %}">
+                    <a class="page-link" href="?type={{ type }}&q={{ q }}&page={{ page }}" style="font-size: 15px;">{{ page }}</a>
                 </li>
                 {% endfor %}
 
                 {% if page_obj.has_next %}
                 <li class="page-item">
                     <a class="page-link"
-                        href="?type={{ type }}&q={{ q }}&page={{ page_obj.next_page_number }}">&raquo;</a>
+                        href="?type={{ type }}&q={{ q }}&page={{ page_obj.next_page_number }}" style="font-size: 15px;">다음</a>
                 </li>
                 {% else %}
                 <li class="page-item disabled">
-                    <a class="page-link" href="#">&raquo;</a>
+                    <a class="page-link" href="#" style="font-size: 15px;">다음</a>
                 </li>
                 {% endif %}
             </ul>
@@ -126,5 +124,4 @@
         }
     }
 </script>
-
 {% endblock %}

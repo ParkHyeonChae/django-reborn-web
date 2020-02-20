@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect
-# from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import View, ListView, DetailView, FormView, CreateView
 from .models import Notice
@@ -24,9 +23,10 @@ from django.conf import settings
 # level 0 개발자 = CREATE, READ, UPDATE, DELETE
 
 
+# 공지사항 리스트 뷰
 class NoticeListView(ListView):
     model = Notice
-    paginate_by = 10
+    paginate_by = 15
     template_name = 'notice/notice_list.html'  #DEFAULT : <app_label>/<model_name>_list.html
     context_object_name = 'notice_list'        #DEFAULT : <app_label>_list
 
@@ -81,6 +81,7 @@ class NoticeListView(ListView):
         return context
 
 
+# 공지사항 게시글 보기
 @login_message_required
 def notice_detail_view(request, pk):
     notice = get_object_or_404(Notice, pk=pk)
@@ -99,6 +100,7 @@ def notice_detail_view(request, pk):
     }
     response = render(request, 'notice/notice_detail.html', context)
 
+    # 조회수 GET증가 방지 쿠키처리
     if request.COOKIES.get(cookie_name) is not None:
         cookies = request.COOKIES.get(cookie_name)
         cookies_list = cookies.split('|')
@@ -117,6 +119,7 @@ def notice_detail_view(request, pk):
     return render(request, 'notice/notice_detail.html', context)
 
 
+# 공지사항 글쓰기
 @login_message_required
 @admin_required
 def notice_write_view(request):
@@ -127,9 +130,6 @@ def notice_write_view(request):
         # upload_files = request.FILES.getlist('files')
         if form.is_valid():
             notice = form.save(commit = False)
-            # for f in upload_files:
-            #     notice.files= f
-            #     notice.save()
             notice.writer = user_id
             notice.save()
             return redirect('notice:notice_list')
@@ -138,6 +138,7 @@ def notice_write_view(request):
     return render(request, "notice/notice_write.html", {'form': form})
 
 
+# 공지사항 게시글 수정
 @login_message_required
 def notice_edit_view(request, pk):
     notice = Notice.objects.get(id=pk)
@@ -159,6 +160,7 @@ def notice_edit_view(request, pk):
             return redirect('/notice/'+str(pk))
 
 
+# 공지사항 게시글 삭제
 @login_message_required
 def notice_delete_view(request, pk):
     notice = Notice.objects.get(id=pk)
@@ -171,7 +173,7 @@ def notice_delete_view(request, pk):
         return redirect('/notice/'+str(pk))
 
 
-
+# 공지사항 게시글 첨부파일 다운로드 한글명 인코딩
 @login_message_required
 def notice_download_view(request, pk):
     notice = get_object_or_404(Notice, pk=pk)
