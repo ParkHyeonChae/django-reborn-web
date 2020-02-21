@@ -1,9 +1,9 @@
-{% extends "users/base.html" %}
+{% extends "users/main_base.html" %}
 {% load humanize %}
 
 {% block header %}
 {% load static %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" /> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
 <script src="{% static 'js/anonymous/infinite-scroll.js' %}"></script>
 <link rel="stylesheet" href="{% static 'css/anonymous/loading.css' %}" type="text/css">
@@ -11,51 +11,48 @@
 {% endblock %}
 
 {% block contents %}
-<div class="row mt-5">
-    <div class="col-12 text-center">
-        <h1>익명게시판 TEST PAGE</h1>
-    </div>
-</div>
-<br><br>
 <div class="container">
+    <div class="row mt-5">
+        <div class="col-6">
+            <h4 style="font-weight: bold;">익명게시판</h4>
+        </div>
+    </div>
     <!--검색창, 글쓰기-->
     <div class="row justify-content-center">
         <div style="float:left;">
             <form action="/anonymous/search/" method="GET">
                 <div class="col">
                     <div class="form-row">
-                        <div class="form-row">
-                            <div class="col">
-                                <select style="width: 6em;" class="custom-select custom-select-md" name="type">
-                                    <option value="all">전체</option>
-                                    <option value="title_content">제목+내용</option>
-                                    <option value="title">제목</option>
-                                    <option value="content">내용</option>
-                                </select>
-                            </div>
-                            <div class="col">
-                                <input style="width:38em;" type="text" name="q" value="{{ q }}"
-                                    class="form-control form-control-md" placeholder="검색어를 입력해주세요." required>
-                            </div>
-                            <div class="col">
-                                <button class="btn btn-md btn-outline-dark" type="submit">검색</button>
-                            </div>
+                        <div class="col" style="margin-top: 10px;">
+                            <select style="width: 6em;" class="custom-select custom-select-md" name="type">
+                                <option value="all">전체</option>
+                                <option value="title_content">제목+내용</option>
+                                <option value="title">제목</option>
+                                <option value="content">내용</option>
+                            </select>
+                        </div>
+                        <div class="col" style="margin-top: 10px;">
+                            <input style="width:28em;" type="text" name="q" value="{{ q }}"
+                                class="form-control form-control-md" placeholder="검색어를 입력해주세요.">
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-sm" type="submit" id="search_btn">검색</button>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
         <div>
-            <button class="btn btn-md btn-dark" onclick="location.href='/anonymous/write'">글쓰기</button>
+            <a href="{% url 'anonymous:anonymous_write' %}" id="write_btn" class="btn btn-sm" style="margin-left:-7px;">글쓰기</a>
         </div>
     </div>
-    <hr><br>
+    <br>
     <!--본문-->
     <div class="row justify-content-center">
         <div class="infinite-container">
             {% for anonymous in anonymous_list %}
             <div class="infinite-item">
-                <div class="card" style="width: 55em; margin-bottom:15px;">
+                <div class="card" style="width: 55em; margin-bottom:20px;">
                     <div class="card-body" onclick="location.href='/anonymous/{{ anonymous.id }}'" style="cursor:pointer;">
                         <h5><strong>
                         {% if user.is_authenticated %}
@@ -81,7 +78,7 @@
                                 {% endif %}
                             </div>
                             <div class="col" style="color:gray; text-align: right;">
-                                <span>추천 {{ anonymous.like_count }} &middot; 댓글 {{ anonymous.comments }}</span>
+                                <span><i class="fas fa-thumbs-up"></i>&nbsp;추천 {{ anonymous.like_count }} &middot; <i class="fas fa-comments"></i>&nbsp;댓글 {{ anonymous.comments }}</span>
                             </div>
                         </div>
                     </div>
@@ -107,12 +104,12 @@
     <ul class="fab-buttons">
         <li class="fab-buttons__item" id="move_top_btn">
             <a class="fab-buttons__link" data-tooltip="상단으로">
-                <i class="fas fa-sort-up fa-2x"></i>
+                <i id="fab_btn" class="fas fa-sort-up fa-2x" style="color: #d14040f2;"></i>
             </a>
         </li>
-        <li class="fab-buttons__item" id="write_btn">
-            <a href="/anonymous/write/" style="color: black" class="fab-buttons__link" data-tooltip="글쓰기">
-                <i class="fas fa-pen fa-lg"></i>
+        <li class="fab-buttons__item" id="write_btn_id">
+            <a href="/anonymous/write/" style="color: #d14040f2;" class="fab-buttons__link" data-tooltip="글쓰기">
+                <i id="fab_btn" class="fas fa-pen fa-lg"></i>
             </a>
         </li>
     </ul>
