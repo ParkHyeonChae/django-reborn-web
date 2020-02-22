@@ -1,25 +1,60 @@
-{% extends "users/base_write.html" %}
+{% extends "users/main_base.html" %}
 {% load humanize %}
+{% load static %}
+{% block summernote %}
+<!-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote-bs4.min.js"></script> -->
+
+<link rel="stylesheet" href="{% static 'css/summernote/summernote.css' %}" type="text/css">
+<script src="{% static 'js/summernote/summernote.js' %}"></script>
+<!-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-lite.min.css" rel="stylesheet"> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-lite.min.js"></script> -->
+
+<script type="text/javascript" src="/static/js/lang/summernote-ko-KR.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#id_content').summernote({
+            placeholder: '내용을 입력해주세요.',
+            height: 500,
+            minHeight: 500,
+            maxHeight: 500,
+            lang: 'ko-KR',
+           
+            toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'help']]
+            ]
+        });
+        $('p').css('margin-bottom','0')
+    });
+</script> 
+{% endblock %}
+
 {% block contents %}
 {% load static %}
-
-<div class="row mt-5">
-    <div class="col-12 text-center">
-        <h1>게시글작성 TEST PAGE</h1>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h1>게시글작성 TEST PAGE</h1>
+        </div>
     </div>
-</div>
-<br>
+    <br>
 
-<div class="row-mt-5">
+    <div class="row-mt-5">
         <!--본문-->
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="" method="POST" enctype="multipart/form-data" id="id_form">
             {% csrf_token %}
             <div class="card" style="width: 100%;">
                 <!--제목,분류,작성일-->
                 <div class="card-header">
                     <div class="form-group">
                         <!-- <label for="{{ form.title.id_for_label }}"
-                            class="col-sm-2 control-label">{{ form.title.label }}</label> -->
+                                class="col-sm-2 control-label">{{ form.title.label }}</label> -->
                         <br>
                         <div class=" col-sm-12">
                             {{ form.title }}
@@ -53,4 +88,27 @@
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    var checkUnload = true;
+    $(window).on('beforeunload', function () {
+        if (checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+    });
+    $("#write").on("click", function () {
+        checkUnload = false;
+        $("submit").submit();
+    });
+
+
+    // $('#write').click(function () {
+    //     if ( $('p')[2].innerText == false ) {
+    //         alert('내용을 입력해주세요.');
+    //     } else {
+    //         checkUnload = false;
+    //         $('#id_form').submit();
+    //     }
+    // });
+</script>
 {% endblock %}

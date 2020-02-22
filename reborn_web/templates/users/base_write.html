@@ -37,7 +37,8 @@
                 lang: 'ko-KR',
             });
         });
-    </script>    
+    </script> 
+
     {% block header %}
     {% endblock %}
 </head>
@@ -58,17 +59,25 @@
             $("submit").submit();
         });
 
-        $(document).ready(function () {
-            var content1 = document.getElementsByTagName('p')[1].cloneNode(true);
-            $('#write').click(function () {
-                if (document.getElementsByName('title')[0].value != "") {
-                    var content2 = document.getElementsByTagName('p')[1];
-                    if (content2.isEqualNode(content1)) {
-                        alert("내용을 입력해주세요.");
-                    }
-                };
-            });
-        });
+        // $(document).ready(function () {
+        //     var content1 = document.getElementsByTagName('p')[1].cloneNode(true);
+        //     $('#write').click(function () {
+        //         if (document.getElementsByName('title')[0].value != "") {
+        //             var content2 = document.getElementsByTagName('p')[1];
+        //             if (content2.isEqualNode(content1)) {
+        //                 alert("내용을 입력해주세요.");
+        //             }
+        //         };
+        //     });
+        // });
+        // $('#write').click(function () {
+        //     if ( $('p')[1].innerText == false ) {
+        //         alert('내용을 입력해주세요.');
+        //     } else {
+        //         checkUnload = false;
+        //         $('#id_form').submit();
+        //     }
+        // });
     </script>
 
 

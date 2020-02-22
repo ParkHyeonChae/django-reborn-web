@@ -22,10 +22,10 @@
                     </div>
                     <div class="card-body">
                         {% if anonymous.files %}
-                        <img style="max-width: 850px;" src="/anonymous{{ anonymous.files.url }}" alt="">
+                        <img style="max-width: 728px;" src="/anonymous{{ anonymous.files.url }}" alt="">
                         {% endif %}
                         <!--내용-->
-                        <div>
+                        <div style="min-height: 70px;">
                             {{ anonymous.content|linebreaksbr }}
                         </div>
                         <!--추천-->

@@ -9,7 +9,6 @@ class CalenderAdmin(admin.ModelAdmin):
         'start_date',
         'end_date',
         'all_day',
-        'deleted',
     )
 
 admin.site.register(Calender, CalenderAdmin)
