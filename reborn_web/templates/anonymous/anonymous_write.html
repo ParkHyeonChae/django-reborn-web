@@ -1,59 +1,59 @@
-{% extends "users/base.html" %}
+{% extends "users/main_base.html" %}
 {% load humanize %}
+{% load static %}
 
 {% block contents %}
-{% load static %}
 <div class="container">
     <div class="row mt-5">
-        <div class="col-12 text-center">
-            <h1>익명게시글작성 TEST PAGE</h1>
+        <div class="col-5" style="text-align: center;">
+            <h4 style="font-weight: bold;">익명게시판</h4>
         </div>
     </div>
-    <br>
 
     <div class="row-mt-5">
-            <!--본문-->
-            <form action="" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="card" style="width: 100%;">
+        <!--본문-->
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row justify-content-center">
+                <div class="card" style="width: 70%;">
                     <!--제목,분류,작성일-->
-                    <div class="card-header">
-                        <div class="form-group">
+                    <div class="card-header" style="padding: 0rem 0.8rem">
+                        <div class="md-form form-group" style="margin-top: 8.5px;">
                             <!-- <label for="{{ form.title.id_for_label }}"
                                 class="col-sm-2 control-label">{{ form.title.label }}</label> -->
-                                <br>
-                                <div class=" col-sm-12">
-                                {{ form.category }}
+                                <div style="padding: 0 4px;">
                                 {{ form.title }}
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <!--내용-->
-                        <div class="form-group">
-                            <div class=" col-sm-12">
-                                {{ form.content }}
-                            </div>
+                    <!--내용-->
+                    <div class="md-form">
+                        <div class="col-sm-12">
+                            {{ form.content }}
                         </div>
                     </div>
                 </div>
-                <br>
-                <div class="card-footer">
+
+                <div class="card-footer" style="width:70%; padding-left: 0px; margin-top:18px;">
                     <div class="form-group">
                         <div class=" col-sm-12">  
                             {{ form.files }}
-                            <small id="help" class="form-text text-muted">
+                            <small id="help" class="form-text text-muted" style="margin-bottom: -15px;">
                                 [이미지 업로드]  익명게시판에서는 10MB 이하의 사진만 첨부 가능합니다.
                             </small>
                         </div>
                     </div>
                 </div>
-                <br>
-                <div class="text-right">
-                    <button type="submit" id="write" class="btn btn-md btn-dark">작성하기</button>
-                </div>
-            </form>
-        </div>
+            </div>
+
+            <div class="text-right" style="width:86.5%; margin-top: 10px;">
+                {% if edit %}
+                <button type="submit" id="write" class="btn btn-sm">{{ edit }}</button>
+                {% else %}
+                <button type="submit" id="write" class="btn btn-sm">작성하기</button>
+                {% endif %}
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

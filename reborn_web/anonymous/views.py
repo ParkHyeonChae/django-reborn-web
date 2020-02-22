@@ -108,7 +108,7 @@ def anonymous_edit_view(request, pk):
         anonymous = Anonymous.objects.get(id=pk)
         if anonymous.writer == request.user or request.user.level == '0':
             form = AnonymousWriteForm(instance=anonymous)
-            return render(request, "anonymous/anonymous_write.html", {'form': form})
+            return render(request, "anonymous/anonymous_write.html", {'form': form, 'edit': '수정하기'})
         else:
             messages.error(request, "본인 게시글이 아닙니다.")
             return redirect('/anonymous/'+str(pk))

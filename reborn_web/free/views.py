@@ -246,7 +246,7 @@ def free_edit_view(request, pk):
         free = Free.objects.get(id=pk)
         if free.writer == request.user or request.user.level == '0':
             form = FreeWriteForm(instance=free)
-            return render(request, "free/free_write.html", {'form': form})
+            return render(request, "free/free_write.html", {'form': form, 'edit': '수정하기'})
         else:
             messages.error(request, "본인 게시글이 아닙니다.")
             return redirect('/free/'+str(pk))

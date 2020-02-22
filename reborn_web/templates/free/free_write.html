@@ -1,54 +1,83 @@
-{% extends "users/base_write.html" %}
+{% extends "users/main_base.html" %}
 {% load humanize %}
+{% load static %}
+{% block summernote %}
+<link rel="stylesheet" href="{% static 'css/summernote/summernote.css' %}" type="text/css">
+<script src="{% static 'js/summernote/summernote.js' %}"></script>
+<script type="text/javascript" src="/static/js/lang/summernote-ko-KR.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#id_content').summernote({
+            placeholder: '내용을 입력해주세요.',
+            height: 500,
+            minHeight: 500,
+            maxHeight: 500,
+            lang: 'ko-KR',
+           
+            toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'help']]
+            ]
+        });
+        $('p').css('margin-bottom','0')
+        $('.note-resizebar').css('display','none');
+    });
+</script>
+{% endblock %}
+
 {% block contents %}
 {% load static %}
 <div class="container">
     <div class="row mt-5">
-        <div class="col-12 text-center">
-            <h1>게시글작성 TEST PAGE</h1>
+        <div class="col-12">
+            <h4 style="font-weight: bold;">자유게시판</h4>
         </div>
     </div>
-    <br>
 
     <div class="row-mt-5">
-            <!--본문-->
-            <form action="" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="card" style="width: 100%;">
-                    <!--제목,분류,작성일-->
-                    <div class="card-header">
-                        <div class="form-group">
-                            <!-- <label for="{{ form.title.id_for_label }}"
-                                class="col-sm-2 control-label">{{ form.title.label }}</label> -->
-                                <br>
-                                <div class=" col-sm-12">
-                                {{ form.category }}
-                                {{ form.title }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <!--내용-->
-                        <div class="form-group">
-                            <div class=" col-sm-12">
-                                {{ form.content }}
-                            </div>
+        <!--본문-->
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card" style="width: 100%;">
+                <!--제목,분류,작성일-->
+                <div class="card-header" style="padding: 0rem 0.2rem">
+                    <div class="md-form form-group" style="margin-top: 8.5px;">
+                        <div style="padding: 0 5.5px;">
+                        <!-- <label for="{{ form.title.id_for_label }}"
+                            class="col-sm-2 control-label">{{ form.title.label }}</label> -->
+                            {{ form.category }}
+                            {{ form.title }}
                         </div>
                     </div>
                 </div>
-                <br>
-                <div class="card-footer">
-                    <div class="form-group">
-                        <div class=" col-sm-12">
-                            {{ form.upload_files }}
-                        </div>
-                    </div>
-                </div><br>
-                <div class="text-right">
-                    <button type="submit" id="write" class="btn btn-md btn-dark">작성하기</button>
+                    <!--내용-->
+                    {{ form.content }}
                 </div>
-            </form>
-        </div>
+            </div>
+            
+            <div class="card-footer" style="padding-left: 0px; margin-top:18px;">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        {{ form.upload_files }}
+                        <small id="help" class="form-text text-muted" style="margin-bottom: -15px;">
+                            [파일 업로드]  10MB 이하의 파일만 첨부 가능합니다. 여러 파일은 압축해서 업로드해주세요.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="text-right" style="margin-top: 10px;">
+                {% if edit %}
+                <button type="submit" id="write" class="btn btn-sm">{{ edit }}</button>
+                {% else %}
+                <button type="submit" id="write" class="btn btn-sm">작성하기</button>
+                {% endif %}
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

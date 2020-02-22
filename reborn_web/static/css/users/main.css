@@ -8363,3 +8363,12 @@ a[data-toggle="collapse"] {
   /* margin-top: 10px;
   margin-left: -0.5px; */
 }
+
+#write {
+  background-color: #d14040f2;
+  color: white;
+  font-size: 14px;
+  /* height: 38px; */
+  /* margin-top: 10px;
+  margin-left: -0.5px; */
+}

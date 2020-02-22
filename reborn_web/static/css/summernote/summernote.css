@@ -943,7 +943,7 @@ a.note-dropdown-item:hover {
 
 .note-editor.note-airframe,
 .note-editor.note-frame {
-    border: 1px solid #a9a9a9
+    border: 0px solid #a9a9a9
 }
 
 .note-editor.note-airframe.codeview .note-editing-area .note-editable,

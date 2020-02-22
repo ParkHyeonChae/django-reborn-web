@@ -154,7 +154,7 @@ def notice_edit_view(request, pk):
         notice = Notice.objects.get(id=pk)
         if notice.writer == request.user or request.user.level == '0':
             form = NoticeWriteForm(instance=notice)
-            return render(request, "notice/notice_write.html", {'form': form})
+            return render(request, "notice/notice_write.html", {'form': form, 'edit': '수정하기'})
         else:
             messages.error(request, "본인 게시글이 아닙니다.")
             return redirect('/notice/'+str(pk))

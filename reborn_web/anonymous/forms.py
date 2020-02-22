@@ -15,8 +15,9 @@ class AnonymousWriteForm(forms.ModelForm):
         self.fields['content'].label = '내용'
         self.fields['content'].widget.attrs.update({
             'placeholder': '내용을 입력해주세요.',
-            'class': 'form-control',
+            'class': 'md-textarea form-control',
             'id': 'form_content',
+            'style': 'padding:0',
         })
         self.fields['files'].label = '사진 첨부'
         self.fields['files'].widget.attrs.update({
