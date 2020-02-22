@@ -32,8 +32,8 @@
             </tr>
             {% for free in free_list %}
             <tr class="text-center" style="cursor:pointer;" onclick="location.href='/free/{{ free.id }}/'">
-                <td>{{ free.id }}</td>
-                <td class="text-left" style="width:50%">
+                <td style="font-weight: 500;">{{ free.id }}</td>
+                <td class="text-left" style="width:50%; font-weight: 600;">
                     {% if free.category == '자유' %}
                     <span class="badge badge-light">{{ free.category }}</span>&nbsp;
                     {% elif free.category == '질문' %}
@@ -47,13 +47,13 @@
                     &nbsp;<span style="color:gray;">[{{ free.comments }}]</span>
                     {% endif %}
                 </td>
-                <td>{{ free.writer }}</td>
+                <td style="font-weight: 500;">{{ free.writer }}</td>
                 {% if free.created_string == False %}
-                <td>{{ free.registered_date|date:'m월 d일' }}</td>
+                <td style="font-weight: 500;">{{ free.registered_date|date:'m월 d일' }}</td>
                 {% else %}
-                <td>{{ free.created_string }}</td>
+                <td style="font-weight: 500;">{{ free.created_string }}</td>
                 {% endif %}
-                <td>{{ free.hits }}</td>
+                <td style="font-weight: 500;">{{ free.hits }}</td>
             </tr>
             {% endfor %}
         </table>

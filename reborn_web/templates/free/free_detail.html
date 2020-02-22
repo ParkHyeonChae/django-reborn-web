@@ -1,230 +1,227 @@
-{% extends "users/base.html" %}
+{% extends "users/main_base.html" %}
 {% load humanize %}
+
 {% block contents %}
-
-<div class="row mt-5">
-    <div class="col-12 text-center">
-        <h1>게시글 TEST PAGE</h1>
-    </div>
-</div>
-<br>
-<div class="row-mt-5">
-    <div class="col-12">
-        <!--본문-->
-        <div class="card" style="width: 100%;">
-            <!--제목,분류,작성일-->
-            <div class="card-header">
-                <strong>{{ free.title }}</strong>&nbsp;&nbsp;<span style="color: gray;">[{{ free.category }}]</span>
-                <span style="float:right;">{{ free.registered_date|date:'Y.m.d. H:i' }}</span>
-            </div>
-            <div class="card-body">
-                <!--작성자, 조회수-->
-                <div>
-                    <span>작성자 : {{ free.writer }}</span>
-                    <span style="float:right;">조회수 : {{ free.hits }}</span>
+<br><br><br>
+<div class="container">
+    <div class="row-mt-5">
+        <div class="col-12">
+            <!--본문-->
+            <div class="card" style="width: 100%;">
+                <!--제목,분류,작성일-->
+                <div class="card-header">
+                    <strong style="font-size: 18px;">{{ free.title }}</strong>&nbsp;&nbsp;<span style="font-size: 18px; color: gray;">[{{ free.category }}]</span>
+                    <span style="float:right;">{{ free.registered_date|date:'Y.m.d. H:i' }}</span>
                 </div>
-                <hr>
-                {% if free.upload_files %}
-                <div class="col-12 text-right">
-                    <span style="color: gray;">첨부파일 : </span>
-                    <a id="id_uploaded_file"
-                        href="{% url 'free:free_download' free.id %}">{{ free.filename|truncatechars:25 }}</a>
-                </div>
-                {% endif %}
-                <!--내용-->
-                <div>
-                    {{ free.content | safe }}
-                </div>
-            </div>
-        </div>
-        <br>
-        <!--댓글-->
-        <div class="card" style="width: 100%;">
-            <div class="card-header">
-                <div class="col-md-12"></form>
-                    {% csrf_token %}
-                    <div class="form-group row">
-                        <textarea class="form-control" id="content" rows="3" placeholder="댓글을 입력해주세요."></textarea>
+                <div class="card-body" style="min-height: 500px; color:black;">
+                    <!--작성자, 조회수-->
+                    <div>
+                        <span><i class="fas fa-user-edit"></i>&nbsp;작성자 : {{ free.writer }}</span>
+                        <span style="float:right;">조회수 : {{ free.hits }}</span>
                     </div>
-                    <div class="text-right" style="float:right">
-                        <button id="comment_write" class="btn btn-dark">댓글달기</button>
+                    <hr>
+                    {% if free.upload_files %}
+                    <div class="col-12 text-right">
+                        <span style="color: gray;">첨부파일 : </span>
+                        <a id="id_uploaded_file"
+                            href="{% url 'free:free_download' free.id %}">{{ free.filename|truncatechars:25 }}</a>
                     </div>
-                </div>
-                <br>
-                {% if comments %}
-                <div id="hide_more_button"><strong><a id=hide_button_count style="color:blue;">&nbsp;댓글 접기 &middot;&nbsp;{{ comment_count }}개의 댓글<br></a></strong></div>
-                <div id="show_more_button" style="display:none;"><strong><a id=show_button_count style="color:blue;">&nbsp;댓글 펼치기 &middot;&nbsp;{{ comment_count }}개의 댓글<br></a></strong></div>
-                {% else %}
-                <div id="hide_more_button"><strong><a id=hide_button_count style="color:blue;"><br></a></strong></div>
-                <div id="show_more_button" style="display:none;"><strong><a id=show_button_count style="color:blue;"><br></a></strong></div>
-                {% endif %}
-                <hr>
-                <div id="more_comment">
-                    {% if comments %}
-                        {% for comment in comments %}
-                        <div id='{{ comment.id }}'>
-                            {% if comment.deleted and comment.reply == 0 %}
-                            <span style="color:gray;">삭제된 댓글입니다.</span><hr>
-                            {% else %}
-                                {% if comment.reply == 0 %}
-                                    {% if comment.writer == free.writer %}
-                                    <strong>{{ comment.writer }}&nbsp;<span style="color:gray";>(글쓴이)</span></strong>
-                                    {% else %}
-                                    <strong>{{ comment.writer }}</strong>
-                                    {% endif %}
-                                    {% if comment.created_string == False %}
-                                    <span style="float:right; color:gray;">{{ comment.created|date:'m월 d일' }}</span>
-                                    {% else %}
-                                    <span style="float:right; color:gray;">{{ comment.created_string }}</span>
-                                    {% endif %}
-                                    {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
-                                    <div>
-                                        <div style="white-space:pre-wrap; text-align:left;">{{ comment.content }}</div>
-                                        <div style="text-align: right;">
-                                            <a style="color: rgb(29, 112, 236)" onclick="createReplyArea('{{comment.id}}');">답글달기</a>&nbsp;&middot;&nbsp;
-                                            <a style="color: rgb(29, 112, 236)" onclick="commentDelete('{{comment.id}}');">댓글삭제</a>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    {% else %}
-                                    <div>
-                                        <div style="white-space:pre-wrap; text-align:left;">{{ comment.content }}</div>
-                                        <div style="text-align: right;">
-                                            <a style="color: rgb(29, 112, 236)" onclick="createReplyArea('{{comment.id}}');">답글달기</a>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    {% endif %}
-                                {% endif %}
-                            {% endif %}
-                        </div>
-                        <div class='{{ comment.id }}'></div>
-                        {% endfor %}
-
-                        <!--답글 표시 부분-->
-                        {% for comment in replys %}
-                        {% if comment.deleted and comment.reply != 0 %}
-                        <script type="text/javascript">
-                            var comment_id = "{{ comment.reply }}";
-                            $('.'+comment_id).append(
-                                '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><span style="color:gray;">삭제된 답글입니다.</span></div></div><hr>'
-                            );
-                        </script>
-                        {% else %}
-                            {% if comment.writer == free.writer %}
-                                {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
-                                <script type="text/javascript">
-                                    var reply_id = "{{ comment.id }}";
-                                    var comment_id = "{{ comment.reply }}";
-                                    var reply_writer = "{{ comment.writer }}";
-                                    var reply_created = "{{ comment.created_string }}";
-                                    if (reply_created == 'False') {
-                                        reply_created = "{{ comment.created|date:'m월 d일' }}"
-                                    };
-                                    var reply_content = "{{ comment.content }}";
-
-                                    $('.'+comment_id).append(
-                                        '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+reply_id+'><strong>'+reply_writer+'&nbsp;<span style="color:gray";>'+'(글쓴이)'+'</span></strong>'+
-                                        '<span style="float:right; color:gray;">'+reply_created+'</span>'+
-                                        '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="replyDelete('+reply_id+');">답글삭제</a></div></div></div></div></div><hr>'
-                                    );
-                                </script>
-                                {% else %}
-                                <script type="text/javascript">
-                                    var reply_id = "{{ comment.id }}";
-                                    var comment_id = "{{ comment.reply }}";
-                                    var reply_writer = "{{ comment.writer }}";
-                                    var reply_created = "{{ comment.created_string }}";
-                                    if (reply_created == 'False') {
-                                        reply_created = "{{ comment.created|date:'m월 d일' }}"
-                                    };
-                                    var reply_content = "{{ comment.content }}";
-
-                                    $('.'+comment_id).append(
-                                        '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+reply_id+'><strong>'+reply_writer+'&nbsp;<span style="color:gray";>'+'(글쓴이)'+'</span></strong>'+
-                                        '<span style="float:right; color:gray;">'+reply_created+'</span>'+
-                                        '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right;"></div></div></div></div></div><hr>'
-                                    );
-                                </script>
-                                {% endif %}
-                            {% else %}
-                                {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
-                                <script type="text/javascript">
-                                    var reply_id = "{{ comment.id }}";
-                                    var comment_id = "{{ comment.reply }}";
-                                    var reply_writer = "{{ comment.writer }}";
-                                    var reply_created = "{{ comment.created_string }}";
-                                    if (reply_created == 'False') {
-                                    reply_created = "{{ comment.created|date:'m월 d일' }}"
-                                    };
-                                    var reply_content = "{{ comment.content }}";
-
-                                    $('.'+comment_id).append(
-                                        '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+reply_id+'><strong>'+reply_writer+'</strong>'+
-                                        '<span style="float:right; color:gray;">'+reply_created+'</span>'+
-                                        '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="replyDelete('+reply_id+');">답글삭제</a></div></div></div></div></div><hr>'
-                                    );
-                                </script>
-                                {% else %}
-                                <script type="text/javascript">
-                                    var reply_id = "{{ comment.id }}";
-                                    var comment_id = "{{ comment.reply }}";
-                                    var reply_writer = "{{ comment.writer }}";
-                                    var reply_created = "{{ comment.created_string }}";
-                                    if (reply_created == 'False') {
-                                    reply_created = "{{ comment.created|date:'m월 d일' }}"
-                                    };
-                                    var reply_content = "{{ comment.content }}";
-
-                                    $('.'+comment_id).append(
-                                        '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+reply_id+'><strong>'+reply_writer+'</strong>'+
-                                        '<span style="float:right; color:gray;">'+reply_created+'</span>'+
-                                        '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right;"></div></div></div></div></div><hr>'
-                                    );
-                                </script>
-                                {% endif %}
-                            {% endif %}
-                        {% endif %}
-                        {% endfor %}
-
                     {% endif %}
-                    <input type="hidden" id="comment_writer" value={{request.user}}>
-                    <div id="comment_list"></div>
+                    <!--내용-->
+                    <div>
+                        {{ free.content | safe }}
+                    </div>
                 </div>
             </div>
-        </div>
+            <br>
+            <!--댓글-->
+            <div class="card" style="width: 100%;">
+                <div class="card-header">
+                    <div class="col-md-12"></form>
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <textarea class="form-control" id="content_id" rows="3" placeholder="댓글을 입력해주세요." style="margin-top:6px;"></textarea>
+                        </div>
+                        <div class="text-right" style="float:right">
+                            <button id="comment_write" class="btn btn-sm" style="background-color: #d14040f2; color: white; font-size: 15px; margin-top:-5px; margin-right:-12px;">댓글달기</button>
+                        </div>
+                    </div>
+                    <br>
+                    {% if comments %}
+                    <div id="hide_more_button"><strong><a id=hide_button_count style="color:black;">&nbsp;댓글 접기 &middot;&nbsp;{{ comment_count }}개의 댓글<br></a></strong></div>
+                    <div id="show_more_button" style="display:none;"><strong><a id=show_button_count style="color:black;">&nbsp;댓글 펼치기 &middot;&nbsp;{{ comment_count }}개의 댓글<br></a></strong></div>
+                    {% else %}
+                    <div id="hide_more_button"><strong><a id=hide_button_count style="color:black;"><br></a></strong></div>
+                    <div id="show_more_button" style="display:none;"><strong><a id=show_button_count style="color:black;"><br></a></strong></div>
+                    {% endif %}
+                    <hr>
+                    <div id="more_comment">
+                        {% if comments %}
+                            {% for comment in comments %}
+                            <div id='{{ comment.id }}'>
+                                {% if comment.deleted and comment.reply == 0 %}
+                                <span style="color:gray;">삭제된 댓글입니다.</span><hr>
+                                {% else %}
+                                    {% if comment.reply == 0 %}
+                                        {% if comment.writer == free.writer %}
+                                        <strong>{{ comment.writer }}&nbsp;<span style="color:gray";>(글쓴이)</span></strong>
+                                        {% else %}
+                                        <strong>{{ comment.writer }}</strong>
+                                        {% endif %}
+                                        {% if comment.created_string == False %}
+                                        <span style="float:right; color:gray;">{{ comment.created|date:'m월 d일' }}</span>
+                                        {% else %}
+                                        <span style="float:right; color:gray;">{{ comment.created_string }}</span>
+                                        {% endif %}
+                                        {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
+                                        <div>
+                                            <div style="white-space:pre-wrap; text-align:left;">{{ comment.content }}</div>
+                                            <div style="text-align: right; margin:-20px 0px -10px 0;">
+                                                <a style="color: #d14040f2;" onclick="createReplyArea('{{comment.id}}');">답글달기</a>&nbsp;&middot;&nbsp;
+                                                <a style="color: #d14040f2;" onclick="commentDelete('{{comment.id}}');">댓글삭제</a>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        {% else %}
+                                        <div>
+                                            <div style="white-space:pre-wrap; text-align:left;">{{ comment.content }}</div>
+                                            <div style="text-align: right; margin:-20px 0px -10px 0;">
+                                                <a style="color: #d14040f2;" onclick="createReplyArea('{{comment.id}}');">답글달기</a>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            <div class='{{ comment.id }}'></div>
+                            {% endfor %}
 
-        <br>
-        <div class="text-right">
-            {% if free_auth or request.user.level == '0' %}
-            <button class="btn btn-md btn-dark" onclick="location.href='/free/{{ free.id }}/edit/'">수정</button>
-            <button class="btn btn-md btn-dark" data-toggle="modal" data-target="#delete_modal">삭제</button>
-            <button class="btn btn-md btn-dark" onclick="location.href='/free/'">목록으로</button>
-            {% elif request.user.level == '1' %}
-            <button class="btn btn-md btn-dark" data-toggle="modal" data-target="#delete_modal">삭제</button>
-            <button class="btn btn-md btn-dark" onclick="location.href='/free/'">목록으로</button>
-            {% else %}
-            <button class="btn btn-md btn-dark" onclick="location.href='/free/'">목록으로</button>
-            {% endif %}
+                            <!--답글 표시 부분-->
+                            {% for comment in replys %}
+                            {% if comment.deleted and comment.reply != 0 %}
+                            <script type="text/javascript">
+                                var comment_id = "{{ comment.reply }}";
+                                $('.'+comment_id).append(
+                                    '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><i class="fa fa-reply fa-rotate-180 fa-lg"></i></div><div><span style="color:gray;">삭제된 답글입니다.</span></div></div><hr>'
+                                );
+                            </script>
+                            {% else %}
+                                {% if comment.writer == free.writer %}
+                                    {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
+                                    <script type="text/javascript">
+                                        var reply_id = "{{ comment.id }}";
+                                        var comment_id = "{{ comment.reply }}";
+                                        var reply_writer = "{{ comment.writer }}";
+                                        var reply_created = "{{ comment.created_string }}";
+                                        if (reply_created == 'False') {
+                                            reply_created = "{{ comment.created|date:'m월 d일' }}"
+                                        };
+                                        var reply_content = "{{ comment.content }}";
+
+                                        $('.'+comment_id).append(
+                                            '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><i class="fa fa-reply fa-rotate-180 fa-lg"></i></div><div><div id='+reply_id+'><strong>'+reply_writer+'&nbsp;<span style="color:gray";>'+'(글쓴이)'+'</span></strong>'+
+                                            '<span style="float:right; color:gray;">'+reply_created+'</span>'+
+                                            '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right; margin:-20px 0px -10px 0;"><a style="color: #d14040f2;" onclick="replyDelete('+reply_id+');">답글삭제</a></div></div></div></div></div><hr>'
+                                        );
+                                    </script>
+                                    {% else %}
+                                    <script type="text/javascript">
+                                        var reply_id = "{{ comment.id }}";
+                                        var comment_id = "{{ comment.reply }}";
+                                        var reply_writer = "{{ comment.writer }}";
+                                        var reply_created = "{{ comment.created_string }}";
+                                        if (reply_created == 'False') {
+                                            reply_created = "{{ comment.created|date:'m월 d일' }}"
+                                        };
+                                        var reply_content = "{{ comment.content }}";
+
+                                        $('.'+comment_id).append(
+                                            '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><i class="fa fa-reply fa-rotate-180 fa-lg"></i></div><div><div id='+reply_id+'><strong>'+reply_writer+'&nbsp;<span style="color:gray";>'+'(글쓴이)'+'</span></strong>'+
+                                            '<span style="float:right; color:gray;">'+reply_created+'</span>'+
+                                            '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right;"></div></div></div></div></div><hr>'
+                                        );
+                                    </script>
+                                    {% endif %}
+                                {% else %}
+                                    {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
+                                    <script type="text/javascript">
+                                        var reply_id = "{{ comment.id }}";
+                                        var comment_id = "{{ comment.reply }}";
+                                        var reply_writer = "{{ comment.writer }}";
+                                        var reply_created = "{{ comment.created_string }}";
+                                        if (reply_created == 'False') {
+                                        reply_created = "{{ comment.created|date:'m월 d일' }}"
+                                        };
+                                        var reply_content = "{{ comment.content }}";
+
+                                        $('.'+comment_id).append(
+                                            '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><i class="fa fa-reply fa-rotate-180 fa-lg"></i></div><div><div id='+reply_id+'><strong>'+reply_writer+'</strong>'+
+                                            '<span style="float:right; color:gray;">'+reply_created+'</span>'+
+                                            '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right; margin:-20px 0px -10px 0;"><a style="color: #d14040f2;" onclick="replyDelete('+reply_id+');">답글삭제</a></div></div></div></div></div><hr>'
+                                        );
+                                    </script>
+                                    {% else %}
+                                    <script type="text/javascript">
+                                        var reply_id = "{{ comment.id }}";
+                                        var comment_id = "{{ comment.reply }}";
+                                        var reply_writer = "{{ comment.writer }}";
+                                        var reply_created = "{{ comment.created_string }}";
+                                        if (reply_created == 'False') {
+                                        reply_created = "{{ comment.created|date:'m월 d일' }}"
+                                        };
+                                        var reply_content = "{{ comment.content }}";
+
+                                        $('.'+comment_id).append(
+                                            '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><i class="fa fa-reply fa-rotate-180 fa-lg"></i></div><div><div id='+reply_id+'><strong>'+reply_writer+'</strong>'+
+                                            '<span style="float:right; color:gray;">'+reply_created+'</span>'+
+                                            '<div><div style="white-space:pre-wrap; text-align:left;">'+reply_content+'</div><div style="text-align:right;"></div></div></div></div></div><hr>'
+                                        );
+                                    </script>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                            {% endfor %}
+
+                        {% endif %}
+                        <input type="hidden" id="comment_writer" value={{request.user}}>
+                        <div id="comment_list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <div class="text-right" style="margin-top:-15px;">
+                {% if free_auth or request.user.level == '0' %}
+                <button class="btn btn-sm" id="detail_btn" onclick="location.href='/free/{{ free.id }}/edit/'">수정</button>
+                <button class="btn btn-sm" id="detail_btn" data-toggle="modal" data-target="#delete_modal">삭제</button>
+                <button class="btn btn-sm" id="detail_btn" onclick="location.href='/free/'">목록으로</button>
+                {% elif request.user.level == '1' %}
+                <button class="btn btn-sm" id="detail_btn" data-toggle="modal" data-target="#delete_modal">삭제</button>
+                <button class="btn btn-sm" id="detail_btn" onclick="location.href='/free/'">목록으로</button>
+                {% else %}
+                <button class="btn btn-sm" id="detail_btn" onclick="location.href='/free/'">목록으로</button>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
 
-<div id="delete_modal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">삭제경고</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>게시글을 삭제하시겠습니까?</p>
-            </div>
-            <div class="modal-footer">
-                <button onclick="deleteModal()" type="button" class="btn btn-danger">삭제하기</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소하기</button>
+    <div id="delete_modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">삭제경고</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>게시글을 삭제하시겠습니까?</p>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="deleteModal()" type="button" class="btn btn-dark">삭제하기</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">취소하기</button>
+                </div>
             </div>
         </div>
     </div>
@@ -240,7 +237,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#comment_write').click(function () {
-            var content= $("#content").val();
+            var content= $("#content_id").val();
             var writer= $("#comment_writer").val();
             $.ajax({
                 type: "POST",
@@ -256,23 +253,23 @@
                     if (response.self_comment) {
                         $('#comment_list').append(
                            '<div><div id='+response.comment_id+'><strong>'+response.writer+'&nbsp;<span style="color:gray";>'+response.self_comment+'</span></strong>'+
-                           '<span style="float:right; color:blue;">'+response.created+'</span>'+
-                           '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="createReplyArea('+response.comment_id+');">답글달기</a>&nbsp;&middot;&nbsp;<a style="color: rgb(29, 112, 236)" onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                           '<span style="float:right; color:#d14040f2;">'+response.created+'</span>'+
+                           '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right; margin:-20px 0px -10px 0;"><a style="color: #d14040f2;" onclick="createReplyArea('+response.comment_id+');">답글달기</a>&nbsp;&middot;&nbsp;<a style="color: #d14040f2;" onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
                         );
                     }
                     else{
                         $('#comment_list').append(
                             '<div><div id='+response.comment_id+'><strong>'+response.writer+'</strong>'+
-                            '<span style="float:right; color:blue;">'+response.created+'</span>'+
-                            '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="createReplyArea('+response.comment_id+');">답글달기</a>&nbsp;&middot;&nbsp;<a style="color: rgb(29, 112, 236)" onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                            '<span style="float:right; color:#d14040f2;">'+response.created+'</span>'+
+                            '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right; margin:-20px 0px -10px 0;"><a style="color: #d14040f2;" onclick="createReplyArea('+response.comment_id+');">답글달기</a>&nbsp;&middot;&nbsp;<a style="color: #d14040f2;" onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
                         );
                     }
-                    $('#content').val("");
-                    $('#hide_button_count').replaceWith('<a id=hide_button_count style="color:blue;">&nbsp;댓글 접기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>')
-                    $('#show_button_count').replaceWith('<a id=show_button_count style="color:blue;">&nbsp;댓글 펼치기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>')
+                    $('#content_id').val("");
+                    $('#hide_button_count').replaceWith('<a id=hide_button_count style="color:black;">&nbsp;댓글 접기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>')
+                    $('#show_button_count').replaceWith('<a id=show_button_count style="color:black;">&nbsp;댓글 펼치기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>')
                 },
                 error: function () {
-                    if ($('#content').val()=="") {
+                    if ($('#content_id').val()=="") {
                         alert('댓글을 입력해주세요.');
                     }
                 },
@@ -305,8 +302,8 @@
                 },
                 success: function (response) {
                     $('#'+response.comment_id).replaceWith('<span style="color:gray;">삭제된 댓글입니다.</span><hr>');
-                    $('#hide_button_count').replaceWith('<a id=hide_button_count style="color:blue;">&nbsp;댓글 접기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>');
-                    $('#show_button_count').replaceWith('<a id=show_button_count style="color:blue;">&nbsp;댓글 펼치기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>');
+                    $('#hide_button_count').replaceWith('<a id=hide_button_count style="color:black;">&nbsp;댓글 접기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>');
+                    $('#show_button_count').replaceWith('<a id=show_button_count style="color:black;">&nbsp;댓글 펼치기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>');
                 },
                 error: function () {
                     alert('본인 댓글이 아닙니다.');
@@ -329,8 +326,8 @@
                 },
                 success: function (response) {
                     $('#'+response.comment_id).replaceWith('<span style="color:gray;">삭제된 답글입니다.</span>');
-                    $('#hide_button_count').replaceWith('<a id=hide_button_count style="color:blue;">&nbsp;댓글 접기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>');
-                    $('#show_button_count').replaceWith('<a id=show_button_count style="color:blue;">&nbsp;댓글 펼치기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>');
+                    $('#hide_button_count').replaceWith('<a id=hide_button_count style="color:black;">&nbsp;댓글 접기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>');
+                    $('#show_button_count').replaceWith('<a id=show_button_count style="color:black;">&nbsp;댓글 펼치기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>');
                 },
                 error: function () {
                     alert('본인 댓글이 아닙니다.');
@@ -342,7 +339,8 @@
     function createReplyArea(value) {
         var comment_id = value;
         $('.'+comment_id).append(
-            '<div id="layer"><textarea class="form-control" id="reply_content" rows="2" placeholder="답글을 입력해주세요." style="float: left; width:90%;" autofocus></textarea><button onclick="replyWrite('+comment_id+');" class="btn btn-outline-dark" style="margin-left:10px; height:62px;">답글작성</button><hr></div>'
+            // '<div id="layer"><textarea class="form-control" id="reply_content" rows="2" placeholder="답글을 입력해주세요." style="float: left; max-width: 85%; margin-top:7px;" autofocus></textarea><button onclick="replyWrite('+comment_id+');" class="btn btn-md" style="font-size:15px; background-color:#d14040f2; color:white; width: 11%; margin-left: 10px; height:62px;">답글달기</button><hr></div>'
+            '<div id="layer"><div class="row"><div class="col-10"><textarea class="form-control" id="reply_content" rows="2" placeholder="답글을 입력해주세요." style="float: left; width: 103%; margin-top:5px;" autofocus></textarea></div><div class="col-md-auto"><button onclick="replyWrite('+comment_id+');" class="btn btn-md" style="font-size:15px; background-color:#d14040f2; color:white; height:60px;">답글달기</button></div></div><hr></div>'
         );
     }
 
@@ -401,21 +399,21 @@
             success: function (response) {
                 if (response.self_comment) {
                     $('.'+comment_id).append(
-                        '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+response.comment_id+'><strong>'+response.writer+'&nbsp;<span style="color:gray";>'+response.self_comment+'</span></strong>'+
-                        '<span style="float:right; color:blue;">'+response.created+'</span>'+
-                        '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="replyDelete('+response.comment_id+');">답글삭제</a></div></div></div></div></div><hr>'
+                        '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><i class="fa fa-reply fa-rotate-180 fa-lg"></i></div><div><div id='+response.comment_id+'><strong>'+response.writer+'&nbsp;<span style="color:gray";>'+response.self_comment+'</span></strong>'+
+                        '<span style="float:right; color:#d14040f2;">'+response.created+'</span>'+
+                        '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right; margin:-20px 0px -10px 0;"><a style="color: #d14040f2;" onclick="replyDelete('+response.comment_id+');">답글삭제</a></div></div></div></div></div><hr>'
                     );
                 }
                 else{
                     $('.'+comment_id).append(
-                        '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><h4>↳<h5></div><div><div id='+response.comment_id+'><strong>'+response.writer+'</strong>'+
-                        '<span style="float:right; color:blue;">'+response.created+'</span>'+
-                        '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right;"><a style="color: rgb(29, 112, 236)" onclick="replyDelete('+response.comment_id+');">답글삭제</a></div></div></div></div></div><hr>'
+                        '<div style="display:grid; grid-template-columns: 0.03fr 0.97fr"><div style="color:gray;"><i class="fa fa-reply fa-rotate-180 fa-lg"></i></div><div><div id='+response.comment_id+'><strong>'+response.writer+'</strong>'+
+                        '<span style="float:right; color:#d14040f2;">'+response.created+'</span>'+
+                        '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+'</div><div style="text-align:right; margin:-20px 0px -10px 0;"><a style="color: #d14040f2;" onclick="replyDelete('+response.comment_id+');">답글삭제</a></div></div></div></div></div><hr>'
                     );
                 }
                 $("#layer").remove();
-                $('#hide_button_count').replaceWith('<a id=hide_button_count style="color:blue;">&nbsp;댓글 접기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>')
-                $('#show_button_count').replaceWith('<a id=show_button_count style="color:blue;">&nbsp;댓글 펼치기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>')
+                $('#hide_button_count').replaceWith('<a id=hide_button_count style="color:black;">&nbsp;댓글 접기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>')
+                $('#show_button_count').replaceWith('<a id=show_button_count style="color:black;">&nbsp;댓글 펼치기 &middot;&nbsp;'+response.comment_count+'개의 댓글</a>')
             },
             error: function () {
                 if ($('#reply_content').val()=="") {

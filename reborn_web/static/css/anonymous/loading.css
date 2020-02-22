@@ -1,7 +1,7 @@
 .loading {
     display: inline-block;
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    border-left-color: rgb(19, 20, 20);
+    border: 4px solid #d14040f2;
+    border-left-color: white;
     border-radius: 50%;
     width: 30px;
     height: 30px;

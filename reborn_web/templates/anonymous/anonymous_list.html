@@ -13,10 +13,11 @@
 {% block contents %}
 <div class="container">
     <div class="row mt-5">
-        <div class="col-6">
+        <div class="col-5" style="text-align: center;">
             <h4 style="font-weight: bold;">익명게시판</h4>
         </div>
     </div>
+
     <!--검색창, 글쓰기-->
     <div class="row justify-content-center">
         <div style="float:left;">
@@ -32,7 +33,7 @@
                             </select>
                         </div>
                         <div class="col" style="margin-top: 10px;">
-                            <input style="width:28em;" type="text" name="q" value="{{ q }}"
+                            <input style="width:29em;" type="text" name="q" value="{{ q }}"
                                 class="form-control form-control-md" placeholder="검색어를 입력해주세요.">
                         </div>
                         <div class="col">
@@ -43,7 +44,7 @@
             </form>
         </div>
         <div>
-            <a href="{% url 'anonymous:anonymous_write' %}" id="write_btn" class="btn btn-sm" style="margin-left:-7px;">글쓰기</a>
+            <a href="{% url 'anonymous:anonymous_write' %}" id="write_btn" class="btn btn-sm" style="margin-left:-11px;">글쓰기</a>
         </div>
     </div>
     <br>
@@ -97,7 +98,7 @@
     <div class="loading" style="display: none;"></div>
 </div>
 
-<div class="fab">
+<div class="fab" style="display: none;">
     <span class="fab-action-button">
         <i class="fab-action-button__icon"></i>
     </span>

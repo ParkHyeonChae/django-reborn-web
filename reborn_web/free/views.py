@@ -91,7 +91,7 @@ class AllListView(ListView):
         context['page_range'] = page_range
 
         search_keyword = self.request.GET.get('q', '')
-        search_type = self.request.GET.get('type', '')
+        search_type = self.request.GET.get('type', '') 
 
         context['q'] = search_keyword
         context['type'] = search_type
@@ -104,7 +104,7 @@ class FreeListView(AllListView):
         search_keyword = self.request.GET.get('q', '')
         search_type = self.request.GET.get('type', '')
         free_list = Free.objects.filter(category='자유').order_by('-id')
-
+        
         if search_keyword :
             if search_type == 'all':
                 free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
