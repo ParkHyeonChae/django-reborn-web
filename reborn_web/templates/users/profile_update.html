@@ -1,62 +1,41 @@
-{% extends "users/base.html" %}
+{% extends "users/main_base.html" %}
+
 {% block contents %}
+<div class="container">
+    <div style="margin-top: 5rem !important;">
+        <div class="col-12">
 
-<div class="row mt-5">
-    <div class="col-12 text-center">
-        <h1>회원정보수정</h1>
-    </div>
-</div>
+            <div class="row justify-content-center">
+                <div class="card" style="width: 50%;">
+                    <div class="card-header" style="padding-bottom:8px;">
+                        <strong style="font-size: 18px;"><i class="fas fa-user-edit"></i>&nbsp;&nbsp;내 정보수정</strong>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            아이디 : {{ user.user_id }}<br><br>
+                            학과 : {{ user.department }}<br><br>
+                            {{ user_change_form.as_p }}
 
-<div class="row mt-5">
-    <div class="col-12">
-        <!-- <form method="POST" action=".">  
-            {% csrf_token %}            
-            {% for field in user_form %}
-            <div class="fieldWrapper">
-                {{ field.label_tag }}
-                {{ field }}
-                <br>
-                {% if errors %}
-                {{ field.errors }}
-                {% endif %}
+                            {% if user.department == '컴퓨터공학부' %}
+                            <script type="text/javascript">
+                                cs_update(this.form)
+
+                                function cs_update(form) {
+                                    document.getElementsByTagName('option')[0].remove();
+                                    document.getElementsByName('name')[0].setAttribute('required', 'True')
+                                    document.getElementsByName('student_id')[0].setAttribute('required', 'True')
+                                }
+                            </script>
+                            동아리 : {{ user.circles }}
+                            {% endif %}<br><br>
+
+                            <button type="submit" class="btn btn-sm" id="detail_btn"><i class="fas fa-check"></i>&nbsp;수정하기</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            {% endfor %}
-
-            <style>
-                .errorlist {
-                    color: red;
-                    font-weight: bold;
-                }
-            </style>
-
-            <input class="btn btn-primary" type="submit" value="저장하기">
-        </form> -->
-
-        <form method="POST">
-            {% csrf_token %}
-            아이디 : {{ user.user_id }}<br><br>
-            학과 : {{ user.department }}<br><br>
-            {{ user_change_form.as_p }}
-
-            {% if user.department == '컴퓨터공학부' %}
-            <script type="text/javascript">
-                cs_update(this.form)
-
-                function cs_update(form) {
-                    document.getElementsByTagName('option')[0].remove();
-                    document.getElementsByName('name')[0].setAttribute('required', 'True')
-                    document.getElementsByName('student_id')[0].setAttribute('required', 'True')
-                }
-            </script>
-            동아리 : {{ user.circles }}
-            {% endif %}<br><br>
-            
-            <input type="submit" value="저장하기"/>
-        </form>
-        
+        </div>
     </div>
 </div>
-
 {% endblock %}
-           
-    

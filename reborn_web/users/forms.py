@@ -7,7 +7,7 @@ from .choice import *
 
 
 def hp_validator(value):
-	if len(str(value)) != 11:
+	if len(str(value)) != 10:
 		raise forms.ValidationError('정확한 핸드폰 번호를 입력해주세요.')
 
 def student_id_validator(value):
@@ -57,10 +57,11 @@ class CustomUserChangeForm(UserChangeForm):
     name = forms.CharField(required=False, label='이름', widget=forms.TextInput)        
     student_id = forms.IntegerField(required=False, label='학번', widget=forms.NumberInput)
     grade = forms.ChoiceField(choices=GRADE_CHOICES, label='학년', widget=forms.Select)
+    department = forms.ChoiceField(choices=DEPARTMENT_CHOICES, label='학과', widget=forms.Select)
        
     class Meta:
         model = get_user_model()
-        fields = ['email', 'hp', 'name', 'student_id', 'grade']
+        fields = ['email', 'hp', 'name', 'student_id', 'grade', 'department']
 
 
 # 회원탈퇴 비밀번호확인 폼
