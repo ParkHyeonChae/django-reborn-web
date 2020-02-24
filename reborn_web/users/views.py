@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .decorators import login_message_required, admin_required, logout_message_required
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect, get_object_or_404
 # from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, FormView, TemplateView
@@ -17,7 +17,7 @@ from .models import User
 from free.models import Free
 from anonymous.models import Anonymous
 from notice.models import Notice
-from .forms import CsRegisterForm, RegisterForm, LoginForm, CustomUserChangeForm, CustomCsUserChangeForm, CheckPasswordForm, RecoveryIdForm, RecoveryPwForm, CustomSetPasswordForm
+from .forms import CsRegisterForm, RegisterForm, LoginForm, CustomUserChangeForm, CustomCsUserChangeForm, CheckPasswordForm, RecoveryIdForm, RecoveryPwForm, CustomSetPasswordForm, CustomPasswordChangeForm
 from django.http import HttpResponse
 import json
 from django.core import serializers
@@ -233,7 +233,7 @@ def profile_delete_view(request):
 @login_message_required
 def password_edit_view(request):
     if request.method == 'POST':
-        password_change_form = PasswordChangeForm(request.user, request.POST)
+        password_change_form = CustomPasswordChangeForm(request.user, request.POST)
         if password_change_form.is_valid():
             user = password_change_form.save()
             update_session_auth_hash(request, user)
@@ -241,7 +241,7 @@ def password_edit_view(request):
             messages.success(request, "비밀번호를 성공적으로 변경하였습니다.")
             return redirect('users:profile')
     else:
-        password_change_form = PasswordChangeForm(request.user)
+        password_change_form = CustomPasswordChangeForm(request.user)
 
     return render(request, 'users/profile_password.html', {'password_change_form':password_change_form})
 

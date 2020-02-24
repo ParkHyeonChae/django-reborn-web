@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.hashers import check_password
 from .models import User
-from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, SetPasswordForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, SetPasswordForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
 from .choice import *
 
@@ -204,6 +204,26 @@ class CustomSetPasswordForm(SetPasswordForm):
         self.fields['new_password2'].widget.attrs.update({
             'class': 'form-control',
             # 'placeholder': '새 비밀번호 확인',
+        })
+
+
+# 비밀번호 변경 폼
+class CustomPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super(CustomPasswordChangeForm, self).__init__(*args, **kwargs)
+        self.fields['old_password'].label = '기존 비밀번호'
+        self.fields['old_password'].widget.attrs.update({
+            'class': 'form-control',
+            'autofocus': False,
+            'style': 'margin-top:-15px;'
+        })
+        self.fields['new_password1'].label = '새 비밀번호'
+        self.fields['new_password1'].widget.attrs.update({
+            'class': 'form-control',
+        })
+        self.fields['new_password2'].label = '새 비밀번호 확인'
+        self.fields['new_password2'].widget.attrs.update({
+            'class': 'form-control',
         })
 
 

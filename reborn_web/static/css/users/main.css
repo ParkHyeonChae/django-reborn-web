@@ -8380,6 +8380,12 @@ a[data-toggle="collapse"] {
   margin-left: -0.5px; */
 }
 
+#back_btn {
+  background-color: gray;
+  color: white;
+  font-size: 14px;
+}
+
 #write {
   background-color: #d14040f2;
   color: white;
