@@ -107,11 +107,8 @@ class CustomCsUserChangeForm(UserChangeForm):
 
 # 회원탈퇴 비밀번호확인 폼
 class CheckPasswordForm(forms.Form):
-    password = forms.CharField(
-        error_messages={
-            'required': '비밀번호를 입력해주세요.'
-        },
-        widget=forms.PasswordInput, label='비밀번호'
+    password = forms.CharField(label='비밀번호', widget=forms.PasswordInput(
+        attrs={'class': 'form-control',}), 
     )
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
