@@ -17,7 +17,7 @@ from .models import User
 from free.models import Free
 from anonymous.models import Anonymous
 from notice.models import Notice
-from .forms import CsRegisterForm, RegisterForm, LoginForm, CustomUserChangeForm, CheckPasswordForm, RecoveryIdForm, RecoveryPwForm, CustomSetPasswordForm
+from .forms import CsRegisterForm, RegisterForm, LoginForm, CustomUserChangeForm, CustomCsUserChangeForm, CheckPasswordForm, RecoveryIdForm, RecoveryPwForm, CustomSetPasswordForm
 from django.http import HttpResponse
 import json
 from django.core import serializers
@@ -194,15 +194,21 @@ def profile_view(request):
 @login_message_required
 def profile_update_view(request):
     if request.method == 'POST':
-        # user_form = RegisterForm(request.POST)
-        user_change_form = CustomUserChangeForm(request.POST, instance = request.user)
+        if request.user.department == '컴퓨터공학부':
+            user_change_form = CustomCsUserChangeForm(request.POST, instance = request.user)
+        else:   
+            user_change_form = CustomUserChangeForm(request.POST, instance = request.user)
+
         if user_change_form.is_valid():
             user_change_form.save()
             messages.success(request, '회원정보가 수정되었습니다.')
-            return redirect('/users/profile/')
-            # return render(request, 'users/profile.html')
+            return render(request, 'users/profile.html')
     else:
-        user_change_form = CustomUserChangeForm(instance = request.user)
+        if request.user.department == '컴퓨터공학부':
+            user_change_form = CustomCsUserChangeForm(instance = request.user)
+        else:   
+            user_change_form = CustomUserChangeForm(instance = request.user)
+
         return render(request, 'users/profile_update.html', {'user_change_form':user_change_form})
 
 

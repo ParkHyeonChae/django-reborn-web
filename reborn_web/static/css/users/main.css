@@ -8326,6 +8326,22 @@ a[data-toggle="collapse"] {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
+@-webkit-keyframes autofill {
+  to {
+  color: #666;
+  background: transparent; } }
+  
+  @keyframes autofill {
+  to {
+  color: #666;
+  background: transparent; } }
+  
+  input:-webkit-autofill {
+  -webkit-animation-name: autofill;
+  animation-name: autofill;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both; }
+
 .notice_box {
   /* box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2); */
   transition: 0.3s;
@@ -8377,12 +8393,12 @@ a[data-toggle="collapse"] {
   font-weight: 600;
   width: 70px;
   font-size: 16px;
-  padding-bottom:5px;
+  padding-bottom:7px;
 }
 
 .profile_content {
   font-weight: 500;
-  width: 60px;
+  width: 400px;
   font-size: 16px;
 }
 

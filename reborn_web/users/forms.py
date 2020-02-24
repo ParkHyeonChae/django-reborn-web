@@ -51,17 +51,58 @@ class LoginForm(forms.Form):
                 self.add_error('password', '비밀번호가 틀렸습니다.')
 
 
-# 회원정보 수정 폼
+# 일반회원정보 수정 폼
 class CustomUserChangeForm(UserChangeForm):
     password = None
-    name = forms.CharField(required=False, label='이름', widget=forms.TextInput)        
-    student_id = forms.IntegerField(required=False, label='학번', widget=forms.NumberInput)
-    grade = forms.ChoiceField(choices=GRADE_CHOICES, label='학년', widget=forms.Select)
-    department = forms.ChoiceField(choices=DEPARTMENT_CHOICES, label='학과', widget=forms.Select)
+    email = forms.EmailField(label='이메일', widget=forms.EmailInput(
+        attrs={'class': 'form-control',}), 
+    )        
+    hp = forms.IntegerField(label='연락처', widget=forms.NumberInput(
+        attrs={'class': 'form-control', 'maxlength':'11', 'oninput':"maxLengthCheck(this)",}), 
+    )    
+    name = forms.CharField(label='이름', widget=forms.TextInput(
+        attrs={'class': 'form-control', 'maxlength':'8',}), 
+    )        
+    student_id = forms.IntegerField(required=False, label='학번', widget=forms.NumberInput(
+        attrs={'class': 'form-control', 'maxlength':'8', 'oninput':"maxLengthCheck(this)",}), 
+    )
+    grade = forms.ChoiceField(choices=GRADE_CHOICES, label='학년', widget=forms.Select(
+        attrs={'class': 'form-control',}), 
+    )
+    department = forms.ChoiceField(choices=DEPARTMENT_CHOICES, label='학과', widget=forms.Select(
+        attrs={'class': 'form-control',}), 
+    )
        
     class Meta:
         model = get_user_model()
         fields = ['email', 'hp', 'name', 'student_id', 'grade', 'department']
+
+
+# 컴공회원정보 수정 폼
+class CustomCsUserChangeForm(UserChangeForm):
+    password = None
+    email = forms.EmailField(label='이메일', widget=forms.EmailInput(
+        attrs={'class': 'form-control',}), 
+    )        
+    hp = forms.IntegerField(label='연락처', widget=forms.NumberInput(
+        attrs={'class': 'form-control', 'maxlength':'11', 'oninput':"maxLengthCheck(this)",}), 
+    )        
+    name = forms.CharField(label='이름', widget=forms.TextInput(
+        attrs={'class': 'form-control', 'maxlength':'8',}), 
+    )        
+    student_id = forms.IntegerField(label='학번', widget=forms.NumberInput(
+        attrs={'class': 'form-control', 'maxlength':'8', 'oninput':"maxLengthCheck(this)",}), 
+    )
+    grade = forms.ChoiceField(choices=GRADE_CHOICES, label='학년', widget=forms.Select(
+        attrs={'class': 'form-control',}), 
+    )
+    circles = forms.ChoiceField(choices=CIRCLES_CHOICES, label='동아리', widget=forms.Select(
+        attrs={'class': 'form-control',}), 
+    )
+
+    class Meta:
+        model = get_user_model()
+        fields = ['email', 'hp', 'name', 'student_id', 'grade', 'circles']
 
 
 # 회원탈퇴 비밀번호확인 폼
