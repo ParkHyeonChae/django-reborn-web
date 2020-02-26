@@ -58,6 +58,7 @@
                     <div id="more_comment">
                         {% if comments %}
                             {% for comment in comments %}
+
                             <div id='{{ comment.id }}'>
                                 {% if comment.deleted and comment.reply == 0 %}
                                 <span style="color:gray;">삭제된 댓글입니다.</span><hr>
@@ -66,7 +67,11 @@
                                         {% if comment.writer == free.writer %}
                                         <strong>{{ comment.writer }}&nbsp;<span style="color:gray";>(글쓴이)</span></strong>
                                         {% else %}
-                                        <strong>{{ comment.writer }}</strong>
+                                            {% if comment.writer == None %}
+                                            <strong>탈퇴한 사용자입니다.</strong>
+                                            {% else %}
+                                            <strong>{{ comment.writer }}</strong>
+                                            {% endif %}
                                         {% endif %}
                                         {% if comment.created_string == False %}
                                         <span style="float:right; color:gray;">{{ comment.created|date:'m월 d일' }}</span>
@@ -149,6 +154,9 @@
                                         var reply_id = "{{ comment.id }}";
                                         var comment_id = "{{ comment.reply }}";
                                         var reply_writer = "{{ comment.writer }}";
+                                        if(reply_writer == "None") {
+                                            reply_writer = "탈퇴한 사용자입니다.";
+                                        }
                                         var reply_created = "{{ comment.created_string }}";
                                         if (reply_created == 'False') {
                                         reply_created = "{{ comment.created|date:'m월 d일' }}"
@@ -166,6 +174,9 @@
                                         var reply_id = "{{ comment.id }}";
                                         var comment_id = "{{ comment.reply }}";
                                         var reply_writer = "{{ comment.writer }}";
+                                        if(reply_writer == "None") {
+                                            reply_writer = "탈퇴한 사용자입니다.";
+                                        }
                                         var reply_created = "{{ comment.created_string }}";
                                         if (reply_created == 'False') {
                                         reply_created = "{{ comment.created|date:'m월 d일' }}"
