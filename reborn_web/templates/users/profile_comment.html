@@ -1,0 +1,60 @@
+{% extends "users/main_base.html" %}
+{% load humanize %}
+
+{% block contents %}
+<br><br>
+<div class="container">
+    <div>
+        <h5><strong><i class="fas fa-comments"></i>&nbsp;자유게시판 작성한 댓글</strong></h5>
+        <table class="table table-hover">
+            <tr class="text-center">
+                <th>게시글번호</th>
+                <th class="text-left">게시글</th>
+                <th class="text-left">댓글내용</th>
+                <th>작성일</th>
+            </tr>
+            {% for comment in comment_list %}
+            <tr class="text-center" style="font-weight: bold; cursor:pointer;" onclick="location.href='/free/{{ comment.post.id }}/'">
+                <td>{{ comment.post.id }}</td>
+                <td class="text-left">{{ comment.post|truncatechars:8 }}</td>
+                <td class="text-left" style="width:50%">
+                {{ comment.content|truncatechars:30 }}
+                </td>
+                {% if comment.created_string == False %}
+                <td>{{ comment.created|date:'m월 d일' }}</td>
+                {% else %}
+                <td>{{ comment.created_string }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <br>
+    <div>
+        <h5><strong><i class="fas fa-comments"></i>&nbsp;익명게시판 작성한 댓글</strong></h5>
+        <table class="table table-hover">
+            <tr class="text-center">
+                <th>게시글번호</th>
+                <th class="text-left">게시글</th>
+                <th class="text-left">댓글내용</th>
+                <th>작성일</th>
+            </tr>
+            {% for comment in anonymous_list %}
+            <tr class="text-center" style="font-weight: bold; cursor:pointer;" onclick="location.href='/anonymous/{{ comment.post.id }}/'">
+                <td>{{ comment.post.id }}</td>
+                <td class="text-left">{{ comment.post|truncatechars:8 }}</td>
+                <td class="text-left" style="width:50%">
+                {{ comment.content|truncatechars:30 }}
+                </td>
+                {% if comment.created_string == False %}
+                <td>{{ comment.created|date:'m월 d일' }}</td>
+                {% else %}
+                <td>{{ comment.created_string }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

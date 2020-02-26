@@ -54,9 +54,9 @@ class LoginForm(forms.Form):
 # 일반회원정보 수정 폼
 class CustomUserChangeForm(UserChangeForm):
     password = None
-    email = forms.EmailField(label='이메일', widget=forms.EmailInput(
-        attrs={'class': 'form-control',}), 
-    )        
+    # email = forms.EmailField(label='이메일', widget=forms.EmailInput(
+    #     attrs={'class': 'form-control',}), 
+    # )        
     hp = forms.IntegerField(label='연락처', widget=forms.NumberInput(
         attrs={'class': 'form-control', 'maxlength':'11', 'oninput':"maxLengthCheck(this)",}), 
     )    
@@ -75,15 +75,12 @@ class CustomUserChangeForm(UserChangeForm):
        
     class Meta:
         model = get_user_model()
-        fields = ['email', 'hp', 'name', 'student_id', 'grade', 'department']
+        fields = ['hp', 'name', 'student_id', 'grade', 'department']
 
 
 # 컴공회원정보 수정 폼
 class CustomCsUserChangeForm(UserChangeForm):
-    password = None
-    email = forms.EmailField(label='이메일', widget=forms.EmailInput(
-        attrs={'class': 'form-control',}), 
-    )        
+    password = None        
     hp = forms.IntegerField(label='연락처', widget=forms.NumberInput(
         attrs={'class': 'form-control', 'maxlength':'11', 'oninput':"maxLengthCheck(this)",}), 
     )        
@@ -102,7 +99,7 @@ class CustomCsUserChangeForm(UserChangeForm):
 
     class Meta:
         model = get_user_model()
-        fields = ['email', 'hp', 'name', 'student_id', 'grade', 'circles']
+        fields = ['hp', 'name', 'student_id', 'grade', 'circles']
 
 
 # 회원탈퇴 비밀번호확인 폼

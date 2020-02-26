@@ -14,8 +14,8 @@ from django.views.generic import CreateView, FormView, TemplateView
 from django.views.generic import View
 # from django.contrib.auth.views import PasswordResetConfirmView
 from .models import User
-from free.models import Free
-from anonymous.models import Anonymous
+from free.models import Free, Comment
+from anonymous.models import Anonymous, AnonymousComment
 from notice.models import Notice
 from .forms import CsRegisterForm, RegisterForm, LoginForm, CustomUserChangeForm, CustomCsUserChangeForm, CheckPasswordForm, RecoveryIdForm, RecoveryPwForm, CustomSetPasswordForm, CustomPasswordChangeForm
 from django.http import HttpResponse
@@ -360,3 +360,14 @@ def profile_post_view(request):
 
     return render(request, 'users/profile_post.html', context)
 
+
+# 댓글 단 글 보기
+@require_GET
+def profile_comment_view(request):
+    comment_list = Comment.objects.select_related('post').filter(writer=request.user).exclude(deleted=True).order_by('-created')
+    anonymous_comment_list = AnonymousComment.objects.select_related('post').filter(writer=request.user).exclude(deleted=True).order_by('-created')
+    context = {
+        'comment_list': comment_list,
+        'anonymous_list': anonymous_comment_list,
+    }
+    return render(request, 'users/profile_comment.html', context)
