@@ -22,6 +22,9 @@
                 <div class="tab-pane" id="id_fourth">
                     <h4 style="font-weight: bold; margin-left:60px">4학년 시험시간표</h4>
                 </div>
+                <div class="tab-pane" id="id_all">
+                    <h4 style="font-weight: bold; margin-left:60px">전 학년 시험시간표</h4>
+                </div>
             </div>
         </div>
     </div>
@@ -39,6 +42,14 @@
         <li class="nav-item">
             <a class="nav-link" id="fourth-tab" data-toggle="tab" href="#fourth" role="tab" aria-controls="fourth" aria-selected="false">4학년 과목</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="false">전체보기</a>
+        </li>
+        {% if request.user.level == '0' or request.user.level == '1' %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'timetable:timetable_update' %}">시간표편집</a>
+        </li>
+        {% endif %}
     </ul>
     <!--1학년 과목 시간표-->
     <div class="tab-content" id="myTabContent">
@@ -173,6 +184,117 @@
                 </tbody>
             </table>
         </div>
+        <!--전체보기-->
+        <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">
+            <!--1학년 시간표 전체보기-->
+            <table class="table table-sm">
+                <thead>
+                    <tr class="text-center">
+                        <th class="border_none" scope="col">1학년</th>
+                        <th class="all_view_subject" scope="col">교과목명</th>
+                        <th class="all_view_professor" scope="col">담당교수</th>
+                        <th class="all_view_date" scope="col">시험일자</th>
+                        <th class="all_view_time" scope="col">시험시간</th>
+                        <th class="all_view_location" scope="col">시험장소</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for list in timetable_list %}
+                    {% if list.grade == 'first' %}
+                    <tr class="text-center">
+                        <td class="border_none"></td>
+                        <td class="all_view">{{ list.subject }}</td>
+                        <td class="all_view">{{ list.professor }}</td>
+                        <td class="all_view">{{ list.date|date:'m월 d일 (D)' }}</td>
+                        <td class="all_view">{{ list.time }}교시&nbsp;({{ list.time|add:8 }}시)</td>
+                        <td class="all_view">{{ list.location|upper }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!--2학년 시간표 전체보기-->
+            <table class="table table-sm" style="margin-top: 30px;">
+                <thead>
+                    <tr class="text-center">
+                        <th class="border_none" scope="col">2학년</th>
+                        <th class="all_view_subject" scope="col">교과목명</th>
+                        <th class="all_view_professor" scope="col">담당교수</th>
+                        <th class="all_view_date" scope="col">시험일자</th>
+                        <th class="all_view_time" scope="col">시험시간</th>
+                        <th class="all_view_location" scope="col">시험장소</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for list in timetable_list %}
+                    {% if list.grade == 'second' %}
+                    <tr class="text-center">
+                        <td class="border_none"></td>
+                        <td class="all_view">{{ list.subject }}</td>
+                        <td class="all_view">{{ list.professor }}</td>
+                        <td class="all_view">{{ list.date|date:'m월 d일 (D)' }}</td>
+                        <td class="all_view">{{ list.time }}교시&nbsp;({{ list.time|add:8 }}시)</td>
+                        <td class="all_view">{{ list.location|upper }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!--3학년 시간표 전체보기-->
+            <table class="table table-sm" style="margin-top: 30px;">
+                <thead>
+                    <tr class="text-center">
+                        <th class="border_none" scope="col">3학년</th>
+                        <th class="all_view_subject" scope="col">교과목명</th>
+                        <th class="all_view_professor" scope="col">담당교수</th>
+                        <th class="all_view_date" scope="col">시험일자</th>
+                        <th class="all_view_time" scope="col">시험시간</th>
+                        <th class="all_view_location" scope="col">시험장소</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for list in timetable_list %}
+                    {% if list.grade == 'third' %}
+                    <tr class="text-center">
+                        <td class="border_none"></td>
+                        <td class="all_view">{{ list.subject }}</td>
+                        <td class="all_view">{{ list.professor }}</td>
+                        <td class="all_view">{{ list.date|date:'m월 d일 (D)' }}</td>
+                        <td class="all_view">{{ list.time }}교시&nbsp;({{ list.time|add:8 }}시)</td>
+                        <td class="all_view">{{ list.location|upper }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!--4학년 시간표 전체보기-->
+            <table class="table table-sm" style="margin-top: 30px;">
+                <thead>
+                    <tr class="text-center">
+                        <th class="border_none" scope="col">4학년</th>
+                        <th class="all_view_subject" scope="col">교과목명</th>
+                        <th class="all_view_professor" scope="col">담당교수</th>
+                        <th class="all_view_date" scope="col">시험일자</th>
+                        <th class="all_view_time" scope="col">시험시간</th>
+                        <th class="all_view_location" scope="col">시험장소</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for list in timetable_list %}
+                    {% if list.grade == 'fourth' %}
+                    <tr class="text-center">
+                        <td class="border_none"></td>
+                        <td class="all_view">{{ list.subject }}</td>
+                        <td class="all_view">{{ list.professor }}</td>
+                        <td class="all_view">{{ list.date|date:'m월 d일 (D)' }}</td>
+                        <td class="all_view">{{ list.time }}교시&nbsp;({{ list.time|add:8 }}시)</td>
+                        <td class="all_view">{{ list.location|upper }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -193,11 +315,16 @@
         HideTitle();
         $('#id_fourth').tab('show');
     });
+    $('#all-tab').click( function() {  
+        HideTitle();
+        $('#id_all').tab('show');
+    });
     function HideTitle() {
         $('#id_first').attr('class','tab-pane');
         $('#id_second').attr('class','tab-pane');
         $('#id_third').attr('class','tab-pane');
         $('#id_fourth').attr('class','tab-pane');
+        $('#id_all').attr('class','tab-pane');
     };
 </script>
 
@@ -206,10 +333,9 @@
     var time = '{{ list.time }}'
     var time_length = '{{ list.time_length }}'
     var day = '{{ list.day }}'
-    var date = '{{ list.date|date:"m월 d일" }}'
+    var date = '{{ list.date|date:"m/d" }}'
     var subject = '{{ list.subject }}'
-    var test_location = '{{ list.location }}'
-    var sub_loc = subject + ' (' + test_location + ', ' + date + ')'
+    var test_location = '{{ list.location|upper }}'
     var two_time = Number(time)+1;
     var three_time = Number(time)+2;
     var four_time = Number(time)+3;
@@ -219,19 +345,20 @@
     {% if list.grade == 'first' %}
     <script type="text/javascript">
         if (time_length == '1') {
-            $('.first_time_' + time).children('.' + day).text(subject).css({'background-color': random_color});
+            // $('.first_time_' + time).children('.' + day).text(subject).css({'background-color': random_color});
+            $('.first_time_' + time).children('.' + day).append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span>&nbsp;&middot;&nbsp;<span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
         }
         else if (time_length == '2') {
-            $('.first_time_' + time).children('.' + day).attr('rowspan', '2').text(subject).css({'background-color': random_color});
+            $('.first_time_' + time).children('.' + day).attr('rowspan', '2').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
             $('.first_time_' + two_time).children('.' + day).remove();
         }
         else if (time_length == '3') {
-            $('.first_time_' + time).children('.' + day).attr('rowspan', '3').text(subject).css({'background-color': random_color});
+            $('.first_time_' + time).children('.' + day).attr('rowspan', '3').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
             $('.first_time_' + two_time).children('.' + day).remove();
             $('.first_time_' + three_time).children('.' + day).remove();
         }
         else if (time_length == '4') {
-            $('.first_time_' + time).children('.' + day).attr('rowspan', '4').text(subject).css({'background-color': random_color});
+            $('.first_time_' + time).children('.' + day).attr('rowspan', '4').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
             $('.first_time_' + two_time).children('.' + day).remove();
             $('.first_time_' + three_time).children('.' + day).remove();
             $('.first_time_' + four_time).children('.' + day).remove();
@@ -240,19 +367,19 @@
     {% elif list.grade == 'second' %}
     <script type="text/javascript">
         if (time_length == '1') {
-            $('.second_time_' + time).children('.' + day).text(subject).css({'background-color': random_color});
+            $('.second_time_' + time).children('.' + day).append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span>&nbsp;&middot;&nbsp;<span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
         }
         else if (time_length == '2') {
-            $('.second_time_' + time).children('.' + day).attr('rowspan', '2').text(subject).css({'background-color': random_color});
+            $('.second_time_' + time).children('.' + day).attr('rowspan', '2').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
             $('.second_time_' + two_time).children('.' + day).remove();
         }
         else if (time_length == '3') {
-            $('.second_time_' + time).children('.' + day).attr('rowspan', '3').text(subject).css({'background-color': random_color});
+            $('.second_time_' + time).children('.' + day).attr('rowspan', '3').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
             $('.second_time_' + two_time).children('.' + day).remove();
             $('.second_time_' + three_time).children('.' + day).remove();
         }
         else if (time_length == '4') {
-            $('.second_time_' + time).children('.' + day).attr('rowspan', '4').text(subject).css({'background-color': random_color});
+            $('.second_time_' + time).children('.' + day).attr('rowspan', '4').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
             $('.second_time_' + two_time).children('.' + day).remove();
             $('.second_time_' + three_time).children('.' + day).remove();
             $('.second_time_' + four_time).children('.' + day).remove();
@@ -261,19 +388,19 @@
     {% elif list.grade == 'third' %}
     <script type="text/javascript">
         if (time_length == '1') {
-            $('.third_time_' + time).children('.' + day).text(subject).css({'background-color': random_color});
+            $('.third_time_' + time).children('.' + day).append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span>&nbsp;&middot;&nbsp;<span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
         }
         else if (time_length == '2') {
-            $('.third_time_' + time).children('.' + day).attr('rowspan', '2').text(subject).css({'background-color': random_color});
+            $('.third_time_' + time).children('.' + day).attr('rowspan', '2').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
             $('.third_time_' + two_time).children('.' + day).remove();
         }
         else if (time_length == '3') {
-            $('.third_time_' + time).children('.' + day).attr('rowspan', '3').text(subject).css({'background-color': random_color});
+            $('.third_time_' + time).children('.' + day).attr('rowspan', '3').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
             $('.third_time_' + two_time).children('.' + day).remove();
             $('.third_time_' + three_time).children('.' + day).remove();
         }
         else if (time_length == '4') {
-            $('.third_time_' + time).children('.' + day).attr('rowspan', '4').text(subject).css({'background-color': random_color});
+            $('.third_time_' + time).children('.' + day).attr('rowspan', '4').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
             $('.third_time_' + two_time).children('.' + day).remove();
             $('.third_time_' + three_time).children('.' + day).remove();
             $('.third_time_' + four_time).children('.' + day).remove();
@@ -282,19 +409,19 @@
     {% elif list.grade == 'fourth' %}
     <script type="text/javascript">
         if (time_length == '1') {
-            $('.fourth_time_' + time).children('.' + day).text(subject).css({'background-color': random_color});
+            $('.fourth_time_' + time).children('.' + day).append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span>&nbsp;&middot;&nbsp;<span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
         }
         else if (time_length == '2') {
-            $('.fourth_time_' + time).children('.' + day).attr('rowspan', '2').text(subject).css({'background-color': random_color});
+            $('.fourth_time_' + time).children('.' + day).attr('rowspan', '2').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
             $('.fourth_time_' + two_time).children('.' + day).remove();
         }
         else if (time_length == '3') {
-            $('.fourth_time_' + time).children('.' + day).attr('rowspan', '3').text(subject).css({'background-color': random_color});
+            $('.fourth_time_' + time).children('.' + day).attr('rowspan', '3').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
             $('.fourth_time_' + two_time).children('.' + day).remove();
             $('.fourth_time_' + three_time).children('.' + day).remove();
         }
         else if (time_length == '4') {
-            $('.fourth_time_' + time).children('.' + day).attr('rowspan', '4').text(subject).css({'background-color': random_color});
+            $('.fourth_time_' + time).children('.' + day).attr('rowspan', '4').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
             $('.fourth_time_' + two_time).children('.' + day).remove();
             $('.fourth_time_' + three_time).children('.' + day).remove();
             $('.fourth_time_' + four_time).children('.' + day).remove();

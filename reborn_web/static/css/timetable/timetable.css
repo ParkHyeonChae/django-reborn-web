@@ -16,7 +16,7 @@
     padding-right:5px !important;
     word-break: break-all;
     width:12.5%;
-    font-size: 13px;
+    font-size: 14px;
 }
 /* box-shadow : 0px 2px 8px 0px gray;
 'box-shadow' : '0 7px 30px 3px gray' */
@@ -33,7 +33,53 @@
     border-bottom: 1px solid #fafafa !important;
 }
 
+.border_none {
+    border-left: 1px solid #fafafa !important;
+    border-top: 1px solid #fafafa !important;
+    border-bottom: 1px solid #fafafa !important;
+    font-weight: bold;
+    font-size: 18px;
+    padding-top:0px !important;
+    padding-left:0px !important;
+    padding-right:5px !important;
+    width:55px;
+}
+
 .nav-link {
     color:#d14040f2;
     font-weight: 600;
+}
+
+.all_view {
+    font-weight:550;
+    /* width:15%; */
+}
+
+.all_view_subject {
+    font-weight:600;
+    background-color: #fff1f1;
+}
+
+.all_view_professor {
+    font-weight:600;
+    width:12%;
+    background-color: #fff1f1;
+}
+
+.all_view_date {
+    font-weight:600;
+    width:20%;
+    background-color: #fff1f1;
+}
+
+.all_view_time {
+    font-weight:600;
+    width:12%;
+    background-color: #fff1f1;
+}
+
+.all_view_location {
+    font-weight:600;
+    width:24%;
+    background-color: #fff1f1;
 }
