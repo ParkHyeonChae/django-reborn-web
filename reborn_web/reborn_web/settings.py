@@ -62,6 +62,7 @@ PROJECT_APPS = [
     'anonymous.apps.AnonymousConfig',
     'about.apps.AboutConfig',
     'calender.apps.CalenderConfig',
+    'timetable.apps.TimetableConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS

@@ -26,4 +26,5 @@ urlpatterns = [
     path('anonymous/', include('anonymous.urls')),
     path('about/', include('about.urls')),
     path('calender/', include('calender.urls')),
+    path('timetable/', include('timetable.urls')),
 ]
