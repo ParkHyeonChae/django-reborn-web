@@ -32,3 +32,8 @@
     border-top: 1px solid #fafafa !important;
     border-bottom: 1px solid #fafafa !important;
 }
+
+.nav-link {
+    color:#d14040f2;
+    font-weight: 600;
+}

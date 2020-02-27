@@ -9,44 +9,199 @@
 <div class="container">
     <div class="row mt-5">
         <div class="col-6">
-            <h4 style="font-weight: bold; margin-left:60px">1학년 시험시간표</h4>
+            <div class="tab-content">
+                <div class="tab-pane active" id="id_first">
+                    <h4 style="font-weight: bold; margin-left:60px">1학년 시험시간표</h4>
+                </div>
+                <div class="tab-pane" id="id_second">
+                    <h4 style="font-weight: bold; margin-left:60px">2학년 시험시간표</h4>
+                </div>
+                <div class="tab-pane" id="id_third">
+                    <h4 style="font-weight: bold; margin-left:60px">3학년 시험시간표</h4>
+                </div>
+                <div class="tab-pane" id="id_fourth">
+                    <h4 style="font-weight: bold; margin-left:60px">4학년 시험시간표</h4>
+                </div>
+            </div>
         </div>
     </div>
-    
-    <table class="table table-bordered" style="text-align: center; color:white;">
-        <thead class="timetable_thead">
-            <tr>
-                <th class="border_none_cell" scope="col"></th>
-                <th scope="col"></th>
-                <th class="timetable_th" scope="col">월요일</th>
-                <th class="timetable_th" scope="col">화요일</th>
-                <th class="timetable_th" scope="col">수요일</th>
-                <th class="timetable_th" scope="col">목요일</th>
-                <th class="timetable_th" scope="col">금요일</th>
-                <th class="timetable_th" scope="col">토요일</th>
-                <th class="timetable_th" scope="col">일요일</th>
-            </tr>
-        </thead>
 
-        <tbody>
-            {% for i in "x"|rjust:"12" %}
-            <tr class="time_{{ forloop.counter }}">
-                <td class="border_none_cell">{{ forloop.counter|add:8 }}:00</td>
-                <th class="timetable_th" scope="row">{{ forloop.counter }}교시</th>
-                <td class="mon"></td>
-                <td class="tue"></td>
-                <td class="wed"></td>
-                <td class="thu"></td>
-                <td class="fri"></td>
-                <td class="sat"></td>
-                <td class="sun"></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-left: 55px; margin-bottom: -0.5px;">
+        <li class="nav-item">
+            <a class="nav-link active" id="first-tab" data-toggle="tab" href="#first" role="tab" aria-controls="first" aria-selected="true">1학년 과목</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="second-tab" data-toggle="tab" href="#second" role="tab" aria-controls="second" aria-selected="false">2학년 과목</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="third-tab" data-toggle="tab" href="#third" role="tab" aria-controls="third" aria-selected="false">3학년 과목</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="fourth-tab" data-toggle="tab" href="#fourth" role="tab" aria-controls="fourth" aria-selected="false">4학년 과목</a>
+        </li>
+    </ul>
+    <!--1학년 과목 시간표-->
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="first" role="tabpanel" aria-labelledby="first-tab">
+            <table class="table table-bordered" style="text-align: center; color:white;">
+                <thead class="timetable_thead">
+                    <tr>
+                        <th class="border_none_cell" scope="col"></th>
+                        <th scope="col"></th>
+                        <th class="timetable_th" scope="col">월요일</th>
+                        <th class="timetable_th" scope="col">화요일</th>
+                        <th class="timetable_th" scope="col">수요일</th>
+                        <th class="timetable_th" scope="col">목요일</th>
+                        <th class="timetable_th" scope="col">금요일</th>
+                        <th class="timetable_th" scope="col">토요일</th>
+                        <th class="timetable_th" scope="col">일요일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in "x"|rjust:"12" %}
+                    <tr class="first_time_{{ forloop.counter }}">
+                        <td class="border_none_cell">{{ forloop.counter|add:8 }}:00</td>
+                        <th class="timetable_th" scope="row">{{ forloop.counter }}교시</th>
+                        <td class="mon"></td>
+                        <td class="tue"></td>
+                        <td class="wed"></td>
+                        <td class="thu"></td>
+                        <td class="fri"></td>
+                        <td class="sat"></td>
+                        <td class="sun"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!--2학년 과목 시간표-->
+        <div class="tab-pane fade" id="second" role="tabpanel" aria-labelledby="second-tab">
+            <table class="table table-bordered" style="text-align: center; color:white;">
+                <thead class="timetable_thead">
+                    <tr>
+                        <th class="border_none_cell" scope="col"></th>
+                        <th scope="col"></th>
+                        <th class="timetable_th" scope="col">월요일</th>
+                        <th class="timetable_th" scope="col">화요일</th>
+                        <th class="timetable_th" scope="col">수요일</th>
+                        <th class="timetable_th" scope="col">목요일</th>
+                        <th class="timetable_th" scope="col">금요일</th>
+                        <th class="timetable_th" scope="col">토요일</th>
+                        <th class="timetable_th" scope="col">일요일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in "x"|rjust:"12" %}
+                    <tr class="second_time_{{ forloop.counter }}">
+                        <td class="border_none_cell">{{ forloop.counter|add:8 }}:00</td>
+                        <th class="timetable_th" scope="row">{{ forloop.counter }}교시</th>
+                        <td class="mon"></td>
+                        <td class="tue"></td>
+                        <td class="wed"></td>
+                        <td class="thu"></td>
+                        <td class="fri"></td>
+                        <td class="sat"></td>
+                        <td class="sun"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!--3학년 과목 시간표-->
+        <div class="tab-pane fade" id="third" role="tabpanel" aria-labelledby="third-tab">
+            <table class="table table-bordered" style="text-align: center; color:white;">
+                <thead class="timetable_thead">
+                    <tr>
+                        <th class="border_none_cell" scope="col"></th>
+                        <th scope="col"></th>
+                        <th class="timetable_th" scope="col">월요일</th>
+                        <th class="timetable_th" scope="col">화요일</th>
+                        <th class="timetable_th" scope="col">수요일</th>
+                        <th class="timetable_th" scope="col">목요일</th>
+                        <th class="timetable_th" scope="col">금요일</th>
+                        <th class="timetable_th" scope="col">토요일</th>
+                        <th class="timetable_th" scope="col">일요일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in "x"|rjust:"12" %}
+                    <tr class="third_time_{{ forloop.counter }}">
+                        <td class="border_none_cell">{{ forloop.counter|add:8 }}:00</td>
+                        <th class="timetable_th" scope="row">{{ forloop.counter }}교시</th>
+                        <td class="mon"></td>
+                        <td class="tue"></td>
+                        <td class="wed"></td>
+                        <td class="thu"></td>
+                        <td class="fri"></td>
+                        <td class="sat"></td>
+                        <td class="sun"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!--4학년 과목 시간표-->
+        <div class="tab-pane fade" id="fourth" role="tabpanel" aria-labelledby="fourth-tab">
+            <table class="table table-bordered" style="text-align: center; color:white;">
+                <thead class="timetable_thead">
+                    <tr>
+                        <th class="border_none_cell" scope="col"></th>
+                        <th scope="col"></th>
+                        <th class="timetable_th" scope="col">월요일</th>
+                        <th class="timetable_th" scope="col">화요일</th>
+                        <th class="timetable_th" scope="col">수요일</th>
+                        <th class="timetable_th" scope="col">목요일</th>
+                        <th class="timetable_th" scope="col">금요일</th>
+                        <th class="timetable_th" scope="col">토요일</th>
+                        <th class="timetable_th" scope="col">일요일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in "x"|rjust:"12" %}
+                    <tr class="fourth_time_{{ forloop.counter }}">
+                        <td class="border_none_cell">{{ forloop.counter|add:8 }}:00</td>
+                        <th class="timetable_th" scope="row">{{ forloop.counter }}교시</th>
+                        <td class="mon"></td>
+                        <td class="tue"></td>
+                        <td class="wed"></td>
+                        <td class="thu"></td>
+                        <td class="fri"></td>
+                        <td class="sat"></td>
+                        <td class="sun"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-{% for list in first_timetable_list %}
+<script type="text/javascript">
+    $('#first-tab').click( function() {
+        HideTitle();
+        $('#id_first').tab('show');
+    });
+    $('#second-tab').click( function() {
+        HideTitle();
+        $('#id_second').tab('show');
+    });
+    $('#third-tab').click( function() {
+        HideTitle();
+        $('#id_third').tab('show');
+    });
+    $('#fourth-tab').click( function() {  
+        HideTitle();
+        $('#id_fourth').tab('show');
+    });
+    function HideTitle() {
+        $('#id_first').attr('class','tab-pane');
+        $('#id_second').attr('class','tab-pane');
+        $('#id_third').attr('class','tab-pane');
+        $('#id_fourth').attr('class','tab-pane');
+    };
+</script>
+
+{% for list in timetable_list %}
 <script type="text/javascript">
     var time = '{{ list.time }}'
     var time_length = '{{ list.time_length }}'
@@ -60,25 +215,91 @@
     var four_time = Number(time)+3;
     var R = Math.floor(Math.random()*180)+55;
     var random_color = "rgb(" + R + ",0" + ",0)"
-
-    if (time_length == '1') {
-        $('.time_' + time).children('.' + day).text(subject).css({'background-color': random_color});
-    }
-    else if (time_length == '2') {
-        $('.time_' + time).children('.' + day).attr('rowspan', '2').text(subject).css({'background-color': random_color});
-        $('.time_' + two_time).children('.' + day).remove();
-    }
-    else if (time_length == '3') {
-        $('.time_' + time).children('.' + day).attr('rowspan', '3').text(subject).css({'background-color': random_color});
-        $('.time_' + two_time).children('.' + day).remove();
-        $('.time_' + three_time).children('.' + day).remove();
-    }
-    else if (time_length == '4') {
-        $('.time_' + time).children('.' + day).attr('rowspan', '4').text(subject).css({'background-color': random_color});
-        $('.time_' + two_time).children('.' + day).remove();
-        $('.time_' + three_time).children('.' + day).remove();
-        $('.time_' + four_time).children('.' + day).remove();
-    }
 </script>
+    {% if list.grade == 'first' %}
+    <script type="text/javascript">
+        if (time_length == '1') {
+            $('.first_time_' + time).children('.' + day).text(subject).css({'background-color': random_color});
+        }
+        else if (time_length == '2') {
+            $('.first_time_' + time).children('.' + day).attr('rowspan', '2').text(subject).css({'background-color': random_color});
+            $('.first_time_' + two_time).children('.' + day).remove();
+        }
+        else if (time_length == '3') {
+            $('.first_time_' + time).children('.' + day).attr('rowspan', '3').text(subject).css({'background-color': random_color});
+            $('.first_time_' + two_time).children('.' + day).remove();
+            $('.first_time_' + three_time).children('.' + day).remove();
+        }
+        else if (time_length == '4') {
+            $('.first_time_' + time).children('.' + day).attr('rowspan', '4').text(subject).css({'background-color': random_color});
+            $('.first_time_' + two_time).children('.' + day).remove();
+            $('.first_time_' + three_time).children('.' + day).remove();
+            $('.first_time_' + four_time).children('.' + day).remove();
+        }
+    </script>
+    {% elif list.grade == 'second' %}
+    <script type="text/javascript">
+        if (time_length == '1') {
+            $('.second_time_' + time).children('.' + day).text(subject).css({'background-color': random_color});
+        }
+        else if (time_length == '2') {
+            $('.second_time_' + time).children('.' + day).attr('rowspan', '2').text(subject).css({'background-color': random_color});
+            $('.second_time_' + two_time).children('.' + day).remove();
+        }
+        else if (time_length == '3') {
+            $('.second_time_' + time).children('.' + day).attr('rowspan', '3').text(subject).css({'background-color': random_color});
+            $('.second_time_' + two_time).children('.' + day).remove();
+            $('.second_time_' + three_time).children('.' + day).remove();
+        }
+        else if (time_length == '4') {
+            $('.second_time_' + time).children('.' + day).attr('rowspan', '4').text(subject).css({'background-color': random_color});
+            $('.second_time_' + two_time).children('.' + day).remove();
+            $('.second_time_' + three_time).children('.' + day).remove();
+            $('.second_time_' + four_time).children('.' + day).remove();
+        }
+    </script>
+    {% elif list.grade == 'third' %}
+    <script type="text/javascript">
+        if (time_length == '1') {
+            $('.third_time_' + time).children('.' + day).text(subject).css({'background-color': random_color});
+        }
+        else if (time_length == '2') {
+            $('.third_time_' + time).children('.' + day).attr('rowspan', '2').text(subject).css({'background-color': random_color});
+            $('.third_time_' + two_time).children('.' + day).remove();
+        }
+        else if (time_length == '3') {
+            $('.third_time_' + time).children('.' + day).attr('rowspan', '3').text(subject).css({'background-color': random_color});
+            $('.third_time_' + two_time).children('.' + day).remove();
+            $('.third_time_' + three_time).children('.' + day).remove();
+        }
+        else if (time_length == '4') {
+            $('.third_time_' + time).children('.' + day).attr('rowspan', '4').text(subject).css({'background-color': random_color});
+            $('.third_time_' + two_time).children('.' + day).remove();
+            $('.third_time_' + three_time).children('.' + day).remove();
+            $('.third_time_' + four_time).children('.' + day).remove();
+        }
+    </script>
+    {% elif list.grade == 'fourth' %}
+    <script type="text/javascript">
+        if (time_length == '1') {
+            $('.fourth_time_' + time).children('.' + day).text(subject).css({'background-color': random_color});
+        }
+        else if (time_length == '2') {
+            $('.fourth_time_' + time).children('.' + day).attr('rowspan', '2').text(subject).css({'background-color': random_color});
+            $('.fourth_time_' + two_time).children('.' + day).remove();
+        }
+        else if (time_length == '3') {
+            $('.fourth_time_' + time).children('.' + day).attr('rowspan', '3').text(subject).css({'background-color': random_color});
+            $('.fourth_time_' + two_time).children('.' + day).remove();
+            $('.fourth_time_' + three_time).children('.' + day).remove();
+        }
+        else if (time_length == '4') {
+            $('.fourth_time_' + time).children('.' + day).attr('rowspan', '4').text(subject).css({'background-color': random_color});
+            $('.fourth_time_' + two_time).children('.' + day).remove();
+            $('.fourth_time_' + three_time).children('.' + day).remove();
+            $('.fourth_time_' + four_time).children('.' + day).remove();
+        }
+    </script>
+    {% endif %}
 {% endfor %}
 {% endblock %}
