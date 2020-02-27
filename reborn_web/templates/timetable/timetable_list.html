@@ -1,0 +1,84 @@
+{% extends "users/main_base.html" %}
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/timetable/timetable.css' %}" type="text/css">
+{% endblock %}
+
+{% block contents %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-6">
+            <h4 style="font-weight: bold; margin-left:60px">1학년 시험시간표</h4>
+        </div>
+    </div>
+    
+    <table class="table table-bordered" style="text-align: center; color:white;">
+        <thead class="timetable_thead">
+            <tr>
+                <th class="border_none_cell" scope="col"></th>
+                <th scope="col"></th>
+                <th class="timetable_th" scope="col">월요일</th>
+                <th class="timetable_th" scope="col">화요일</th>
+                <th class="timetable_th" scope="col">수요일</th>
+                <th class="timetable_th" scope="col">목요일</th>
+                <th class="timetable_th" scope="col">금요일</th>
+                <th class="timetable_th" scope="col">토요일</th>
+                <th class="timetable_th" scope="col">일요일</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for i in "x"|rjust:"12" %}
+            <tr class="time_{{ forloop.counter }}">
+                <td class="border_none_cell">{{ forloop.counter|add:8 }}:00</td>
+                <th class="timetable_th" scope="row">{{ forloop.counter }}교시</th>
+                <td class="mon"></td>
+                <td class="tue"></td>
+                <td class="wed"></td>
+                <td class="thu"></td>
+                <td class="fri"></td>
+                <td class="sat"></td>
+                <td class="sun"></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% for list in first_timetable_list %}
+<script type="text/javascript">
+    var time = '{{ list.time }}'
+    var time_length = '{{ list.time_length }}'
+    var day = '{{ list.day }}'
+    var date = '{{ list.date|date:"m월 d일" }}'
+    var subject = '{{ list.subject }}'
+    var test_location = '{{ list.location }}'
+    var sub_loc = subject + ' (' + test_location + ', ' + date + ')'
+    var two_time = Number(time)+1;
+    var three_time = Number(time)+2;
+    var four_time = Number(time)+3;
+    var R = Math.floor(Math.random()*180)+55;
+    var random_color = "rgb(" + R + ",0" + ",0)"
+
+    if (time_length == '1') {
+        $('.time_' + time).children('.' + day).text(subject).css({'background-color': random_color});
+    }
+    else if (time_length == '2') {
+        $('.time_' + time).children('.' + day).attr('rowspan', '2').text(subject).css({'background-color': random_color});
+        $('.time_' + two_time).children('.' + day).remove();
+    }
+    else if (time_length == '3') {
+        $('.time_' + time).children('.' + day).attr('rowspan', '3').text(subject).css({'background-color': random_color});
+        $('.time_' + two_time).children('.' + day).remove();
+        $('.time_' + three_time).children('.' + day).remove();
+    }
+    else if (time_length == '4') {
+        $('.time_' + time).children('.' + day).attr('rowspan', '4').text(subject).css({'background-color': random_color});
+        $('.time_' + two_time).children('.' + day).remove();
+        $('.time_' + three_time).children('.' + day).remove();
+        $('.time_' + four_time).children('.' + day).remove();
+    }
+</script>
+{% endfor %}
+{% endblock %}

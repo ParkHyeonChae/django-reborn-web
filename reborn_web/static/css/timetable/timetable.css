@@ -1,0 +1,34 @@
+/* InjeComputerEngineering Timetable CSS */
+
+.timetable_thead {
+    color: black !important;
+}
+
+.timetable_th{
+    color: black !important;
+    font-weight: bold;
+}
+
+.mon, .tue, .wed, .thu, .fri, .sat, .sun {
+    padding-top:8px !important;
+    padding-bottom:5px !important;
+    padding-left:5px !important;
+    padding-right:5px !important;
+    word-break: break-all;
+    width:12.5%;
+    font-size: 13px;
+}
+/* box-shadow : 0px 2px 8px 0px gray;
+'box-shadow' : '0 7px 30px 3px gray' */
+
+.border_none_cell {
+    color:gray;
+    text-align: right;
+    font-weight: 400;
+    padding-top:0px !important;
+    padding-left:0px !important;
+    padding-right:5px !important;
+    border-left: 1px solid #fafafa !important;
+    border-top: 1px solid #fafafa !important;
+    border-bottom: 1px solid #fafafa !important;
+}
