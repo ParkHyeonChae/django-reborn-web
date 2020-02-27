@@ -59,7 +59,8 @@ table {
 	border-bottom: 1px solid #e5e6e7;
 	min-height: 80%;
 	width: 100%;
-	color: #b3b3b3;
+	/* color: #b3b3b3; */
+	color: rgb(36, 36, 36);
 	border-collapse: collapse;
 }
 
