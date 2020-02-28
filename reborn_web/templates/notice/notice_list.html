@@ -10,34 +10,37 @@
     </div>
     <div>
         <table class="table table-hover">
-            <tr class="text-center">
-                <th style="font-weight: bold; font-size: 16px;">번호</th>
-                <th style="font-weight: bold; font-size: 16px;">제목</th>
-                <th style="font-weight: bold; font-size: 16px;">작성자</th>
-                <th style="font-weight: bold; font-size: 16px;">등록일</th>
-                <th style="font-weight: bold; font-size: 16px;">조회수</th>
-            </tr>
-            {% if notice_fixed %}
-            {% for notice in notice_fixed %}
-            <tr class="table-secondary text-center" style="font-weight: bold; cursor:pointer;" onclick="location.href='/notice/{{ notice.id }}/'">
-                <td>{{ notice.id }}</td>
-                <td class="text-left" style="width:50%"><a id="notice-{{ notice.id }}"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;&nbsp;{{ notice.title|truncatechars:30 }}</a></td>
-                <td>{{ notice.writer }}</td>
-                <td>{{ notice.registered_date|date:'Y. m. d' }}</td>
-                <td>{{ notice.hits }}</td>
-            </tr>
-            {% endfor %}
-            {% endif %}
-
-            {% for notice in notice_list %}
-            <tr class="text-center" style="cursor:pointer;" onclick="location.href='/notice/{{ notice.id }}/'">
-                <td style="font-weight: 500;">{{ notice.id }}</td>
-                <td class="text-left" style="width:50%; font-weight: 600;"><a id="notice-{{ notice.id }}">{{ notice.title|truncatechars:30 }}</a></td>
-                <td style="font-weight: 500;">{{ notice.writer }}</td>
-                <td style="font-weight: 500;">{{ notice.registered_date|date:'Y. m. d' }}</td>
-                <td style="font-weight: 500;">{{ notice.hits }}</td>
-            </tr>
-            {% endfor %}
+            <thead style="border-top: 1px solid #dee2e6;">
+                <tr class="text-center">
+                    <th style="font-weight: bold; font-size: 16px;">번호</th>
+                    <th style="font-weight: bold; font-size: 16px;">제목</th>
+                    <th style="font-weight: bold; font-size: 16px;">작성자</th>
+                    <th style="font-weight: bold; font-size: 16px;">등록일</th>
+                    <th style="font-weight: bold; font-size: 16px;">조회수</th>
+                </tr>
+                {% if notice_fixed %}
+                {% for notice in notice_fixed %}
+                <tr class="table-secondary text-center" style="font-weight: bold; cursor:pointer;" onclick="location.href='/notice/{{ notice.id }}/'">
+                    <td>{{ notice.id }}</td>
+                    <td class="text-left" style="width:50%"><a id="notice-{{ notice.id }}"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;&nbsp;{{ notice.title|truncatechars:30 }}</a></td>
+                    <td>{{ notice.writer }}</td>
+                    <td>{{ notice.registered_date|date:'Y. m. d' }}</td>
+                    <td>{{ notice.hits }}</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </thead>
+            <tbody>
+                {% for notice in notice_list %}
+                <tr class="text-center" style="cursor:pointer;" onclick="location.href='/notice/{{ notice.id }}/'">
+                    <td style="font-weight: 500;">{{ notice.id }}</td>
+                    <td class="text-left" style="width:50%; font-weight: 600;"><a id="notice-{{ notice.id }}">{{ notice.title|truncatechars:30 }}</a></td>
+                    <td style="font-weight: 500;">{{ notice.writer }}</td>
+                    <td style="font-weight: 500;">{{ notice.registered_date|date:'Y. m. d' }}</td>
+                    <td style="font-weight: 500;">{{ notice.hits }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
     

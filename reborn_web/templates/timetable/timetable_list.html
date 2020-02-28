@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-left: 55px; margin-bottom: -0.5px;">
+    <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-left: 54px; margin-bottom: -0.5px;">
         <li class="nav-item">
             <a class="nav-link active" id="first-tab" data-toggle="tab" href="#first" role="tab" aria-controls="first" aria-selected="true">1학년 과목</a>
         </li>
@@ -47,12 +47,12 @@
         </li>
         {% if request.user.level == '0' or request.user.level == '1' %}
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'timetable:timetable_update' %}">시간표편집</a>
+            <a class="nav-link" href="{% url 'timetable:timetable_update' %}" aria-selected="false">시간표편집</a>
         </li>
         {% endif %}
     </ul>
-    <!--1학년 과목 시간표-->
     <div class="tab-content" id="myTabContent">
+        <!--1학년 과목 시간표-->
         <div class="tab-pane fade show active" id="first" role="tabpanel" aria-labelledby="first-tab">
             <table class="table table-bordered" style="text-align: center; color:white;">
                 <thead class="timetable_thead">
@@ -319,6 +319,7 @@
         HideTitle();
         $('#id_all').tab('show');
     });
+
     function HideTitle() {
         $('#id_first').attr('class','tab-pane');
         $('#id_second').attr('class','tab-pane');

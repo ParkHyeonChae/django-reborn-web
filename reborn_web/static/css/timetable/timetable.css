@@ -1,5 +1,6 @@
 /* InjeComputerEngineering Timetable CSS */
 
+/* timetable_list */
 .timetable_thead {
     color: black !important;
 }
@@ -27,7 +28,7 @@
     font-weight: 400;
     padding-top:0px !important;
     padding-left:0px !important;
-    padding-right:5px !important;
+    padding-right:3px !important;
     border-left: 1px solid #fafafa !important;
     border-top: 1px solid #fafafa !important;
     border-bottom: 1px solid #fafafa !important;
@@ -42,7 +43,7 @@
     padding-top:0px !important;
     padding-left:0px !important;
     padding-right:5px !important;
-    width:55px;
+    width:56px;
 }
 
 .nav-link {
@@ -52,7 +53,6 @@
 
 .all_view {
     font-weight:550;
-    /* width:15%; */
 }
 
 .all_view_subject {
@@ -68,18 +68,92 @@
 
 .all_view_date {
     font-weight:600;
-    width:20%;
+    width:23%;
     background-color: #fff1f1;
 }
 
 .all_view_time {
     font-weight:600;
-    width:12%;
+    width:14%;
     background-color: #fff1f1;
 }
 
 .all_view_location {
     font-weight:600;
-    width:24%;
+    width:19%;
     background-color: #fff1f1;
+}
+
+
+/* timetable_edit_form */
+#save_btn {
+    background-color: gray;
+    color: white;
+    font-size: 13px;
+    padding: 3px 8px;
+    margin-left: -5px;
+    margin-bottom: -4px;
+}
+
+
+/*timatable_update*/
+.delete_btn {
+    background-color: #b90303f2 !important;
+    color: white !important;
+    font-size: 13px !important;
+    padding: 3px 8px !important;
+    margin-left: -5px !important;
+    margin-right: 10px !important;
+    margin-bottom: -4px !important;
+    margin-top: 6px !important;
+}
+
+.update_view_subject {
+    font-weight:600;
+    background-color: #fff1f1;
+}
+
+.update_view_professor {
+    font-weight:600;
+    width:12%;
+    background-color: #fff1f1;
+}
+
+.update_view_date {
+    font-weight:600;
+    width:15%;
+    background-color: #fff1f1;
+}
+
+.update_view_day {
+    font-weight:600;
+    width:10%;
+    background-color: #fff1f1;
+}
+
+.update_view_time {
+    font-weight:600;
+    width:10%;
+    background-color: #fff1f1;
+}
+
+.update_view_time_length {
+    font-weight:600;
+    width:10%;
+    background-color: #fff1f1;
+}
+
+.update_view_location {
+    font-weight:600;
+    width:16%;
+    background-color: #fff1f1;
+}
+
+.form-control {
+    height: calc(1.5em + 0.55rem + 2px) !important;
+    padding:0px 12px !important;
+    font-size:14.4px !important;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    margin-left: 5px;
 }

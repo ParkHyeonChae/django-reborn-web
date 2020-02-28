@@ -7,5 +7,8 @@ app_name = 'timetable'
 
 urlpatterns = [
     path('', views.time_table_view, name='timetable_list'),
-    path('update/', views.time_table_update_view, name='timetable_update'),
+    path('update/', views.timetable_updatelist_view, name='timetable_update'),
+    path('edit/', views.timetable_edit_view, name='timetable_edit'),
+    path('delete/', views.timetable_delete_view, name='timetable_delete'),
+    path('save/', views.timetable_save_view, name='timetable_save'),
 ]

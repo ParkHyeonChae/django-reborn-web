@@ -1,0 +1,228 @@
+{% extends "users/main_base.html" %}
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/timetable/timetable.css' %}" type="text/css">
+{% endblock %}
+
+{% block contents %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12">
+            <div>
+                <h4 style="font-weight: bold; margin-left:60px">시험시간표 업데이트 (관리자)</h4>
+            </div>
+
+            <form method="POST" action="{% url 'timetable:timetable_save' %}">
+                {% csrf_token %}
+                <!--1학년 시간표 편집-->
+                <table class="table table-sm">
+                    <thead>
+                        <tr class="text-center">
+                            <th class="border_none" scope="col">1학년</th>
+                            <th class="update_view_subject" scope="col">교과목명</th>
+                            <th class="update_view_professor" scope="col">담당교수</th>
+                            <th class="update_view_date" scope="col">시험일자</th>
+                            <th class="update_view_day" scope="col">시험요일</th>
+                            <th class="update_view_time" scope="col">시험교시</th>
+                            <th class="update_view_time_length" scope="col">시험시간</th>
+                            <th class="update_view_location" scope="col">시험장소</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for list in timetable_list %}
+                        {% if list.grade == 'first' %}
+                        <tr id="{{ list.id }}">
+                            <tr name="origin_list" id="origin_{{ list.id }}" class="text-center" style="cursor:pointer;" onclick="TimeTableUpdate('{{list.id}}');">
+                                <td class="border_none"><a class="btn btn-sm delete_btn" onclick="TimeTableDelete('{{list.id}}');">삭제</a></td>
+                                <td class="all_view">{{ list.subject }}</td>
+                                <td class="all_view">{{ list.professor }}</td>
+                                <td class="all_view">{{ list.date }}</td>
+                                <td class="all_view">{{ list.date|date:'D' }}</td>
+                                <td class="all_view">{{ list.time }}교시</td>
+                                <td class="all_view">{{ list.time_length }}시간</td>
+                                <td class="all_view">{{ list.location|upper }}</td>
+                            </tr>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <!-- <table class="table table-sm" style="margin-top: 30px;">
+                    <thead>
+                        <tr class="text-center">
+                            <th class="border_none" scope="col">2학년</th>
+                            <th class="all_view_subject" scope="col">교과목명</th>
+                            <th class="all_view_professor" scope="col">담당교수</th>
+                            <th class="all_view_date" scope="col">시험일자</th>
+                            <th class="all_view_time" scope="col">시험시간</th>
+                            <th class="all_view_location" scope="col">시험장소</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for list in timetable_list %}
+                        {% if list.grade == 'second' %}
+                        <tr class="text-center">
+                            <td class="border_none"></td>
+                            <td class="all_view">{{ list.subject }}</td>
+                            <td class="all_view">{{ list.professor }}</td>
+                            <td class="all_view">{{ list.date|date:'m월 d일 (D)' }}</td>
+                            <td class="all_view">{{ list.time }}교시&nbsp;({{ list.time|add:8 }}시)</td>
+                            <td class="all_view">{{ list.location|upper }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <table class="table table-sm" style="margin-top: 30px;">
+                    <thead>
+                        <tr class="text-center">
+                            <th class="border_none" scope="col">3학년</th>
+                            <th class="all_view_subject" scope="col">교과목명</th>
+                            <th class="all_view_professor" scope="col">담당교수</th>
+                            <th class="all_view_date" scope="col">시험일자</th>
+                            <th class="all_view_time" scope="col">시험시간</th>
+                            <th class="all_view_location" scope="col">시험장소</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for list in timetable_list %}
+                        {% if list.grade == 'third' %}
+                        <tr class="text-center">
+                            <td class="border_none"></td>
+                            <td class="all_view">{{ list.subject }}</td>
+                            <td class="all_view">{{ list.professor }}</td>
+                            <td class="all_view">{{ list.date|date:'m월 d일 (D)' }}</td>
+                            <td class="all_view">{{ list.time }}교시&nbsp;({{ list.time|add:8 }}시)</td>
+                            <td class="all_view">{{ list.location|upper }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <table class="table table-sm" style="margin-top: 30px;">
+                    <thead>
+                        <tr class="text-center">
+                            <th class="border_none" scope="col">4학년</th>
+                            <th class="all_view_subject" scope="col">교과목명</th>
+                            <th class="all_view_professor" scope="col">담당교수</th>
+                            <th class="all_view_date" scope="col">시험일자</th>
+                            <th class="all_view_time" scope="col">시험시간</th>
+                            <th class="all_view_location" scope="col">시험장소</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for list in timetable_list %}
+                        {% if list.grade == 'fourth' %}
+                        <tr class="text-center">
+                            <td class="border_none"></td>
+                            <td class="all_view">{{ list.subject }}</td>
+                            <td class="all_view">{{ list.professor }}</td>
+                            <td class="all_view">{{ list.date|date:'m월 d일 (D)' }}</td>
+                            <td class="all_view">{{ list.time }}교시&nbsp;({{ list.time|add:8 }}시)</td>
+                            <td class="all_view">{{ list.location|upper }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody> -->
+                </table>
+
+                <div class="text-right" style="margin-top: 50px;">
+                    <a onclick="location.href='/timetable/'" class="btn btn-sm" id="back_btn"><i class="fa fa-reply"></i>&nbsp;돌아가기</a>
+                    <!-- <button type="submit" id="write" class="btn btn-sm"><i class="fas fa-check"></i>&nbsp;저장하기</button> -->
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    // $('.'+"{{ list.id }}").click(function () {
+    function TimeTableUpdate(value) {
+        var timetable_id = value;
+        $.ajax({
+            type: "POST",
+            // url: "/timetable/update/"+value,
+            url: "/timetable/edit/",
+            dataType: "html",
+            data: {
+                'id':timetable_id,
+                'csrfmiddlewaretoken': '{{csrf_token}}',
+            },
+            success: function (data) {
+                $('#'+value).html(data);
+                $('#origin_'+value).hide();
+            },
+            error: function () {
+                console.log(error);
+            },
+        })
+    };
+
+    function TimeTableDelete(value) {
+        var timetable_id = value;
+        $.ajax({
+            type: "POST",
+            url: "/timetable/delete/",
+            dataType: "json",
+            data: {
+                'id':timetable_id,
+                'csrfmiddlewaretoken': '{{csrf_token}}',
+            },
+            success: function (response) {
+                $('#'+value).remove();
+                $('#origin_'+value).remove();
+            },
+            error: function () {
+                console.log(error);
+            },
+        })
+    };
+
+    function deleteEditArea($targetObj) {
+        var isIn = true;
+        var $objArr = Array();
+        var opts = {
+            left: 99999, right: 0, top: 99999, bottom: 0
+        }
+        if( $targetObj ) {
+            if( $targetObj.length == 1 ) {
+                $objArr.push( $targetObj );
+            } else {
+                $objArr = $targetObj;
+            }
+            $.each($objArr, function(i, $obj) {          
+                var obj_position = $obj.offset();
+                obj_position.right = parseInt( obj_position.left ) + ( $obj.width() );
+                obj_position.bottom = parseInt( obj_position.top ) + parseInt( $obj.height() );
+                
+                if( obj_position.left < opts.left ) opts.left = obj_position.left;
+                if( obj_position.right > opts.right ) opts.right = obj_position.right;
+                if( obj_position.top < opts.top ) opts.top = obj_position.top;
+                if( obj_position.bottom > opts.bottom ) opts.bottom = obj_position.bottom;
+            }); 
+            if(( opts.left <= event.pageX && event.pageX <= opts.right )&& ( opts.top <= event.pageY && event.pageY <= opts.bottom )) {
+                isIn = false;
+            }
+        }
+        return isIn;
+    }
+
+    $(function(){
+        $(document).mousedown(function(e){
+            if( deleteEditArea ($("td[name=edit_list]").closest("tr"))) {
+                $("td[name=edit_list]").closest("tr").empty();
+                $("tr[name=origin_list]").show();
+            }
+        });
+    });
+</script>
+
+
+{% endblock %}
+            
+

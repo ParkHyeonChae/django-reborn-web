@@ -234,7 +234,6 @@ def free_write_view(request):
 @login_message_required
 def free_edit_view(request, pk):
     free = Free.objects.get(id=pk)
-
     if request.method == "POST":
         if(free.writer == request.user or request.user.level == '0'):
             form = FreeWriteForm(request.POST, request.FILES, instance=free)
