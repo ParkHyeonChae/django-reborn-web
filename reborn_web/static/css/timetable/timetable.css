@@ -55,6 +55,11 @@
     font-weight:550;
 }
 
+.none_view {
+    font-weight:550;
+    color:gray;
+}
+
 .all_view_subject {
     font-weight:600;
     background-color: #fff1f1;
@@ -82,6 +87,12 @@
     font-weight:600;
     width:19%;
     background-color: #fff1f1;
+}
+
+.new_Badge {
+    font-weight: 500 !important;
+    margin-top: 8px !important;
+    margin-bottom: -5px !important;
 }
 
 

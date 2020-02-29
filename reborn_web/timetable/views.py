@@ -12,8 +12,16 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 @login_message_required
 def time_table_view(request):
     timetable_list = TimeTable.objects.all()
+    first_grade_count = TimeTable.objects.filter(grade='first').count()
+    second_grade_count = TimeTable.objects.filter(grade='second').count()
+    third_grade_count = TimeTable.objects.filter(grade='third').count()
+    fourth_grade_count = TimeTable.objects.filter(grade='fourth').count()
     context = {
         'timetable_list': timetable_list,
+        'first_grade_count': first_grade_count,
+        'second_grade_count': second_grade_count,
+        'third_grade_count': third_grade_count,
+        'fourth_grade_count': fourth_grade_count,
     }
     return render(request, 'timetable/timetable_list.html', context)
 

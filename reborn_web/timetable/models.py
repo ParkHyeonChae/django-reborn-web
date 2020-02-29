@@ -1,5 +1,7 @@
 from django.db import models
 from users.choice import TIME_CHOICE, TIME_LENGTH_CHOICE, DAY_CHOICE, SUBJECT_GRADE_CHOICE
+from django.utils import timezone
+from datetime import datetime, timedelta
 
 
 class TimeTable(models.Model):
@@ -16,6 +18,22 @@ class TimeTable(models.Model):
 
     def __str__(self):
         return self.subject
+
+    @property
+    def show_update(self):
+        time = datetime.now(tz=timezone.utc) - self.updated
+        if time < timedelta(hours=6):
+            return True
+        else :
+            return False
+
+    @property
+    def show_created(self):
+        time = datetime.now(tz=timezone.utc) - self.created
+        if time < timedelta(hours=6):
+            return True
+        else :
+            return False
 
     class Meta:
         db_table = '시험시간표'

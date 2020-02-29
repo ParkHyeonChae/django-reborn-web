@@ -10,9 +10,9 @@
     <div class="row mt-5">
         <div class="col-12">
             <div>
-                <h4 style="font-weight: bold; margin-left:60px">시험시간표 업데이트 (관리자)</h4>
+                <h4 style="font-weight: bold; margin-left:60px"><i class="fas fa-cog"></i>&nbsp;시험시간표 업데이트 (관리자)</h4>
             </div>
-
+            
             <form method="POST" action="{% url 'timetable:timetable_save' %}">
                 {% csrf_token %}
                 <!--1학년 시간표 편집-->

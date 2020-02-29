@@ -199,18 +199,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for list in timetable_list %}
-                    {% if list.grade == 'first' %}
+                    {% if first_grade_count == 0 %}
                     <tr class="text-center">
                         <td class="border_none"></td>
-                        <td class="all_view">{{ list.subject }}</td>
-                        <td class="all_view">{{ list.professor }}</td>
-                        <td class="all_view">{{ list.date|date:'m월 d일 (D)' }}</td>
-                        <td class="all_view">{{ list.time }}교시&nbsp;({{ list.time|add:8 }}시)</td>
-                        <td class="all_view">{{ list.location|upper }}</td>
+                        <td class="none_view" colspan="5"><i class="fas fa-info-circle"></i>&nbsp;시험시간표가 작성되지 않았습니다.</td>
                     </tr>
+                    {% else %}
+                        {% for list in timetable_list %}
+                        {% if list.grade == 'first' %}
+                        <tr class="text-center">
+                            {% if list.show_update or list.show_created %}
+                            <td class="border_none"><span class="badge badge-danger new_badge">New</span></td>
+                            {% else %}
+                            <td class="border_none"></td>
+                            {% endif %}
+                            <td class="all_view">{{ list.subject }}</td>
+                            <td class="all_view">{{ list.professor }}</td>
+                            <td class="all_view">{{ list.date|date:'m월 d일 (D)' }}</td>
+                            <td class="all_view">{{ list.time }}교시&nbsp;({{ list.time|add:8 }}시)</td>
+                            <td class="all_view">{{ list.location|upper }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
                     {% endif %}
-                    {% endfor %}
                 </tbody>
             </table>
             <!--2학년 시간표 전체보기-->
@@ -226,18 +237,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for list in timetable_list %}
-                    {% if list.grade == 'second' %}
+                    {% if second_grade_count == 0 %}
                     <tr class="text-center">
                         <td class="border_none"></td>
-                        <td class="all_view">{{ list.subject }}</td>
-                        <td class="all_view">{{ list.professor }}</td>
-                        <td class="all_view">{{ list.date|date:'m월 d일 (D)' }}</td>
-                        <td class="all_view">{{ list.time }}교시&nbsp;({{ list.time|add:8 }}시)</td>
-                        <td class="all_view">{{ list.location|upper }}</td>
+                        <td class="none_view" colspan="5"><i class="fas fa-info-circle"></i>&nbsp;시험시간표가 작성되지 않았습니다.</td>
                     </tr>
+                    {% else %}
+                        {% for list in timetable_list %}
+                        {% if list.grade == 'second' %}
+                        <tr class="text-center">
+                            {% if list.show_update or list.show_created %}
+                            <td class="border_none"><span class="badge badge-danger new_badge">New</span></td>
+                            {% else %}
+                            <td class="border_none"></td>
+                            {% endif %}
+                            <td class="all_view">{{ list.subject }}</td>
+                            <td class="all_view">{{ list.professor }}</td>
+                            <td class="all_view">{{ list.date|date:'m월 d일 (D)' }}</td>
+                            <td class="all_view">{{ list.time }}교시&nbsp;({{ list.time|add:8 }}시)</td>
+                            <td class="all_view">{{ list.location|upper }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
                     {% endif %}
-                    {% endfor %}
                 </tbody>
             </table>
             <!--3학년 시간표 전체보기-->
@@ -253,18 +275,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for list in timetable_list %}
-                    {% if list.grade == 'third' %}
+                    {% if third_grade_count == 0 %}
                     <tr class="text-center">
                         <td class="border_none"></td>
-                        <td class="all_view">{{ list.subject }}</td>
-                        <td class="all_view">{{ list.professor }}</td>
-                        <td class="all_view">{{ list.date|date:'m월 d일 (D)' }}</td>
-                        <td class="all_view">{{ list.time }}교시&nbsp;({{ list.time|add:8 }}시)</td>
-                        <td class="all_view">{{ list.location|upper }}</td>
+                        <td class="none_view" colspan="5"><i class="fas fa-info-circle"></i>&nbsp;시험시간표가 작성되지 않았습니다.</td>
                     </tr>
+                    {% else %}
+                        {% for list in timetable_list %}
+                        {% if list.grade == 'third' %}
+                        <tr class="text-center">
+                            {% if list.show_update or list.show_created %}
+                            <td class="border_none"><span class="badge badge-danger new_badge">New</span></td>
+                            {% else %}
+                            <td class="border_none"></td>
+                            {% endif %}
+                            <td class="all_view">{{ list.subject }}</td>
+                            <td class="all_view">{{ list.professor }}</td>
+                            <td class="all_view">{{ list.date|date:'m월 d일 (D)' }}</td>
+                            <td class="all_view">{{ list.time }}교시&nbsp;({{ list.time|add:8 }}시)</td>
+                            <td class="all_view">{{ list.location|upper }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
                     {% endif %}
-                    {% endfor %}
                 </tbody>
             </table>
             <!--4학년 시간표 전체보기-->
@@ -280,18 +313,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for list in timetable_list %}
-                    {% if list.grade == 'fourth' %}
+                    {% if fourth_grade_count == 0 %}
                     <tr class="text-center">
                         <td class="border_none"></td>
-                        <td class="all_view">{{ list.subject }}</td>
-                        <td class="all_view">{{ list.professor }}</td>
-                        <td class="all_view">{{ list.date|date:'m월 d일 (D)' }}</td>
-                        <td class="all_view">{{ list.time }}교시&nbsp;({{ list.time|add:8 }}시)</td>
-                        <td class="all_view">{{ list.location|upper }}</td>
+                        <td class="none_view" colspan="5"><i class="fas fa-info-circle"></i>&nbsp;시험시간표가 작성되지 않았습니다.</td>
                     </tr>
+                    {% else %}
+                        {% for list in timetable_list %}
+                        {% if list.grade == 'fourth' %}
+                        <tr class="text-center">
+                            {% if list.show_update or list.show_created %}
+                            <td class="border_none"><span class="badge badge-danger new_badge">New</span></td>
+                            {% else %}
+                            <td class="border_none"></td>
+                            {% endif %}
+                            <td class="all_view">{{ list.subject }}</td>
+                            <td class="all_view">{{ list.professor }}</td>
+                            <td class="all_view">{{ list.date|date:'m월 d일 (D)' }}</td>
+                            <td class="all_view">{{ list.time }}교시&nbsp;({{ list.time|add:8 }}시)</td>
+                            <td class="all_view">{{ list.location|upper }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
                     {% endif %}
-                    {% endfor %}
                 </tbody>
             </table>
         </div>
