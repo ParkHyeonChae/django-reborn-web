@@ -3,7 +3,7 @@ from users.choice import TIME_CHOICE, TIME_LENGTH_CHOICE, DAY_CHOICE, SUBJECT_GR
 
 
 class TimeTable(models.Model):
-    grade = models.CharField(choices=SUBJECT_GRADE_CHOICE, max_length=10, verbose_name='학년')
+    grade = models.CharField(choices=SUBJECT_GRADE_CHOICE, max_length=10, blank=True, verbose_name='학년')
     subject = models.CharField(max_length=30, verbose_name='시험과목명')
     professor = models.CharField(max_length=15, verbose_name='담당교수명')
     day = models.CharField(choices=DAY_CHOICE, max_length=30, verbose_name='시험요일')

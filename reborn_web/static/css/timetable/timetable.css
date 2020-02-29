@@ -115,13 +115,13 @@
 
 .update_view_professor {
     font-weight:600;
-    width:12%;
+    width:10%;
     background-color: #fff1f1;
 }
 
 .update_view_date {
     font-weight:600;
-    width:15%;
+    width:19%;
     background-color: #fff1f1;
 }
 
@@ -133,19 +133,19 @@
 
 .update_view_time {
     font-weight:600;
-    width:10%;
+    width:9%;
     background-color: #fff1f1;
 }
 
 .update_view_time_length {
     font-weight:600;
-    width:10%;
+    width:9.5%;
     background-color: #fff1f1;
 }
 
 .update_view_location {
     font-weight:600;
-    width:16%;
+    width:15.5%;
     background-color: #fff1f1;
 }
 
@@ -156,4 +156,14 @@
     margin-top: -5px;
     margin-bottom: -5px;
     margin-left: 5px;
+}
+
+.fa-plus-circle {
+    cursor: pointer;
+    color:#d14040f2;
+    margin-bottom:30px;
+}
+
+.fa-plus-circle:hover{
+    color: #bd1010;
 }

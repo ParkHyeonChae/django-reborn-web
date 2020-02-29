@@ -1,6 +1,6 @@
 
-<td name="edit_list" class="border_none"><button class="btn btn-sm" id="save_btn" type="submit">수정</button></td>
-<td class="border_none" style="display:none;">{{ list.grade }}</td>
+<td name="{{ grade_context }}_add_list" class="border_none"><button class="btn btn-sm" id="save_btn" type="submit">추가</button></td>
+<td class="border_none" style="display:none;"><input type="text" name="grade" id="id_grade" value='{{ grade_context }}'></td>
 <td class="all_view">{{ list.subject }}</td>
 <td class="all_view">{{ list.professor }}</td>
 <td class="all_view">{{ list.date }}</td>
