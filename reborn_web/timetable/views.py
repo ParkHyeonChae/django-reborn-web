@@ -16,12 +16,15 @@ def time_table_view(request):
     second_grade_count = TimeTable.objects.filter(grade='second').count()
     third_grade_count = TimeTable.objects.filter(grade='third').count()
     fourth_grade_count = TimeTable.objects.filter(grade='fourth').count()
+    my_timetable_list = TimeTable.objects.filter(students=request.user)
+    
     context = {
         'timetable_list': timetable_list,
         'first_grade_count': first_grade_count,
         'second_grade_count': second_grade_count,
         'third_grade_count': third_grade_count,
         'fourth_grade_count': fourth_grade_count,
+        'my_timetable_list': my_timetable_list,
     }
     return render(request, 'timetable/timetable_list.html', context)
 

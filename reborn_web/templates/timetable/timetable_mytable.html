@@ -82,7 +82,7 @@
                         <table class="table table-sm checkTable">
                             <thead>
                                 <tr class="text-center">
-                                    <th class="editFormTitle" scope="col">2학년과목</th>
+                                    <th class="editFormTitle" scope="col">3학년과목</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -139,9 +139,16 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div style="text-align: center; margin-bottom: 7px;">
-                    <button type="submit" class="btn btn-sm my_save" id="myTimeTableSave"><i class="fas fa-check"></i>&nbsp;저장하기</button>
+                    <!--과목Check 저장버튼-->
+                    <table class="table table-sm saveBtnMargin">
+                        <thead>
+                            <tr class="text-center">
+                                <th class="thBorderNone" scope="col">
+                                    <button type="submit" class="btn btn-sm" id="myTimeTableSaveBtn"><i class="fas fa-check"></i>&nbsp;저장하기</button>
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
@@ -155,7 +162,9 @@
         $('#addFormDown').toggle();
     });
 
-    $('#myTimeTableSave').click(function () {
-        $.cookie('my_timetable_cookie', 'true', { path: '/' });
+    $('#myTimeTableSaveBtn').click(function () {
+        $.cookie('my_timetable_cookie', 'true', {
+            path: '/'
+        });
     });
 </script>

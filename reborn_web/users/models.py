@@ -71,5 +71,3 @@ class User(AbstractBaseUser, PermissionsMixin):
         db_table = "회원목록"
         verbose_name = "사용자"
         verbose_name_plural = "사용자"
-
-

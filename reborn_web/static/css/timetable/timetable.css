@@ -238,8 +238,17 @@
     margin-bottom: -15px;
 }
 
-#myTimeTableSave {
+#myTimeTableSaveBtn {
     background-color: #d14040f2;
     color: white;
     font-size: 14px;
+  }
+
+  .thBorderNone {
+    border-bottom: 1px solid #ffffff !important;
+  }
+
+  .saveBtnMargin {
+    margin-bottom: -22px !important;
+    margin-top: -12px !important;
   }

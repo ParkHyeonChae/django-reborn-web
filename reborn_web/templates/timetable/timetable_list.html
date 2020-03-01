@@ -380,7 +380,6 @@
                 </tbody>
             </table>
         </div>
-        
     </div>
 </div>
 
@@ -393,7 +392,7 @@
             $('#my-tab').attr('class','nav-link active');
             $('#all').attr('class','tab-pane fade');
             $('#my').tab('show');
-            $('#collapseOne').toggle();
+            $('#collapseOne').attr('class','collapse show');
             $('#addFormUp').toggle();
             $('#addFormDown').toggle();
             $.removeCookie('my_timetable_cookie', { path: '/' });
@@ -539,26 +538,40 @@
         }
     </script>
     {% endif %}
+{% endfor %}
 
-    <script type="text/javascript">
-        if (time_length == '1') {
-            $('.my_time_' + time).children('.' + day).append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span>&nbsp;&middot;&nbsp;<span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
-        }
-        else if (time_length == '2') {
-            $('.my_time_' + time).children('.' + day).attr('rowspan', '2').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
-            $('.my_time_' + two_time).children('.' + day).remove();
-        }
-        else if (time_length == '3') {
-            $('.my_time_' + time).children('.' + day).attr('rowspan', '3').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
-            $('.my_time_' + two_time).children('.' + day).remove();
-            $('.my_time_' + three_time).children('.' + day).remove();
-        }
-        else if (time_length == '4') {
-            $('.my_time_' + time).children('.' + day).attr('rowspan', '4').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
-            $('.my_time_' + two_time).children('.' + day).remove();
-            $('.my_time_' + three_time).children('.' + day).remove();
-            $('.my_time_' + four_time).children('.' + day).remove();
-        }
-    </script>
+{% for list in my_timetable_list %}
+<script type="text/javascript">
+    var time = '{{ list.time }}'
+    var time_length = '{{ list.time_length }}'
+    var day = '{{ list.day }}'
+    var date = '{{ list.date|date:"m/d" }}'
+    var subject = '{{ list.subject }}'
+    var test_location = '{{ list.location|upper }}'
+    var two_time = Number(time)+1;
+    var three_time = Number(time)+2;
+    var four_time = Number(time)+3;
+    var R = Math.floor(Math.random()*180)+55;
+    var random_color = "rgb(" + R + ",0" + ",0)"
+    
+    if (time_length == '1') {
+        $('.my_time_' + time).children('.' + day).append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span>&nbsp;&middot;&nbsp;<span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
+    }
+    else if (time_length == '2') {
+        $('.my_time_' + time).children('.' + day).attr('rowspan', '2').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
+        $('.my_time_' + two_time).children('.' + day).remove();
+    }
+    else if (time_length == '3') {
+        $('.my_time_' + time).children('.' + day).attr('rowspan', '3').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
+        $('.my_time_' + two_time).children('.' + day).remove();
+        $('.my_time_' + three_time).children('.' + day).remove();
+    }
+    else if (time_length == '4') {
+        $('.my_time_' + time).children('.' + day).attr('rowspan', '4').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
+        $('.my_time_' + two_time).children('.' + day).remove();
+        $('.my_time_' + three_time).children('.' + day).remove();
+        $('.my_time_' + four_time).children('.' + day).remove();
+    }
+</script>
 {% endfor %}
 {% endblock %}

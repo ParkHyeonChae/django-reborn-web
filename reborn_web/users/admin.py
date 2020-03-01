@@ -16,5 +16,6 @@ class UserAdmin(admin.ModelAdmin):
         )
     search_fields = ('user_id', 'name', 'student_id', 'department')
 
+
 admin.site.register(User, UserAdmin)
 admin.site.unregister(Group)
