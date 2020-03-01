@@ -11,6 +11,7 @@ class TimeTableAdmin(admin.ModelAdmin):
         'time_length',
         'date',
         'location',
+        'created',
         'updated',
     )
 

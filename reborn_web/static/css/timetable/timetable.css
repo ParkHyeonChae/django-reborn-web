@@ -178,3 +178,62 @@
 .fa-plus-circle:hover{
     color: #bd1010;
 }
+
+
+/*timatable_mytable*/
+#myTimeTable {
+    width: 1056px;
+    margin-left: 54px;
+    margin-bottom: -16px;
+    margin-top: -1px;
+    box-shadow: none;
+}
+
+.myTimeTableClass {
+    padding: 0.5rem 1.25rem !important;
+    cursor: pointer;
+    border-bottom: 1px solid #d8cccc;
+    background-color: #fff1f1 !important;
+}
+
+.myTimeTableClass:hover {
+    background-color: #ffe8e8f2 !important;
+}
+
+
+.myTimeTableEdit {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.scroll_icon {
+    float: right;
+    margin-top: 6px;
+}
+
+#collapseOne {
+    border-bottom: none !important;
+}
+
+.checkTable {
+    margin-top: -20px;
+}
+
+.editFormTitle {
+    font-weight: bold;
+    border-bottom: 1px solid #c7c7c7 !important;
+}
+
+.sortTable {
+    width: 25%;
+    float: left;
+}
+
+.check_view {
+    font-weight:550;
+    border-bottom: 1px solid #ffffff !important;
+}
+
+.checkForm {
+    margin-bottom: -15px;
+}

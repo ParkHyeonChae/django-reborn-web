@@ -1,0 +1,157 @@
+<form method="POST">
+    {% csrf_token %}
+    <div id="accordion">
+        <div class="card" id="myTimeTable">
+            <div class="myTimeTableClass" id="headingOne">
+                <div style="float:left;">
+                    <i class="fas fa-check-circle"></i>&nbsp;<span class="myTimeTableEdit">수강과목 추가/삭제하기</span>
+                </div>
+                <div class="scroll_icon">
+                    <span id="addFormUp" style="display: none;"><i class="fas fa-angle-double-up fa-lg"></i></span>
+                    <span id="addFormDown"><i class="fas fa-angle-double-down fa-lg"></i></span>
+                </div>
+            </div>
+
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <!--1학년 과목Check폼-->
+                    <div class="sortTable">
+                        <table class="table table-sm checkTable">
+                            <thead>
+                                <tr class="text-center">
+                                    <th class="editFormTitle" scope="col">1학년과목</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if first_grade_count == 0 %}
+                                <tr class="text-left">
+                                    <td class="none_view">
+                                        <i class="fas fa-info-circle"></i>&nbsp;시험시간이 나온 과목이 없습니다.
+                                    </td>
+                                </tr>
+                                {% else %}
+                                {% for list in timetable_list %}
+                                {% if list.grade == 'first' %}
+                                <tr class="text-left">
+                                    <td class="check_view">
+                                        <label class="checkForm">
+                                            <input type="checkbox" name="{{ list.subject }}">
+                                            <span>{{ list.subject }}</span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--2학년 과목Check폼-->
+                    <div class="sortTable">
+                        <table class="table table-sm checkTable">
+                            <thead>
+                                <tr class="text-center">
+                                    <th class="editFormTitle" scope="col">2학년과목</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if second_grade_count == 0 %}
+                                <tr class="text-left">
+                                    <td class="none_view"><i class="fas fa-info-circle"></i>&nbsp;시험시간이 나온 과목이 없습니다.
+                                    </td>
+                                </tr>
+                                {% else %}
+                                {% for list in timetable_list %}
+                                {% if list.grade == 'second' %}
+                                <tr class="text-left">
+                                    <td class="check_view">
+                                        <label class="checkForm">
+                                            <input type="checkbox" name="{{ list.subject }}">
+                                            <span>{{ list.subject }}</span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--3학년 과목Check폼-->
+                    <div class="sortTable">
+                        <table class="table table-sm checkTable">
+                            <thead>
+                                <tr class="text-center">
+                                    <th class="editFormTitle" scope="col">2학년과목</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if third_grade_count == 0 %}
+                                <tr class="text-left">
+                                    <td class="none_view"><i class="fas fa-info-circle"></i>&nbsp;시험시간이 나온 과목이 없습니다.
+                                    </td>
+                                </tr>
+                                {% else %}
+                                {% for list in timetable_list %}
+                                {% if list.grade == 'third' %}
+                                <tr class="text-left">
+                                    <td class="check_view">
+                                        <label class="checkForm">
+                                            <input type="checkbox" name="{{ list.subject }}">
+                                            <span>{{ list.subject }}</span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--4학년 과목Check폼-->
+                    <div class="sortTable">
+                        <table class="table table-sm checkTable">
+                            <thead>
+                                <tr class="text-center">
+                                    <th class="editFormTitle" scope="col">4학년과목</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if fourth_grade_count == 0 %}
+                                <tr class="text-left">
+                                    <td class="none_view"><i class="fas fa-info-circle"></i>&nbsp;시험시간이 나온 과목이 없습니다.
+                                    </td>
+                                </tr>
+                                {% else %}
+                                {% for list in timetable_list %}
+                                {% if list.grade == 'fourth' %}
+                                <tr class="text-left">
+                                    <td class="check_view">
+                                        <label class="checkForm">
+                                            <input type="checkbox" name="{{ list.subject }}">
+                                            <span>{{ list.subject }}</span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-bottom: 7px;">
+                    <button type="submit" class="btn btn-sm" id="detail_btn"><i class="fas fa-check"></i>&nbsp;저장하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $('#headingOne').click(function () {
+        $('#collapseOne').collapse('toggle');
+        $('#addFormUp').toggle();
+        $('#addFormDown').toggle();
+    });
+</script>

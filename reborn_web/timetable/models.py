@@ -20,20 +20,24 @@ class TimeTable(models.Model):
         return self.subject
 
     @property
-    def show_update(self):
+    def show_updated(self):
         time = datetime.now(tz=timezone.utc) - self.updated
-        if time < timedelta(hours=6):
-            return True
-        else :
+        if time < timedelta(minutes=1):
+            return '방금 전'
+        elif time < timedelta(hours=1):
+            return str(int(time.seconds / 60)) + '분 전'
+        elif time < timedelta(hours=6):
+            return str(int(time.seconds / 3600)) + '시간 전'
+        else:
             return False
 
-    @property
-    def show_created(self):
-        time = datetime.now(tz=timezone.utc) - self.created
-        if time < timedelta(hours=6):
-            return True
-        else :
-            return False
+    # @property
+    # def show_created(self):
+    #     time = datetime.now(tz=timezone.utc) - self.created
+    #     if time < timedelta(hours=6):
+    #         return True
+    #     else :
+    #         return False
 
     class Meta:
         db_table = '시험시간표'

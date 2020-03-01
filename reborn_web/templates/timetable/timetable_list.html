@@ -3,6 +3,7 @@
 
 {% block header %}
 <link rel="stylesheet" href="{% static 'css/timetable/timetable.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'css/users/checkbox.css' %}" type="text/css"> 
 {% endblock %}
 
 {% block contents %}
@@ -10,7 +11,13 @@
     <div class="row mt-5">
         <div class="col-6">
             <div class="tab-content">
-                <div class="tab-pane active" id="id_first">
+                <div class="tab-pane active" id="id_all">
+                    <h4 style="font-weight: bold; margin-left:60px">컴퓨터공학부 시험시간표</h4>
+                </div>
+                <div class="tab-pane" id="id_my">
+                    <h4 style="font-weight: bold; margin-left:60px">나의 시험시간표</h4>
+                </div>
+                <div class="tab-pane" id="id_first">
                     <h4 style="font-weight: bold; margin-left:60px">1학년 시험시간표</h4>
                 </div>
                 <div class="tab-pane" id="id_second">
@@ -22,16 +29,19 @@
                 <div class="tab-pane" id="id_fourth">
                     <h4 style="font-weight: bold; margin-left:60px">4학년 시험시간표</h4>
                 </div>
-                <div class="tab-pane" id="id_all">
-                    <h4 style="font-weight: bold; margin-left:60px">전 학년 시험시간표</h4>
-                </div>
             </div>
         </div>
     </div>
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-left: 54px; margin-bottom: -0.5px;">
+    <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-left: 56px; margin-bottom: -0.5px;">
         <li class="nav-item">
-            <a class="nav-link active" id="first-tab" data-toggle="tab" href="#first" role="tab" aria-controls="first" aria-selected="true">1학년 과목</a>
+            <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="false">전체보기</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="my-tab" data-toggle="tab" href="#my" role="tab" aria-controls="my" aria-selected="true">내 시간표</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="first-tab" data-toggle="tab" href="#first" role="tab" aria-controls="first" aria-selected="true">1학년 과목</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="second-tab" data-toggle="tab" href="#second" role="tab" aria-controls="second" aria-selected="false">2학년 과목</a>
@@ -42,9 +52,6 @@
         <li class="nav-item">
             <a class="nav-link" id="fourth-tab" data-toggle="tab" href="#fourth" role="tab" aria-controls="fourth" aria-selected="false">4학년 과목</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="false">전체보기</a>
-        </li>
         {% if request.user.level == '0' or request.user.level == '1' %}
         <li class="nav-item">
             <a class="nav-link" href="{% url 'timetable:timetable_update' %}" aria-selected="false">시간표편집</a>
@@ -52,140 +59,8 @@
         {% endif %}
     </ul>
     <div class="tab-content" id="myTabContent">
-        <!--1학년 과목 시간표-->
-        <div class="tab-pane fade show active" id="first" role="tabpanel" aria-labelledby="first-tab">
-            <table class="table table-bordered" style="text-align: center; color:white;">
-                <thead class="timetable_thead">
-                    <tr>
-                        <th class="border_none_cell" scope="col"></th>
-                        <th scope="col"></th>
-                        <th class="timetable_th" scope="col">월요일</th>
-                        <th class="timetable_th" scope="col">화요일</th>
-                        <th class="timetable_th" scope="col">수요일</th>
-                        <th class="timetable_th" scope="col">목요일</th>
-                        <th class="timetable_th" scope="col">금요일</th>
-                        <th class="timetable_th" scope="col">토요일</th>
-                        <th class="timetable_th" scope="col">일요일</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for i in "x"|rjust:"12" %}
-                    <tr class="first_time_{{ forloop.counter }}">
-                        <td class="border_none_cell">{{ forloop.counter|add:8 }}:00</td>
-                        <th class="timetable_th" scope="row">{{ forloop.counter }}교시</th>
-                        <td class="mon"></td>
-                        <td class="tue"></td>
-                        <td class="wed"></td>
-                        <td class="thu"></td>
-                        <td class="fri"></td>
-                        <td class="sat"></td>
-                        <td class="sun"></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <!--2학년 과목 시간표-->
-        <div class="tab-pane fade" id="second" role="tabpanel" aria-labelledby="second-tab">
-            <table class="table table-bordered" style="text-align: center; color:white;">
-                <thead class="timetable_thead">
-                    <tr>
-                        <th class="border_none_cell" scope="col"></th>
-                        <th scope="col"></th>
-                        <th class="timetable_th" scope="col">월요일</th>
-                        <th class="timetable_th" scope="col">화요일</th>
-                        <th class="timetable_th" scope="col">수요일</th>
-                        <th class="timetable_th" scope="col">목요일</th>
-                        <th class="timetable_th" scope="col">금요일</th>
-                        <th class="timetable_th" scope="col">토요일</th>
-                        <th class="timetable_th" scope="col">일요일</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for i in "x"|rjust:"12" %}
-                    <tr class="second_time_{{ forloop.counter }}">
-                        <td class="border_none_cell">{{ forloop.counter|add:8 }}:00</td>
-                        <th class="timetable_th" scope="row">{{ forloop.counter }}교시</th>
-                        <td class="mon"></td>
-                        <td class="tue"></td>
-                        <td class="wed"></td>
-                        <td class="thu"></td>
-                        <td class="fri"></td>
-                        <td class="sat"></td>
-                        <td class="sun"></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <!--3학년 과목 시간표-->
-        <div class="tab-pane fade" id="third" role="tabpanel" aria-labelledby="third-tab">
-            <table class="table table-bordered" style="text-align: center; color:white;">
-                <thead class="timetable_thead">
-                    <tr>
-                        <th class="border_none_cell" scope="col"></th>
-                        <th scope="col"></th>
-                        <th class="timetable_th" scope="col">월요일</th>
-                        <th class="timetable_th" scope="col">화요일</th>
-                        <th class="timetable_th" scope="col">수요일</th>
-                        <th class="timetable_th" scope="col">목요일</th>
-                        <th class="timetable_th" scope="col">금요일</th>
-                        <th class="timetable_th" scope="col">토요일</th>
-                        <th class="timetable_th" scope="col">일요일</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for i in "x"|rjust:"12" %}
-                    <tr class="third_time_{{ forloop.counter }}">
-                        <td class="border_none_cell">{{ forloop.counter|add:8 }}:00</td>
-                        <th class="timetable_th" scope="row">{{ forloop.counter }}교시</th>
-                        <td class="mon"></td>
-                        <td class="tue"></td>
-                        <td class="wed"></td>
-                        <td class="thu"></td>
-                        <td class="fri"></td>
-                        <td class="sat"></td>
-                        <td class="sun"></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <!--4학년 과목 시간표-->
-        <div class="tab-pane fade" id="fourth" role="tabpanel" aria-labelledby="fourth-tab">
-            <table class="table table-bordered" style="text-align: center; color:white;">
-                <thead class="timetable_thead">
-                    <tr>
-                        <th class="border_none_cell" scope="col"></th>
-                        <th scope="col"></th>
-                        <th class="timetable_th" scope="col">월요일</th>
-                        <th class="timetable_th" scope="col">화요일</th>
-                        <th class="timetable_th" scope="col">수요일</th>
-                        <th class="timetable_th" scope="col">목요일</th>
-                        <th class="timetable_th" scope="col">금요일</th>
-                        <th class="timetable_th" scope="col">토요일</th>
-                        <th class="timetable_th" scope="col">일요일</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for i in "x"|rjust:"12" %}
-                    <tr class="fourth_time_{{ forloop.counter }}">
-                        <td class="border_none_cell">{{ forloop.counter|add:8 }}:00</td>
-                        <th class="timetable_th" scope="row">{{ forloop.counter }}교시</th>
-                        <td class="mon"></td>
-                        <td class="tue"></td>
-                        <td class="wed"></td>
-                        <td class="thu"></td>
-                        <td class="fri"></td>
-                        <td class="sat"></td>
-                        <td class="sun"></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
         <!--전체보기-->
-        <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">
+        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
             <!--1학년 시간표 전체보기-->
             <table class="table table-sm">
                 <thead>
@@ -208,8 +83,8 @@
                         {% for list in timetable_list %}
                         {% if list.grade == 'first' %}
                         <tr class="text-center">
-                            {% if list.show_update or list.show_created %}
-                            <td class="border_none"><span class="badge badge-danger new_badge">New</span></td>
+                            {% if list.show_updated %}
+                            <td class="border_none"><span data-toggle="tooltip" data-placement="left" title="{{ list.show_updated }}" class="badge badge-danger new_badge">New</span></td>
                             {% else %}
                             <td class="border_none"></td>
                             {% endif %}
@@ -246,8 +121,8 @@
                         {% for list in timetable_list %}
                         {% if list.grade == 'second' %}
                         <tr class="text-center">
-                            {% if list.show_update or list.show_created %}
-                            <td class="border_none"><span class="badge badge-danger new_badge">New</span></td>
+                            {% if list.show_updated %}
+                            <td class="border_none"><span data-toggle="tooltip" data-placement="left" title="{{ list.show_updated }}" class="badge badge-danger new_badge">New</span></td>
                             {% else %}
                             <td class="border_none"></td>
                             {% endif %}
@@ -284,8 +159,8 @@
                         {% for list in timetable_list %}
                         {% if list.grade == 'third' %}
                         <tr class="text-center">
-                            {% if list.show_update or list.show_created %}
-                            <td class="border_none"><span class="badge badge-danger new_badge">New</span></td>
+                            {% if list.show_updated %}
+                            <td class="border_none"><span data-toggle="tooltip" data-placement="left" title="{{ list.show_updated }}" class="badge badge-danger new_badge">New</span></td>
                             {% else %}
                             <td class="border_none"></td>
                             {% endif %}
@@ -322,8 +197,8 @@
                         {% for list in timetable_list %}
                         {% if list.grade == 'fourth' %}
                         <tr class="text-center">
-                            {% if list.show_update or list.show_created %}
-                            <td class="border_none"><span class="badge badge-danger new_badge">New</span></td>
+                            {% if list.show_updated %}
+                            <td class="border_none"><span data-toggle="tooltip" data-placement="left" title="{{ list.show_updated }}" class="badge badge-danger new_badge">New</span></td>
                             {% else %}
                             <td class="border_none"></td>
                             {% endif %}
@@ -339,10 +214,185 @@
                 </tbody>
             </table>
         </div>
+        <!--내 시간표-->
+        <div class="tab-pane fade" id="my" role="tabpanel" aria-labelledby="my-tab">
+            {% include 'timetable/timetable_mytable.html' %}
+            <table class="table table-bordered" style="text-align: center; color:white;">
+                <thead class="timetable_thead">
+                    <tr>
+                        <th class="border_none_cell" scope="col"></th>
+                        <th scope="col"></th>
+                        <th class="timetable_th" scope="col">월요일</th>
+                        <th class="timetable_th" scope="col">화요일</th>
+                        <th class="timetable_th" scope="col">수요일</th>
+                        <th class="timetable_th" scope="col">목요일</th>
+                        <th class="timetable_th" scope="col">금요일</th>
+                        <th class="timetable_th" scope="col">토요일</th>
+                        <th class="timetable_th" scope="col">일요일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in "x"|rjust:"12" %}
+                    <tr class="my_time_{{ forloop.counter }}">
+                        <td class="border_none_cell">{{ forloop.counter|add:8 }}:00</td>
+                        <th class="timetable_th" scope="row">{{ forloop.counter }}교시</th>
+                        <td class="mon"></td>
+                        <td class="tue"></td>
+                        <td class="wed"></td>
+                        <td class="thu"></td>
+                        <td class="fri"></td>
+                        <td class="sat"></td>
+                        <td class="sun"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!--1학년과목-->
+        <div class="tab-pane fade" id="first" role="tabpanel" aria-labelledby="first-tab">
+            <table class="table table-bordered" style="text-align: center; color:white;">
+                <thead class="timetable_thead">
+                    <tr>
+                        <th class="border_none_cell" scope="col"></th>
+                        <th scope="col"></th>
+                        <th class="timetable_th" scope="col">월요일</th>
+                        <th class="timetable_th" scope="col">화요일</th>
+                        <th class="timetable_th" scope="col">수요일</th>
+                        <th class="timetable_th" scope="col">목요일</th>
+                        <th class="timetable_th" scope="col">금요일</th>
+                        <th class="timetable_th" scope="col">토요일</th>
+                        <th class="timetable_th" scope="col">일요일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in "x"|rjust:"12" %}
+                    <tr class="first_time_{{ forloop.counter }}">
+                        <td class="border_none_cell">{{ forloop.counter|add:8 }}:00</td>
+                        <th class="timetable_th" scope="row">{{ forloop.counter }}교시</th>
+                        <td class="mon"></td>
+                        <td class="tue"></td>
+                        <td class="wed"></td>
+                        <td class="thu"></td>
+                        <td class="fri"></td>
+                        <td class="sat"></td>
+                        <td class="sun"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!--2학년과목-->
+        <div class="tab-pane fade" id="second" role="tabpanel" aria-labelledby="second-tab">
+            <table class="table table-bordered" style="text-align: center; color:white;">
+                <thead class="timetable_thead">
+                    <tr>
+                        <th class="border_none_cell" scope="col"></th>
+                        <th scope="col"></th>
+                        <th class="timetable_th" scope="col">월요일</th>
+                        <th class="timetable_th" scope="col">화요일</th>
+                        <th class="timetable_th" scope="col">수요일</th>
+                        <th class="timetable_th" scope="col">목요일</th>
+                        <th class="timetable_th" scope="col">금요일</th>
+                        <th class="timetable_th" scope="col">토요일</th>
+                        <th class="timetable_th" scope="col">일요일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in "x"|rjust:"12" %}
+                    <tr class="second_time_{{ forloop.counter }}">
+                        <td class="border_none_cell">{{ forloop.counter|add:8 }}:00</td>
+                        <th class="timetable_th" scope="row">{{ forloop.counter }}교시</th>
+                        <td class="mon"></td>
+                        <td class="tue"></td>
+                        <td class="wed"></td>
+                        <td class="thu"></td>
+                        <td class="fri"></td>
+                        <td class="sat"></td>
+                        <td class="sun"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!--3학년과목-->
+        <div class="tab-pane fade" id="third" role="tabpanel" aria-labelledby="third-tab">
+            <table class="table table-bordered" style="text-align: center; color:white;">
+                <thead class="timetable_thead">
+                    <tr>
+                        <th class="border_none_cell" scope="col"></th>
+                        <th scope="col"></th>
+                        <th class="timetable_th" scope="col">월요일</th>
+                        <th class="timetable_th" scope="col">화요일</th>
+                        <th class="timetable_th" scope="col">수요일</th>
+                        <th class="timetable_th" scope="col">목요일</th>
+                        <th class="timetable_th" scope="col">금요일</th>
+                        <th class="timetable_th" scope="col">토요일</th>
+                        <th class="timetable_th" scope="col">일요일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in "x"|rjust:"12" %}
+                    <tr class="third_time_{{ forloop.counter }}">
+                        <td class="border_none_cell">{{ forloop.counter|add:8 }}:00</td>
+                        <th class="timetable_th" scope="row">{{ forloop.counter }}교시</th>
+                        <td class="mon"></td>
+                        <td class="tue"></td>
+                        <td class="wed"></td>
+                        <td class="thu"></td>
+                        <td class="fri"></td>
+                        <td class="sat"></td>
+                        <td class="sun"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!--4학년과목-->
+        <div class="tab-pane fade" id="fourth" role="tabpanel" aria-labelledby="fourth-tab">
+            <table class="table table-bordered" style="text-align: center; color:white;">
+                <thead class="timetable_thead">
+                    <tr>
+                        <th class="border_none_cell" scope="col"></th>
+                        <th scope="col"></th>
+                        <th class="timetable_th" scope="col">월요일</th>
+                        <th class="timetable_th" scope="col">화요일</th>
+                        <th class="timetable_th" scope="col">수요일</th>
+                        <th class="timetable_th" scope="col">목요일</th>
+                        <th class="timetable_th" scope="col">금요일</th>
+                        <th class="timetable_th" scope="col">토요일</th>
+                        <th class="timetable_th" scope="col">일요일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in "x"|rjust:"12" %}
+                    <tr class="fourth_time_{{ forloop.counter }}">
+                        <td class="border_none_cell">{{ forloop.counter|add:8 }}:00</td>
+                        <th class="timetable_th" scope="row">{{ forloop.counter }}교시</th>
+                        <td class="mon"></td>
+                        <td class="tue"></td>
+                        <td class="wed"></td>
+                        <td class="thu"></td>
+                        <td class="fri"></td>
+                        <td class="sat"></td>
+                        <td class="sun"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 </div>
 
 <script type="text/javascript">
+    $('#all-tab').click( function() {  
+        HideTitle();
+        $('#id_all').tab('show');
+    });
+    $('#my-tab').click( function() {  
+        HideTitle();
+        $('#id_my').tab('show');
+    });
     $('#first-tab').click( function() {
         HideTitle();
         $('#id_first').tab('show');
@@ -359,18 +409,19 @@
         HideTitle();
         $('#id_fourth').tab('show');
     });
-    $('#all-tab').click( function() {  
-        HideTitle();
-        $('#id_all').tab('show');
-    });
 
     function HideTitle() {
+        $('#id_all').attr('class','tab-pane');
+        $('#id_my').attr('class','tab-pane');
         $('#id_first').attr('class','tab-pane');
         $('#id_second').attr('class','tab-pane');
         $('#id_third').attr('class','tab-pane');
         $('#id_fourth').attr('class','tab-pane');
-        $('#id_all').attr('class','tab-pane');
     };
+    
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 </script>
 
 {% for list in timetable_list %}
@@ -473,5 +524,27 @@
         }
     </script>
     {% endif %}
+
+    <script type="text/javascript">
+        if (time_length == '1') {
+            $('.my_time_' + time).children('.' + day).append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span>&nbsp;&middot;&nbsp;<span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
+        }
+        else if (time_length == '2') {
+            $('.my_time_' + time).children('.' + day).attr('rowspan', '2').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
+            $('.my_time_' + two_time).children('.' + day).remove();
+        }
+        else if (time_length == '3') {
+            $('.my_time_' + time).children('.' + day).attr('rowspan', '3').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
+            $('.my_time_' + two_time).children('.' + day).remove();
+            $('.my_time_' + three_time).children('.' + day).remove();
+        }
+        else if (time_length == '4') {
+            $('.my_time_' + time).children('.' + day).attr('rowspan', '4').append('<span>'+subject+'</span><br><span style="font-size:12.5px;">'+test_location+'</span><br><span style="font-size:12.5px;">'+date+'</span>').css({'background-color': random_color});
+            $('.my_time_' + two_time).children('.' + day).remove();
+            $('.my_time_' + three_time).children('.' + day).remove();
+            $('.my_time_' + four_time).children('.' + day).remove();
+        }
+    </script>
+
 {% endfor %}
 {% endblock %}
