@@ -1,4 +1,4 @@
-<form method="POST">
+<form method="POST" action="{% url 'timetable:timetable_my' %}">
     {% csrf_token %}
     <div id="accordion">
         <div class="card" id="myTimeTable">
@@ -141,7 +141,7 @@
                     </div>
                 </div>
                 <div style="text-align: center; margin-bottom: 7px;">
-                    <button type="submit" class="btn btn-sm" id="detail_btn"><i class="fas fa-check"></i>&nbsp;저장하기</button>
+                    <button type="submit" class="btn btn-sm my_save" id="myTimeTableSave"><i class="fas fa-check"></i>&nbsp;저장하기</button>
                 </div>
             </div>
         </div>
@@ -153,5 +153,9 @@
         $('#collapseOne').collapse('toggle');
         $('#addFormUp').toggle();
         $('#addFormDown').toggle();
+    });
+
+    $('#myTimeTableSave').click(function () {
+        $.cookie('my_timetable_cookie', 'true', { path: '/' });
     });
 </script>

@@ -385,6 +385,21 @@
 </div>
 
 <script type="text/javascript">
+    $(document).ready(function(){
+        if ($.cookie('my_timetable_cookie') == 'true') {
+            $('#id_all').attr('class','tab-pane');
+            $('#id_my').tab('show');
+            $('#all-tab').attr('class','nav-link');
+            $('#my-tab').attr('class','nav-link active');
+            $('#all').attr('class','tab-pane fade');
+            $('#my').tab('show');
+            $('#collapseOne').toggle();
+            $('#addFormUp').toggle();
+            $('#addFormDown').toggle();
+            $.removeCookie('my_timetable_cookie', { path: '/' });
+        }
+    });
+
     $('#all-tab').click( function() {  
         HideTitle();
         $('#id_all').tab('show');
@@ -545,6 +560,5 @@
             $('.my_time_' + four_time).children('.' + day).remove();
         }
     </script>
-
 {% endfor %}
 {% endblock %}

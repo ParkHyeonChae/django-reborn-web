@@ -237,3 +237,9 @@
 .checkForm {
     margin-bottom: -15px;
 }
+
+#myTimeTableSave {
+    background-color: #d14040f2;
+    color: white;
+    font-size: 14px;
+  }

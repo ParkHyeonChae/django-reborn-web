@@ -12,4 +12,5 @@ urlpatterns = [
     path('edit/', views.timetable_edit_view, name='timetable_edit'),
     path('delete/', views.timetable_delete_view, name='timetable_delete'),
     path('save/', views.timetable_save_view, name='timetable_save'),
+    path('my/', views.timetable_my_view, name='timetable_my'),
 ]

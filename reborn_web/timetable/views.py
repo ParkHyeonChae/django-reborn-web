@@ -116,3 +116,8 @@ def timetable_save_view(request):
             if form.is_valid():
                 form.save()
         return redirect('/timetable/update/')
+
+
+# 나의 시험시간표 과목추가
+def timetable_my_view(request):
+    return redirect('/timetable/')
