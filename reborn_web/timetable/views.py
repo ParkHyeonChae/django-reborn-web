@@ -17,7 +17,7 @@ def time_table_view(request):
     third_grade_count = TimeTable.objects.filter(grade='third').count()
     fourth_grade_count = TimeTable.objects.filter(grade='fourth').count()
     my_timetable_list = TimeTable.objects.filter(students=request.user)
-    
+
     context = {
         'timetable_list': timetable_list,
         'first_grade_count': first_grade_count,
@@ -123,4 +123,14 @@ def timetable_save_view(request):
 
 # 나의 시험시간표 과목추가
 def timetable_my_view(request):
-    return redirect('/timetable/')
+    if request.method == 'POST':
+        subject_all = TimeTable.objects.all()
+        for subject_reset in subject_all :
+            subject_reset.students.remove(request.user)
+
+        add_list = request.POST.getlist('subject')
+        for subject_id in add_list :
+            subject_list = TimeTable.objects.get(pk=subject_id)
+            subject_list.students.add(request.user)
+
+        return redirect('/timetable/')

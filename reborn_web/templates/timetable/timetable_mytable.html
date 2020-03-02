@@ -35,7 +35,11 @@
                                 <tr class="text-left">
                                     <td class="check_view">
                                         <label class="checkForm">
-                                            <input type="checkbox" name="{{ list.subject }}">
+                                            {% if request.user in list.students.all %}
+                                            <input type="checkbox" checked name="subject" value="{{ list.id }}">
+                                            {% else %}
+                                            <input type="checkbox" name="subject" value="{{ list.id }}">
+                                            {% endif %}
                                             <span>{{ list.subject }}</span>
                                         </label>
                                     </td>
@@ -66,7 +70,11 @@
                                 <tr class="text-left">
                                     <td class="check_view">
                                         <label class="checkForm">
-                                            <input type="checkbox" name="{{ list.subject }}">
+                                            {% if request.user in list.students.all %}
+                                            <input type="checkbox" checked name="subject" value="{{ list.id }}">
+                                            {% else %}
+                                            <input type="checkbox" name="subject" value="{{ list.id }}">
+                                            {% endif %}
                                             <span>{{ list.subject }}</span>
                                         </label>
                                     </td>
@@ -97,7 +105,11 @@
                                 <tr class="text-left">
                                     <td class="check_view">
                                         <label class="checkForm">
-                                            <input type="checkbox" name="{{ list.subject }}">
+                                            {% if request.user in list.students.all %}
+                                            <input type="checkbox" checked name="subject" value="{{ list.id }}">
+                                            {% else %}
+                                            <input type="checkbox" name="subject" value="{{ list.id }}">
+                                            {% endif %}
                                             <span>{{ list.subject }}</span>
                                         </label>
                                     </td>
@@ -128,7 +140,11 @@
                                 <tr class="text-left">
                                     <td class="check_view">
                                         <label class="checkForm">
-                                            <input type="checkbox" name="{{ list.subject }}">
+                                            {% if request.user in list.students.all %}
+                                            <input type="checkbox" checked name="subject" value="{{ list.id }}">
+                                            {% else %}
+                                            <input type="checkbox" name="subject" value="{{ list.id }}">
+                                            {% endif %}
                                             <span>{{ list.subject }}</span>
                                         </label>
                                     </td>
@@ -163,8 +179,6 @@
     });
 
     $('#myTimeTableSaveBtn').click(function () {
-        $.cookie('my_timetable_cookie', 'true', {
-            path: '/'
-        });
+        $.cookie('my_timetable_cookie', 'true', { path: '/' });
     });
 </script>
