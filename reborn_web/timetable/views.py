@@ -11,7 +11,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 # 시험시간표 List
 @login_message_required
 def time_table_view(request):
-    timetable_list = TimeTable.objects.all()
+    timetable_list = TimeTable.objects.all().order_by('date')
     first_grade_count = TimeTable.objects.filter(grade='first').count()
     second_grade_count = TimeTable.objects.filter(grade='second').count()
     third_grade_count = TimeTable.objects.filter(grade='third').count()
@@ -33,7 +33,7 @@ def time_table_view(request):
 @login_message_required
 @admin_required
 def timetable_updatelist_view(request):
-    timetable_list = TimeTable.objects.all()
+    timetable_list = TimeTable.objects.all().order_by('date')
     context = {
         'timetable_list': timetable_list,
     }
@@ -121,11 +121,11 @@ def timetable_save_view(request):
         return redirect('/timetable/update/')
 
 
-# 나의 시험시간표 과목추가
+# 나의 시험시간표 과목추가/삭제
 def timetable_my_view(request):
     if request.method == 'POST':
-        subject_all = TimeTable.objects.all()
-        for subject_reset in subject_all :
+        reset_list = TimeTable.objects.all()
+        for subject_reset in reset_list :
             subject_reset.students.remove(request.user)
 
         add_list = request.POST.getlist('subject')

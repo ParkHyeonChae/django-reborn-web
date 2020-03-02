@@ -130,23 +130,33 @@
                                 class="fas fa-graduation-cap"></i>&nbsp;&nbsp;학사정보</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu2">
                             <li>
-                                <a href="{% url 'timetable:timetable_list' %}"><i
-                                    class="fas fa-table"></i>&nbsp;&nbsp;시험시간표</a>
+                                <a href="{% url 'calendar:calendar' %}"><i class="fas fa-calendar-check"></i>&nbsp;&nbsp;학사일정</a>
                             </li>
                             <li>
-                                <a href="#">Page 2</a>
+                                <a href="{% url 'timetable:timetable_list' %}"><i class="fas fa-table"></i>&nbsp;&nbsp;시험시간표</a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="#">Page 3</a>
+                            </li> -->
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                                class="fas fa-users"></i>&nbsp;&nbsp;학생활동</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu3">
+                            <li>
+                                <a href="#"><i class="fas fa-sitemap"></i>&nbsp;&nbsp;학생회조직도</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fas fa-diagnoses"></i>&nbsp;&nbsp;동아리소개</a>
+                            </li>
+                            <li>
+                                <a href="#">&nbsp;<i class="fas fa-flask"></i>&nbsp;&nbsp;연구실소개</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="{% url 'calendar:calendar' %}"><i class="fas fa-calendar-check"
-                                style="margin-left:3px; margin-right:4px;"></i>&nbsp;&nbsp;학사일정</a>
-                    </li>
-                    <li>
-                        <!--ex-->
+                        <a href="https://pf.kakao.com/_xgJeuxb" target="_blank"><i class="fas fa-robot"></i>&nbsp;&nbsp;챗봇연결</a>
                     </li>
                 </ul>
 
@@ -193,16 +203,13 @@
                         <ul class="nav navbar-nav ml-auto">
                             <!-- <li class="nav-item active"> -->
                             <li class="nav-item">
-                                <a class="nav-link" href="/" style="font-weight: 600;">Home</a>
+                                <a class="nav-link" href="https://www.inje.ac.kr/kor/main/main.asp" target="_blank" style="font-weight: 600;">인제대학교</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" style="font-weight: 600;">About</a>
+                                <a class="nav-link" href="https://cs.inje.ac.kr/" target="_blank" style="font-weight: 600;">인제대컴퓨터공학부</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" style="font-weight: 600;">Portfolio</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" style="font-weight: 600;">Contact</a>
+                                <a class="nav-link" href="https://stud.inje.ac.kr/" target="_blank" style="font-weight: 600;">인제정보시스템</a>
                             </li>
                         </ul>
                     </div>
