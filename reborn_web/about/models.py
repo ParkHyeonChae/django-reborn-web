@@ -11,6 +11,11 @@ class Organization(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        db_table = '학생회조직도'
+        verbose_name = '학생회조직도'
+        verbose_name_plural = '학생회조직도'
+
 
 class Circles(models.Model):
     circles_name = models.CharField(max_length=8, verbose_name="동아리이름")
@@ -19,6 +24,11 @@ class Circles(models.Model):
 
     def __str__(self):
         return self.circles_name
+
+    class Meta:
+        db_table = '동아리소개'
+        verbose_name = '동아리소개'
+        verbose_name_plural = '동아리소개'
 
 
 class Labs(models.Model):
@@ -29,3 +39,8 @@ class Labs(models.Model):
 
     def __str__(self):
         return self.labs_name
+
+    class Meta:
+        db_table = '연구실소개'
+        verbose_name = '연구실소개'
+        verbose_name_plural = '연구실소개'
