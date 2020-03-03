@@ -51,8 +51,10 @@ class Free(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Free, on_delete=models.DO_NOTHING, verbose_name='게시글')
+    post = models.ForeignKey(Free, on_delete=models.CASCADE, verbose_name='게시글')
     writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, verbose_name='댓글작성자')
+    # writer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE, verbose_name='댓글작성자')
+    # writer = models.CharField(max_length=17, null=True, verbose_name='댓글작성자')
     content = models.TextField(verbose_name='댓글내용')
     created = models.DateTimeField(auto_now_add=True, verbose_name='작성일')
     deleted = models.BooleanField(default=False, verbose_name='삭제여부')
