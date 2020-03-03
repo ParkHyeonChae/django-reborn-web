@@ -87,3 +87,13 @@ SUBJECT_GRADE_CHOICE = (
     ("third", "3학년"),
     ("fourth", "4학년"),
 )
+
+
+# about APP choiceField
+RANK_CHOICES = (
+    ("회장", "회장"),
+    ("부회장", "부회장"),
+    ("부장", "부장"),
+    ("차장", "차장"),
+    ("부원", "부원"),
+)
