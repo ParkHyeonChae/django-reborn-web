@@ -60,6 +60,11 @@
     color:gray;
 }
 
+.all_view_title {
+    font-weight:600;
+    background-color: #fff1f1;
+}
+
 .all_view_subject {
     font-weight:600;
     background-color: #fff1f1;

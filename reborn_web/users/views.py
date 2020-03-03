@@ -368,6 +368,6 @@ def profile_comment_view(request):
     anonymous_comment_list = AnonymousComment.objects.select_related('post').filter(writer=request.user).exclude(deleted=True).order_by('-created')
     context = {
         'comment_list': comment_list,
-        'anonymous_list': anonymous_comment_list,
+        'anonymous_comment_list': anonymous_comment_list,
     }
     return render(request, 'users/profile_comment.html', context)
