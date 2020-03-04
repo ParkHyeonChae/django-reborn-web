@@ -1,10 +1,10 @@
 from django.db import models
-from users.choice import RANK_CHOICES
+from users.choice import RANK_CHOICES, PART_CHOICES
 
 
 class Organization(models.Model):
     name = models.CharField(max_length=8, verbose_name="이름")
-    department = models.CharField(max_length=10, verbose_name='부서')
+    part = models.CharField(choices=PART_CHOICES, max_length=10, verbose_name='부서')
     rank = models.CharField(choices=RANK_CHOICES, max_length=10, verbose_name='직급')
     registered_date = models.DateTimeField(auto_now_add=True, verbose_name='등록시간')
 

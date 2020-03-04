@@ -5,7 +5,7 @@ from .models import Organization, Circles, Labs
 class OrganizationAdmin(admin.ModelAdmin):
     list_display = (
         'name', 
-        'department',
+        'part',
         'rank',
         'registered_date',
     )

@@ -1,0 +1,139 @@
+/* about APP Css */
+
+/* organization_list.html */
+.organizationCard {
+    width: 12rem;
+    /* cursor: pointer; */
+}
+
+.organizationChild {
+    margin-right: 30px;
+    width: 11rem;
+    /* cursor: pointer; */
+}
+
+.organizationCardTitle {
+    background-color: #fff1f1 !important;
+    top: -30px;
+    width: 80%;
+    margin-bottom: -30px;
+    padding-bottom: -30px;
+    box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
+        0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025); 
+}
+
+.organizationTitle {
+    padding: 7px;
+    margin-bottom: -1px;
+    font-weight: bold !important;
+    text-align: center;
+}
+
+
+.organizationBody {
+    text-align: center;
+    padding-top: 13px !important;
+    padding-bottom: 9px !important;
+}
+
+.oragnizationRank {
+    color: gray;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.oragnizationName {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+}
+
+/* .organizationCard:hover {
+    background-color: #d6d6d6f2;
+    transition: 0.5s;
+}
+
+.organizationChild:hover {
+    background-color: #d6d6d6f2;
+    transition: 0.5s;
+} */
+
+.organizationEditBtn {
+    color:#d14040f2;
+    font-size:18px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+
+/* organization_update.html */
+.organizationDeleteBtn {
+    background-color: #b90303f2 !important;
+    color: white !important;
+    font-size: 13px !important;
+    padding: 3px 8px !important;
+    margin-left: -5px !important;
+    margin-right: 10px !important;
+    margin-bottom: -4px !important;
+    margin-top: 6px !important;
+}
+
+#organizationSaveBtn {
+    background-color: gray;
+    color: white;
+    font-size: 13px;
+    padding: 3px 8px;
+    margin-left: 25px;
+    margin-bottom: -4px;
+}
+
+.fa-plus-circle {
+    cursor: pointer;
+    color:#d14040f2;
+    margin-bottom:30px;
+}
+
+.fa-plus-circle:hover{
+    color: #bd1010;
+}
+
+.borderNone {
+    border-right: 1px solid #fafafa !important;
+    border-top: 1px solid #fafafa !important;
+    border-bottom: 1px solid #fafafa !important;
+    font-weight: bold;
+    padding-top:0px !important;
+    padding-left:0px !important;
+    padding-right:5px !important;
+    width:56px;
+}
+
+.form-control {
+    height: calc(1.5em + 0.55rem + 2px) !important;
+    padding:0px 12px !important;
+    font-size:14.4px !important;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    margin-right: 5px;
+}
+
+.updatePart {
+    font-weight:600;
+    width:30%;
+    background-color: #fff1f1;
+}
+
+.updateRank {
+    font-weight:600;
+    width:30%;
+    background-color: #fff1f1;
+}
+
+.updateName {
+    font-weight:600;
+    width:30%;
+    background-color: #fff1f1;
+}
+
+.tdClass {
+    font-weight:550;
+}

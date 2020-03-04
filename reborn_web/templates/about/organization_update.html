@@ -1,0 +1,141 @@
+{% extends "users/main_base.html" %}
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/about/about.css' %}" type="text/css">
+{% endblock %}
+
+{% block contents %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12">
+            <div>
+                <h4 style="font-weight: bold; margin-left:60px"><i class="fas fa-cog"></i>&nbsp;학생회 조직도 업데이트 (관리자)</h4>
+            </div>
+            
+            <form method="POST" action="{% url 'about:organization_save' %}">
+                {% csrf_token %}
+                <table class="table table-sm">
+                    <thead>
+                        <tr class="text-center">
+                            <th class="updatePart" scope="col">부서</th>
+                            <th class="updateRank" scope="col">직위</th>
+                            <th class="updateName" scope="col">이름</th>
+                            <th class="borderNone" scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for list in organization_list %}
+                        <tr id="{{ list.id }}">
+                            <tr name="origin_list" id="origin_{{ list.id }}" class="text-center">
+                                <td class="tdClass">{{ list.part }}</td>
+                                {% if list.rank == '1' %}
+                                <td class="tdClass">회장</td>
+                                {% elif list.rank == '2' %}
+                                <td class="tdClass">부회장</td>
+                                {% elif list.rank == '3' %}
+                                <td class="tdClass">부장</td>
+                                {% elif list.rank == '4' %}
+                                <td class="tdClass">차장</td>
+                                {% elif list.rank == '5' %}
+                                <td class="tdClass">부원</td>
+                                {% endif %}
+                                <td class="tdClass">{{ list.name }}</td>
+                                <td class="borderNone"><a class="btn btn-sm organizationDeleteBtn" onclick="OrganizationDelete('{{list.id}}');">삭제</a></td>
+                            </tr>
+                        </tr>
+                        {% endfor %}
+                        <tr id="organizationAddTable">
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="text-align: center;">
+                    <i id="organizationAddIcon" class="fas fa-plus-circle fa-2x"></i>
+                </div>  
+
+                <div class="text-right" style="margin-top: -10px;">
+                    <a onclick="location.href='/about/organization/'" class="btn btn-sm" id="back_btn"><i class="fa fa-reply"></i>&nbsp;돌아가기</a>
+                    <!-- <button type="submit" id="write" class="btn btn-sm"><i class="fas fa-check"></i>&nbsp;저장하기</button> -->
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#organizationAddIcon').click(function () {
+        $.ajax({
+            type: "POST",
+            url: "{% url 'about:organization_add' %}",
+            dataType: "html",
+            data: {
+                'csrfmiddlewaretoken': '{{csrf_token}}',
+            },
+            success: function (data) {
+                $('#organizationAddTable').html(data);
+            },
+            error: function () {
+                console.log(error);
+            },
+        })
+    });
+
+    function OrganizationDelete(value) {
+        var organization_id = value;
+        $.ajax({
+            type: "POST",
+            url: "{% url 'about:organization_delete' %}",
+            dataType: "json",
+            data: {
+                'id':organization_id,
+                'csrfmiddlewaretoken': '{{csrf_token}}',
+            },
+            success: function (response) {
+                $('#'+value).remove();
+                $('#origin_'+value).remove();
+            },
+            error: function () {
+                console.log(error);
+            },
+        })
+    };
+
+    function DeleteAddArea($targetObj) {
+        var isIn = true;
+        var $objArr = Array();
+        var opts = {
+            left: 99999, right: 0, top: 99999, bottom: 0
+        }
+        if( $targetObj ) {
+            if( $targetObj.length == 1 ) {
+                $objArr.push( $targetObj );
+            } else {
+                $objArr = $targetObj;
+            }
+            $.each($objArr, function(i, $obj) {          
+                var obj_position = $obj.offset();
+                obj_position.right = parseInt( obj_position.left ) + ( $obj.width() );
+                obj_position.bottom = parseInt( obj_position.top ) + parseInt( $obj.height() );
+                
+                if( obj_position.left < opts.left ) opts.left = obj_position.left;
+                if( obj_position.right > opts.right ) opts.right = obj_position.right;
+                if( obj_position.top < opts.top ) opts.top = obj_position.top;
+                if( obj_position.bottom > opts.bottom ) opts.bottom = obj_position.bottom;
+            }); 
+            if(( opts.left <= event.pageX && event.pageX <= opts.right )&& ( opts.top <= event.pageY && event.pageY <= opts.bottom )) {
+                isIn = false;
+            }
+        }
+        return isIn;
+    }
+    
+    $(function(){
+        $(document).mousedown(function(e){
+            if( DeleteAddArea ($("#organizationAddTable"))) {
+                $(".add_td").closest("tr").empty();
+            }
+        });
+    });
+</script>
+{% endblock %}
