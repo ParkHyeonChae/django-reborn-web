@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from users.decorators import login_message_required, admin_required
 from .models import Organization, Circles, Labs
-from .forms import OrganizationAddForm
+from .forms import OrganizationAddForm, CirclesEditForm
 import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.contrib import messages
 
 
 # 학생회 조직도 보기
@@ -67,6 +68,28 @@ def circles_view(request):
         'circles_list': circles_list,
     }
     return render(request, 'about/circles_list.html', context)
+
+
+# 동아리 소개 수정
+@login_message_required
+@admin_required
+def circles_update_view(request, pk):
+    circles = Circles.objects.get(id=pk)
+    if request.method == "POST":
+        form = CirclesEditForm(request.POST, instance=circles)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "수정되었습니다.")
+        return redirect('/about/circles/')
+    else:
+        circles = Circles.objects.get(id=pk)
+        circles_name = circles.circles_name
+        form = CirclesEditForm(instance=circles)
+        context = {
+            'form': form,
+            'circles_name': circles_name,
+        }   
+        return render(request, "about/circles_update.html", context)
 
 
 # 연구실 소개 보기

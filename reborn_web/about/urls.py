@@ -11,5 +11,6 @@ urlpatterns = [
     path('organization/delete/', views.organization_delete_view, name='organization_delete'),
     path('organization/save/', views.organization_save_view, name='organization_save'),
     path('circles/', views.circles_view, name='circles'),
+    path('circles/<int:pk>/', views.circles_update_view, name='circles_update'),
     path('labs/', views.labs_view, name='labs'),
 ]

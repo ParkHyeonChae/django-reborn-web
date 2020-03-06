@@ -137,3 +137,20 @@
 .tdClass {
     font-weight:550;
 }
+
+
+/* circles_list.html */
+.circlesTitle {
+    background-color: #fff1f1 !important;
+}
+
+.aboutEditBtn {
+    color:#d14040f2;
+    font-size:15px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.circlesIntroduce {
+    min-height: 300px;
+}
