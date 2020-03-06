@@ -13,4 +13,5 @@ urlpatterns = [
     path('circles/', views.circles_view, name='circles'),
     path('circles/<int:pk>/', views.circles_update_view, name='circles_update'),
     path('labs/', views.labs_view, name='labs'),
+    path('labs/<int:pk>/', views.labs_update_view, name='labs_update'),
 ]

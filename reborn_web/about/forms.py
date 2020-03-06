@@ -41,7 +41,26 @@ class CirclesEditForm(forms.ModelForm):
             'autofocus': 'autofocus',
         })
 
-
     class Meta:
         model = Circles
         fields = ['introduce',]
+
+
+class LabsEditForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(LabsEditForm, self).__init__(*args, **kwargs)
+        self.fields['location'].label = '연구실위치'
+        self.fields['location'].widget.attrs.update({
+            'placeholder': '연구실위치',
+            'class': 'form-control',
+        })
+        self.fields['introduce'].label = '연구실소개'
+        self.fields['introduce'].widget.attrs.update({
+            'placeholder': '연구실소개를 작성해주세요',
+            'class': 'md-textarea form-control circlesIntroduce',
+            'autofocus': 'autofocus',
+        })
+
+    class Meta:
+        model = Labs
+        fields = ['location', 'introduce',]

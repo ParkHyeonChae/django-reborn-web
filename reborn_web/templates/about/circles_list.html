@@ -16,7 +16,6 @@
 <br>
 
 {% for list in circles_list %}
-    {% if list.circles_name == '눅스피아' %}
     <div class="row justify-content-center">
         <div class="card" style="width: 1100px;">
             <div class="card-header circlesTitle">
@@ -35,106 +34,5 @@
         </div>
     </div>
     <br><br>
-    {% endif %}
-    {% if list.circles_name == 'NET' %}
-    <div class="row justify-content-center">
-        <div class="card" style="width: 1100px;">
-            <div class="card-header circlesTitle">
-                <strong style="font-size: 18px;">{{ list.circles_name }}</strong>
-                {% if request.user.level == '0' or request.user.level == '1' %}
-                <div style="float: right;">
-                    <a class="aboutEditBtn" href="{% url 'about:circles_update' list.id %}">* 편집하기</a>
-                </div>
-                {% endif %}
-            </div>
-            <div class="card-body">
-                <div>
-                    {{ list.introduce|linebreaksbr }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <br><br>
-    {% endif %}
-    {% if list.circles_name == '돗가비' %}
-    <div class="row justify-content-center">
-        <div class="card" style="width: 1100px;">
-            <div class="card-header circlesTitle">
-                <strong style="font-size: 18px;">{{ list.circles_name }}</strong>
-                {% if request.user.level == '0' or request.user.level == '1' %}
-                <div style="float: right;">
-                    <a class="aboutEditBtn" href="{% url 'about:circles_update' list.id %}">* 편집하기</a>
-                </div>
-                {% endif %}
-            </div>
-            <div class="card-body">
-                <div>
-                    {{ list.introduce|linebreaksbr }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <br><br>
-    {% endif %}
-    {% if list.circles_name == 'IMAGINE' %}
-    <div class="row justify-content-center">
-        <div class="card" style="width: 1100px;">
-            <div class="card-header circlesTitle">
-                <strong style="font-size: 18px;">{{ list.circles_name }}</strong>
-                {% if request.user.level == '0' or request.user.level == '1' %}
-                <div style="float: right;">
-                    <a class="aboutEditBtn" href="{% url 'about:circles_update' list.id %}">* 편집하기</a>
-                </div>
-                {% endif %}
-            </div>
-            <div class="card-body">
-                <div>
-                    {{ list.introduce|linebreaksbr }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <br><br>
-    {% endif %}
-    {% if list.circles_name == 'P&N' %}
-    <div class="row justify-content-center">
-        <div class="card" style="width: 1100px;">
-            <div class="card-header circlesTitle">
-                <strong style="font-size: 18px;">{{ list.circles_name }}</strong>
-                {% if request.user.level == '0' or request.user.level == '1' %}
-                <div style="float: right;">
-                    <a class="aboutEditBtn" href="{% url 'about:circles_update' list.id %}">* 편집하기</a>
-                </div>
-                {% endif %}
-            </div>
-            <div class="card-body">
-                <div>
-                    {{ list.introduce|linebreaksbr }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <br><br>
-    {% endif %}
-    {% if list.circles_name == '메가브레인' %}
-    <div class="row justify-content-center">
-        <div class="card" style="width: 1100px;">
-            <div class="card-header circlesTitle">
-                <strong style="font-size: 18px;">{{ list.circles_name }}</strong>
-                {% if request.user.level == '0' or request.user.level == '1' %}
-                <div style="float: right;">
-                    <a class="aboutEditBtn" href="{% url 'about:circles_update' list.id %}">* 편집하기</a>
-                </div>
-                {% endif %}
-            </div>
-            <div class="card-body">
-                <div>
-                    {{ list.introduce|linebreaksbr }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <br><br>
-    {% endif %}
 {% endfor %}
 {% endblock %}

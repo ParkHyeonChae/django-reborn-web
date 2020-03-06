@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from users.decorators import login_message_required, admin_required
 from .models import Organization, Circles, Labs
-from .forms import OrganizationAddForm, CirclesEditForm
+from .forms import OrganizationAddForm, CirclesEditForm, LabsEditForm
 import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
@@ -99,3 +99,25 @@ def labs_view(request):
         'labs_list': labs_list,
     }
     return render(request, 'about/labs_list.html', context)
+
+
+# 연구실 소개 수정
+@login_message_required
+@admin_required
+def labs_update_view(request, pk):
+    labs = Labs.objects.get(id=pk)
+    if request.method == "POST":
+        form = LabsEditForm(request.POST, instance=labs)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "수정되었습니다.")
+        return redirect('/about/labs/')
+    else:
+        labs = Labs.objects.get(id=pk)
+        labs_name = labs.labs_name
+        form = LabsEditForm(instance=labs)
+        context = {
+            'form': form,
+            'labs_name': labs_name,
+        }   
+        return render(request, "about/labs_update.html", context)

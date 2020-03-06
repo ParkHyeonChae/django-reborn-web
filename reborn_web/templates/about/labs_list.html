@@ -1,7 +1,41 @@
 {% extends "users/main_base.html" %}
+{% load static %}
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/about/about.css' %}" type="text/css">
+{% endblock %}
 
 {% block contents %}
 <div class="container">
-
+    <div class="row mt-5">
+        <div class="col-10">
+            <h4 style="font-weight: bold;">컴퓨터공학부 연구실</h4>
+        </div>
+    </div>
 </div>
+<hr style="width:69rem;">
+<br>
+
+{% for list in labs_list %}
+    <div class="row justify-content-center">
+        <div class="card" style="width: 1100px;">
+            <div class="card-header circlesTitle">
+                <strong style="font-size: 18px;">{{ list.labs_name }}</strong>
+                {% if request.user.level == '0' or request.user.level == '1' %}
+                <div style="float: right;">
+                    <a class="aboutEditBtn" href="{% url 'about:labs_update' list.id %}">* 편집하기</a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <div>
+                    <div class="labLocation">
+                        <i class="fas fa-map-marker-alt"></i>&nbsp;{{ list.location }}
+                    </div>
+                    {{ list.introduce|linebreaksbr }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+{% endfor %}
 {% endblock %}

@@ -154,3 +154,12 @@
 .circlesIntroduce {
     min-height: 300px;
 }
+
+
+/* labs_list.html */
+.labLocation {
+    text-align: right;
+    margin-top: -15px;
+    margin-bottom: -10px;
+    color: gray;    
+}

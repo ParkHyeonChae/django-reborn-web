@@ -33,7 +33,7 @@ class Circles(models.Model):
 
 class Labs(models.Model):
     labs_name = models.CharField(max_length=8, verbose_name="연구실이름")
-    location = models.CharField(max_length=8, verbose_name='연구실위치')
+    location = models.CharField(max_length=16, verbose_name='연구실위치')
     introduce = models.TextField(verbose_name='연구실소개')
     registered_date = models.DateTimeField(auto_now_add=True, verbose_name='등록시간')
 
