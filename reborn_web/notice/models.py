@@ -2,13 +2,26 @@ import os
 from django.conf import settings
 from django.db import models
 
+# import hashlib
+
+# def get_image_path(instance, filename):
+#     base = 'image_file/'
+#     parts = os.path.splitext(filename)
+#     ctx = hashlib.sha256()
+#     return base + ctx.hexdigest() + parts[1]
+
+# def get_file_path(instance, filename):
+#     base = 'upload_file/'
+#     parts = os.path.splitext(filename)
+#     ctx = hashlib.sha256()
+#     return base + ctx.hexdigest() + parts[1]
 
 class Notice(models.Model):
     writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, verbose_name='작성자')
     title = models.CharField(max_length=128, verbose_name='제목')
     content = models.TextField(verbose_name='내용')
     hits = models.PositiveIntegerField(verbose_name='조회수', default=0)
-    files = models.FileField(upload_to='upload_file/%Y/%m/%d', null=True, blank=True, verbose_name='이미지')
+    files = models.FileField(upload_to='upload_file/%Y/%m/%d', null=True, blank=True, verbose_name='이미지파일')
     upload_files = models.FileField(upload_to='upload_file/%Y/%m/%d', null=True, blank=True, verbose_name='파일')
     registered_date = models.DateTimeField(auto_now_add=True, verbose_name='등록시간')
     top_fixed = models.BooleanField(verbose_name='상단고정', default=False)

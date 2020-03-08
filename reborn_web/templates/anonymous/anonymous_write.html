@@ -38,6 +38,13 @@
                     <div class="form-group">
                         <div class=" col-sm-12">  
                             {{ form.files }}
+                            {% if form.files.errors %}
+                            {% for error in form.files.errors %}
+                            <small id="help" class="form-text text-muted" style="color: red !important;">
+                                <i class="fas fa-exclamation-triangle"></i>&nbsp;{{ error }}
+                            </small>
+                            {% endfor %}
+                            {% endif %}
                             <small id="help" class="form-text text-muted" style="margin-bottom: -15px;">
                                 [이미지 업로드]&nbsp;&nbsp;<i class="fas fa-upload"></i>&nbsp;익명게시판에서는 10MB 이하의 사진만 첨부 가능합니다.
                             </small>
