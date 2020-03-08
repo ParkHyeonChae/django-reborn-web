@@ -15,6 +15,9 @@
     <div class="row mt-5">
         <div class="col-5" style="text-align: center;">
             <h4 style="font-weight: bold;">익명게시판</h4>
+            {% if q %}
+            <h5 style="color: gray; font-weight: 550; margin-left: 80px;"><i class="fas fa-search"></i>&nbsp;'{{ q }}' 검색 결과입니다.</h5>
+            {% endif %}
         </div>
     </div>
 
