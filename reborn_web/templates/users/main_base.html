@@ -84,13 +84,13 @@
                 <a href="{% url 'users:agreement' %}">회원가입</a>
                 {% endif %}
                 <br>
-                <ul class="list-unstyled components mb-5">
+                <ul class="list-unstyled components mb-5 allMenuComponents" id="allMenuHide">
                     <!-- <li class="active"> -->
                     <li>
                         <a href="{% url 'users:main' %}"><i class="fas fa-home" style="margin-left:1px;"></i>&nbsp;&nbsp;메인으로</a>
                     </li>
                     <li>
-                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle menu1"><i
                                 class="fas fa-user" style="margin:0 2.5px;"></i>&nbsp;&nbsp;마이페이지</a>
                         <ul class="collapse list-unstyled" id="homeSubmenu">
                             <li>
@@ -108,7 +108,7 @@
                         <a href="#">About</a>
                     </li> -->
                     <li>
-                        <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                        <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle menu2"><i
                                 class="fas fa-pen" style="margin-right:4px;"></i>&nbsp;&nbsp;커뮤니티</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu1">
                             <li>
@@ -126,7 +126,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                        <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle menu3"><i
                                 class="fas fa-graduation-cap"></i>&nbsp;&nbsp;학사정보</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu2">
                             <li>
@@ -141,7 +141,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                        <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle menu4"><i
                                 class="fas fa-users"></i>&nbsp;&nbsp;학생활동</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu3">
                             <li>
@@ -162,7 +162,7 @@
 
                 <!--사이드바 FOOTER-->
                 <div class="footer" style="position: fixed; bottom: 0; margin-left:-7px;">
-                    <p>
+                    <p class="copyrightFooter">
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         Copyright &copy;<script>
                             document.write(new Date().getFullYear());
