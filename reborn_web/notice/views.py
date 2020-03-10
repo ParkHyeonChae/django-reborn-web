@@ -131,6 +131,14 @@ def notice_write_view(request):
         if form.is_valid():
             notice = form.save(commit = False)
             notice.writer = user_id
+            
+            #test
+            if request.FILES:
+                notice.filename = request.FILES['upload_files'].name
+                # extension = notice.filename.split(".")[1].lower()
+                # notice.extension = '.' + extension
+            #
+
             notice.save()
             return redirect('notice:notice_list')
     else:
@@ -147,14 +155,30 @@ def notice_edit_view(request, pk):
         if(notice.writer == request.user or request.user.level == '0'):
             form = NoticeWriteForm(request.POST, request.FILES, instance=notice)
             if form.is_valid():
-                form.save()
+                # test-------------------------------#
+                notice = form.save(commit = False)
+                if request.FILES:
+                    notice.filename = request.FILES['upload_files'].name
+                notice.save()
+                #------------------------------------#
+                # form.save()
                 messages.success(request, "수정되었습니다.")
                 return redirect('/notice/'+str(pk))
     else:
         notice = Notice.objects.get(id=pk)
         if notice.writer == request.user or request.user.level == '0':
             form = NoticeWriteForm(instance=notice)
-            return render(request, "notice/notice_write.html", {'form': form, 'edit': '수정하기'})
+            # test---------------------------------------------------------#
+            context = {
+                'form': form,
+                'edit': '수정하기',
+            }
+            if notice.filename and notice.upload_files:
+                context['filename'] = notice.filename
+                context['file_url'] = notice.upload_files.url
+            #--------------------------------------------------------------#
+            # return render(request, "notice/notice_write.html", {'form': form, 'edit': '수정하기'})
+            return render(request, "notice/notice_write.html", context)
         else:
             messages.error(request, "본인 게시글이 아닙니다.")
             return redirect('/notice/'+str(pk))
@@ -174,6 +198,20 @@ def notice_delete_view(request, pk):
 
 
 # 공지사항 게시글 첨부파일 다운로드 한글명 인코딩
+# @login_message_required
+# def notice_download_view(request, pk):
+#     notice = get_object_or_404(Notice, pk=pk)
+#     url = notice.upload_files.url[1:]
+#     file_url = urllib.parse.unquote(url)
+    
+#     if os.path.exists(file_url):
+#         with open(file_url, 'rb') as fh:
+#             quote_file_url = urllib.parse.quote(file_url.encode('utf-8'))
+#             response = HttpResponse(fh.read(), content_type=mimetypes.guess_type(file_url)[0])
+#             response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url[29:]
+#             return response
+#         raise Http404
+
 @login_message_required
 def notice_download_view(request, pk):
     notice = get_object_or_404(Notice, pk=pk)
@@ -182,8 +220,8 @@ def notice_download_view(request, pk):
     
     if os.path.exists(file_url):
         with open(file_url, 'rb') as fh:
-            quote_file_url = urllib.parse.quote(file_url.encode('utf-8'))
+            quote_file_url = urllib.parse.quote(notice.filename.encode('utf-8'))
             response = HttpResponse(fh.read(), content_type=mimetypes.guess_type(file_url)[0])
-            response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url[29:]
+            response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url
             return response
         raise Http404

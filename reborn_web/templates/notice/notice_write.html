@@ -78,6 +78,11 @@
                 <div class="form-group">
                     <div class="col-sm-12">
                         {{ form.upload_files }}
+                        <script>
+                            console.log('test');
+                            console.log(`{{form.upload_files}}`);
+                            console.log(`{{form.upload_files}}`);
+                        </script>
                         <small id="help" class="form-text text-muted" style="margin-bottom: -15px;">
                             &nbsp;&nbsp;[파일 업로드]&nbsp;&nbsp;<i class="fas fa-upload"></i>&nbsp;10MB 이하의 파일만 첨부 가능합니다. 여러 파일은 압축해서 업로드해주세요.
                         </small>
@@ -122,4 +127,20 @@
     //     }
     // });
 </script>
+
+{% if filename %}
+<script type = "text/javascript">
+    $('[href="{{ file_url }}"]').html("{{ filename }}");
+    $('#upload_files-clear_id').css({opacity:'100', position:'relative', 'pointer-events':'auto'})
+
+    $('#id_upload_files').click( function() {
+        $(".col-sm-12").contents().get(0).nodeValue = '[첨부파일 변경 시 기존 파일은 삭제됩니다.]'
+        $('#upload_files-clear_id').attr("checked", false)
+        $('#upload_files-clear_id').prev().hide()
+        $('#upload_files-clear_id').next().hide()
+        $('#upload_files-clear_id').hide()
+    });
+</script>
+{% endif %}
+
 {% endblock %}

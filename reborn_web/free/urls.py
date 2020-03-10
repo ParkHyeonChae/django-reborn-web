@@ -2,8 +2,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from . import views
+from django.contrib import messages
+from django.shortcuts import redirect
+
 
 app_name = 'free'
+
+def protected_file(request, path, document_root=None):
+    messages.error(request, "접근 불가")
+    return redirect('/')
 
 urlpatterns = [
     path('', views.AllListView.as_view(), name='all_list'),
@@ -21,4 +28,4 @@ urlpatterns = [
     path('<int:pk>/comment/delete/', views.comment_delete_view, name='comment_delete'),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, protected_file, document_root=settings.MEDIA_ROOT)

@@ -2,8 +2,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from . import views
+from django.contrib import messages
+from django.shortcuts import redirect
+from users.decorators import login_message_required
+from django.views.static import serve
 
 app_name = 'anonymous'
+
+@login_message_required
+def protected_file(request, path, document_root=None):
+    return serve(request, path, document_root)
 
 urlpatterns = [
     path('', views.AnonymousListView.as_view(), name='anonymous_list'),
@@ -20,4 +28,4 @@ urlpatterns = [
     path('like/', views.post_like_view, name='post_like'),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, protected_file, document_root=settings.MEDIA_ROOT)
