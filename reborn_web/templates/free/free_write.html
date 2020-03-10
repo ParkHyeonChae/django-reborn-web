@@ -76,6 +76,7 @@
                 {% else %}
                 <button type="submit" id="write" class="btn btn-sm">작성하기</button>
                 {% endif %}
+                <input type="checkbox" id="fileChangeCheck" name="fileChange" style="display: none;">
             </div>
         </form>
     </div>
@@ -93,4 +94,37 @@
         $("submit").submit();
     });
 </script>
+
+{% if filename %}
+<script type = "text/javascript">
+    $('[href="{{ file_url }}"]').html("{{ filename }}");
+    $('#upload_files-clear_id').css({opacity:'100', position:'relative', 'pointer-events':'auto'})
+
+    $("#id_upload_files").change(function() {
+        if ($('#id_upload_files').get(0).files.length == 1) {
+            $(".col-sm-12").contents().get(0).nodeValue = '[첨부파일 변경 시 기존 파일은 삭제됩니다.]'
+            $('#upload_files-clear_id').attr("checked", false)
+            $('#upload_files-clear_id').prev().hide()
+            $('#upload_files-clear_id').next().hide()
+            $('#upload_files-clear_id').hide()
+        }
+    });
+
+    $('#upload_files-clear_id').on('click', function(){
+        if($(this).prop('checked')){
+            $('#id_upload_files').hide()
+            document.getElementById('id_upload_files').previousSibling.nodeValue = '[업로드 된 첨부파일을 삭제합니다.]'
+        } else{
+            $('#id_upload_files').show()
+            document.getElementById('id_upload_files').previousSibling.nodeValue = '변경: '
+        }
+    });
+
+    $('#write').click( function() {
+        if($('#id_upload_files').get(0).files.length == 1){
+            $('#fileChangeCheck').attr("checked",true)
+        }
+    });
+</script>
+{% endif %}
 {% endblock %}

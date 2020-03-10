@@ -224,6 +224,8 @@ def free_write_view(request):
         if form.is_valid():
             free = form.save(commit = False)
             free.writer = user_id
+            if request.FILES:
+                free.filename = request.FILES['upload_files'].name
             free.save()
             return redirect('free:all_list')
     else:
@@ -236,16 +238,36 @@ def free_edit_view(request, pk):
     free = Free.objects.get(id=pk)
     if request.method == "POST":
         if(free.writer == request.user or request.user.level == '0'):
+
+            file_change_check = request.POST.get('fileChange', False)
+            file_check = request.POST.get('upload_files-clear', False)
+            
+            if file_check or file_change_check:
+                os.remove(os.path.join(settings.MEDIA_ROOT, free.upload_files.path))
+
             form = FreeWriteForm(request.POST, request.FILES, instance=free)
             if form.is_valid():
-                form.save()
+                free = form.save(commit = False)
+
+                if request.FILES:
+                    free.filename = request.FILES['upload_files'].name
+                    
+                free.save()
                 messages.success(request, "수정되었습니다.")
                 return redirect('/free/'+str(pk))
     else:
         free = Free.objects.get(id=pk)
         if free.writer == request.user or request.user.level == '0':
             form = FreeWriteForm(instance=free)
-            return render(request, "free/free_write.html", {'form': form, 'edit': '수정하기'})
+            context = {
+                'form': form,
+                'edit': '수정하기',
+            }
+            if free.filename and free.upload_files:
+                context['filename'] = free.filename
+                context['file_url'] = free.upload_files.url
+            return render(request, "free/free_write.html", context)
+            # return render(request, "free/free_write.html", {'form': form, 'edit': '수정하기'})
         else:
             messages.error(request, "본인 게시글이 아닙니다.")
             return redirect('/free/'+str(pk))
@@ -271,9 +293,9 @@ def free_download_view(request, pk):
     
     if os.path.exists(file_url):
         with open(file_url, 'rb') as fh:
-            quote_file_url = urllib.parse.quote(file_url.encode('utf-8'))
+            quote_file_url = urllib.parse.quote(free.filename.encode('utf-8'))
             response = HttpResponse(fh.read(), content_type=mimetypes.guess_type(file_url)[0])
-            response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url[29:]
+            response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url
             return response
         raise Http404
 

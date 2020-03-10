@@ -131,14 +131,11 @@ def notice_write_view(request):
         if form.is_valid():
             notice = form.save(commit = False)
             notice.writer = user_id
-            
-            #test
+            # 첨부파일명 save
             if request.FILES:
                 notice.filename = request.FILES['upload_files'].name
                 # extension = notice.filename.split(".")[1].lower()
                 # notice.extension = '.' + extension
-            #
-
             notice.save()
             return redirect('notice:notice_list')
     else:
@@ -153,6 +150,13 @@ def notice_edit_view(request, pk):
 
     if request.method == "POST":
         if(notice.writer == request.user or request.user.level == '0'):
+
+            file_change_check = request.POST.get('fileChange', False)
+            file_check = request.POST.get('upload_files-clear', False)
+            
+            if file_check or file_change_check:
+                os.remove(os.path.join(settings.MEDIA_ROOT, notice.upload_files.path))
+
             form = NoticeWriteForm(request.POST, request.FILES, instance=notice)
             if form.is_valid():
                 # test-------------------------------#
@@ -198,20 +202,6 @@ def notice_delete_view(request, pk):
 
 
 # 공지사항 게시글 첨부파일 다운로드 한글명 인코딩
-# @login_message_required
-# def notice_download_view(request, pk):
-#     notice = get_object_or_404(Notice, pk=pk)
-#     url = notice.upload_files.url[1:]
-#     file_url = urllib.parse.unquote(url)
-    
-#     if os.path.exists(file_url):
-#         with open(file_url, 'rb') as fh:
-#             quote_file_url = urllib.parse.quote(file_url.encode('utf-8'))
-#             response = HttpResponse(fh.read(), content_type=mimetypes.guess_type(file_url)[0])
-#             response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url[29:]
-#             return response
-#         raise Http404
-
 @login_message_required
 def notice_download_view(request, pk):
     notice = get_object_or_404(Notice, pk=pk)
@@ -220,8 +210,10 @@ def notice_download_view(request, pk):
     
     if os.path.exists(file_url):
         with open(file_url, 'rb') as fh:
+            # quote_file_url = urllib.parse.quote(file_url.encode('utf-8'))
             quote_file_url = urllib.parse.quote(notice.filename.encode('utf-8'))
             response = HttpResponse(fh.read(), content_type=mimetypes.guess_type(file_url)[0])
+            # response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url[29:]
             response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url
             return response
         raise Http404

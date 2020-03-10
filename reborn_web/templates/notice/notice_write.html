@@ -94,6 +94,7 @@
                 {% else %}
                 <button type="submit" id="write" class="btn btn-sm">작성하기</button>
                 {% endif %}
+                <input type="checkbox" id="fileChangeCheck" name="fileChange" style="display: none;">
             </div>
         </form>
     </div>
@@ -159,6 +160,12 @@
         } else{
             $('#id_upload_files').show()
             document.getElementById('id_upload_files').previousSibling.nodeValue = '변경: '
+        }
+    });
+
+    $('#write').click( function() {
+        if($('#id_upload_files').get(0).files.length == 1){
+            $('#fileChangeCheck').attr("checked",true)
         }
     });
 </script>

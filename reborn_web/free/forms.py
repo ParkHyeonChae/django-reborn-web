@@ -18,7 +18,6 @@ class FreeWriteForm(forms.ModelForm):
             'class': 'custom-select custom-select-md',
             'style': "width: 8%; float:left; margin-right:1%"
         })
-    
 
     class Meta:
         model = Free

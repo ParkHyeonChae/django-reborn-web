@@ -4,6 +4,8 @@ from django.db import models
 from django.utils import timezone
 from datetime import datetime, timedelta
 from users.choice import CATEGORY_CHOICES
+from uuid import uuid4
+from notice.models import get_file_path
 
 
 class Free(models.Model):
@@ -13,15 +15,16 @@ class Free(models.Model):
     content = models.TextField(verbose_name='내용')
     hits = models.PositiveIntegerField(verbose_name='조회수', default=0)
     comments = models.PositiveIntegerField(verbose_name='댓글수', null=True)
-    files = models.FileField(upload_to='upload_file/%Y/%m/%d', null=True, blank=True, verbose_name='이미지')
-    upload_files = models.FileField(upload_to='upload_file/%Y/%m/%d', null=True, blank=True, verbose_name='파일')
+    upload_images = models.FileField(upload_to=get_file_path, null=True, blank=True, verbose_name='이미지파일')
+    upload_files = models.FileField(upload_to=get_file_path, null=True, blank=True, verbose_name='파일')
     registered_date = models.DateTimeField(auto_now_add=True, verbose_name='등록시간')
+    filename = models.CharField(max_length=64, null=True, verbose_name='첨부파일명')
 
     def __str__(self):
         return self.title
 
-    def filename(self):
-        return os.path.basename(self.upload_files.name)
+    # def filename(self):
+    #     return os.path.basename(self.upload_files.name)
 
     def delete(self, *args, **kargs):
         if self.upload_files:
