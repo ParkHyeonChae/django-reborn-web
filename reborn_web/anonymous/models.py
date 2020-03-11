@@ -3,6 +3,13 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from datetime import datetime, timedelta
+from uuid import uuid4
+
+
+def get_image_path(instance, filename):
+    ymd_path = datetime.now().strftime('%Y/%m/%d')
+    uuid_name = uuid4().hex
+    return '/'.join(['image_file/', ymd_path, uuid_name])
 
 
 class Anonymous(models.Model):
@@ -11,7 +18,8 @@ class Anonymous(models.Model):
     content = models.TextField(verbose_name='내용')
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likes', verbose_name='추천수', blank=True)
     comments = models.PositiveIntegerField(verbose_name='댓글수', default='0')
-    files = models.ImageField(upload_to='image_file/%Y/%m/%d', null=True, blank=True, verbose_name='이미지')
+    image_files = models.ImageField(upload_to=get_image_path, null=True, blank=True, verbose_name='이미지파일')
+    filename = models.CharField(max_length=64, null=True, verbose_name='이미지첨부파일명')
     registered_date = models.DateTimeField(auto_now_add=True, verbose_name='등록시간')
 
     def __str__(self):

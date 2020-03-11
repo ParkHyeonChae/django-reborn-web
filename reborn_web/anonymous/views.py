@@ -14,6 +14,7 @@ from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from .forms import AnonymousWriteForm
 from django.views.decorators.http import require_GET, require_POST
+import os
 
 
 class AnonymousListView(ListView):
@@ -87,6 +88,8 @@ def anonymous_write_view(request):
         if form.is_valid():
             anonymous = form.save(commit = False)
             anonymous.writer = user_id
+            if request.FILES:
+                anonymous.filename = request.FILES['image_files'].name
             anonymous.save()
             return redirect('anonymous:anonymous_list')
     else:
@@ -99,16 +102,33 @@ def anonymous_edit_view(request, pk):
     anonymous = Anonymous.objects.get(id=pk)
     if request.method == "POST":
         if(anonymous.writer == request.user or request.user.level == '0'):
+
+            file_change_check = request.POST.get('fileChange', False)
+            file_check = request.POST.get('image_files-clear', False)
+
+            if file_check or file_change_check:
+                os.remove(os.path.join(settings.MEDIA_ROOT, anonymous.image_files.path))
+
             form = AnonymousWriteForm(request.POST, request.FILES, instance=anonymous)
             if form.is_valid():
-                form.save()
+                anonymous = form.save(commit = False)
+                if request.FILES:
+                    anonymous.filename = request.FILES['image_files'].name
+                anonymous.save()
                 messages.success(request, "수정되었습니다.")
                 return redirect('/anonymous/'+str(pk))
     else:
         anonymous = Anonymous.objects.get(id=pk)
         if anonymous.writer == request.user or request.user.level == '0':
             form = AnonymousWriteForm(instance=anonymous)
-            return render(request, "anonymous/anonymous_write.html", {'form': form, 'edit': '수정하기'})
+            context = {
+                'form': form,
+                'edit': '수정하기',
+            }
+            if anonymous.filename and anonymous.image_files:
+                context['filename'] = anonymous.filename
+                context['file_url'] = anonymous.image_files.url
+            return render(request, "anonymous/anonymous_write.html", context)
         else:
             messages.error(request, "본인 게시글이 아닙니다.")
             return redirect('/anonymous/'+str(pk))

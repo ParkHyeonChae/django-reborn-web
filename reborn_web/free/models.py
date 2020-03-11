@@ -15,7 +15,7 @@ class Free(models.Model):
     content = models.TextField(verbose_name='내용')
     hits = models.PositiveIntegerField(verbose_name='조회수', default=0)
     comments = models.PositiveIntegerField(verbose_name='댓글수', null=True)
-    upload_images = models.FileField(upload_to=get_file_path, null=True, blank=True, verbose_name='이미지파일')
+    files = models.FileField(upload_to=get_file_path, null=True, blank=True, verbose_name='이미지파일') # summernote MultiValueDict : files
     upload_files = models.FileField(upload_to=get_file_path, null=True, blank=True, verbose_name='파일')
     registered_date = models.DateTimeField(auto_now_add=True, verbose_name='등록시간')
     filename = models.CharField(max_length=64, null=True, verbose_name='첨부파일명')

@@ -19,13 +19,13 @@ class AnonymousWriteForm(forms.ModelForm):
             'id': 'form_content',
             'style': 'padding:0',
         })
-        self.fields['files'].label = '사진 첨부'
-        self.fields['files'].widget.attrs.update({
-            'id': 'id_files',
+        self.fields['image_files'].label = '사진 첨부'
+        self.fields['image_files'].widget.attrs.update({
+            'id': 'id_image_files',
             # 'style': 'display:none;'
             'aria-describedby':'help'
         })
 
     class Meta:
         model = Anonymous
-        fields = ['title', 'content', 'files']
+        fields = ['title', 'content', 'image_files']

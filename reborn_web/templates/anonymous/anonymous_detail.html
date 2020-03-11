@@ -21,8 +21,8 @@
                         <span style="float:right;">{{ anonymous.registered_date|date:'Y.m.d. H:i' }}</span>
                     </div>
                     <div class="card-body">
-                        {% if anonymous.files %}
-                        <img style="max-width: 728px;" src="/anonymous{{ anonymous.files.url }}" alt="">
+                        {% if anonymous.image_files %}
+                        <img style="max-width: 728px;" src="/anonymous{{ anonymous.image_files.url }}" alt="">
                         {% endif %}
                         <!--내용-->
                         <div style="min-height: 70px;">

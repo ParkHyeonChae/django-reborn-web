@@ -128,12 +128,14 @@ def notice_write_view(request):
         user = request.session['user_id']
         user_id = User.objects.get(user_id = user)
         # upload_files = request.FILES.getlist('files')
+
         if form.is_valid():
             notice = form.save(commit = False)
             notice.writer = user_id
             # 첨부파일명 save
             if request.FILES:
-                notice.filename = request.FILES['upload_files'].name
+                if 'upload_files' in request.FILES.keys():
+                    notice.filename = request.FILES['upload_files'].name
                 # extension = notice.filename.split(".")[1].lower()
                 # notice.extension = '.' + extension
             notice.save()
@@ -162,7 +164,8 @@ def notice_edit_view(request, pk):
                 # test-------------------------------#
                 notice = form.save(commit = False)
                 if request.FILES:
-                    notice.filename = request.FILES['upload_files'].name
+                    if 'upload_files' in request.FILES.keys():
+                        notice.filename = request.FILES['upload_files'].name
                 notice.save()
                 #------------------------------------#
                 # form.save()

@@ -220,12 +220,15 @@ def free_write_view(request):
         form = FreeWriteForm(request.POST, request.FILES)
         user = request.session['user_id']
         user_id = User.objects.get(user_id = user)
-
+        
         if form.is_valid():
             free = form.save(commit = False)
             free.writer = user_id
+
             if request.FILES:
-                free.filename = request.FILES['upload_files'].name
+                if 'upload_files' in request.FILES.keys():
+                    free.filename = request.FILES['upload_files'].name
+                    
             free.save()
             return redirect('free:all_list')
     else:
@@ -241,7 +244,7 @@ def free_edit_view(request, pk):
 
             file_change_check = request.POST.get('fileChange', False)
             file_check = request.POST.get('upload_files-clear', False)
-            
+
             if file_check or file_change_check:
                 os.remove(os.path.join(settings.MEDIA_ROOT, free.upload_files.path))
 
@@ -250,8 +253,9 @@ def free_edit_view(request, pk):
                 free = form.save(commit = False)
 
                 if request.FILES:
-                    free.filename = request.FILES['upload_files'].name
-                    
+                    if 'upload_files' in request.FILES.keys():
+                        free.filename = request.FILES['upload_files'].name
+
                 free.save()
                 messages.success(request, "수정되었습니다.")
                 return redirect('/free/'+str(pk))
