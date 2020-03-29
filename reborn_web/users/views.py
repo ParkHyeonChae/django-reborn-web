@@ -107,7 +107,7 @@ class AgreementView(View):
             return render(request, 'users/agreement.html')   
 
 
-# 회원가입 성공 안내 창
+# 회원가입 인증메일 발송 안내 창
 def register_success(request):
     if not request.session.get('register_auth', False):
         raise PermissionDenied
