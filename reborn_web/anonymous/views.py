@@ -33,24 +33,28 @@ def anonymous_search_view(request):
     search_keyword = request.GET.get('q', '')
     search_type = request.GET.get('type', '')
 
-    if search_type == 'all':
-        anonymous_list = Anonymous.objects.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword)).order_by('-id') 
-    elif search_type == 'title_content':
-        anonymous_list = Anonymous.objects.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword)).order_by('-id') 
-    elif search_type == 'title':
-        anonymous_list = Anonymous.objects.filter(title__icontains=search_keyword).order_by('-id')  
-    elif search_type == 'content':
-        anonymous_list = Anonymous.objects.filter(content__icontains=search_keyword).order_by('-id')
+    if len(search_keyword) > 1 :
+        if search_type == 'all':
+            anonymous_list = Anonymous.objects.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword)).order_by('-id') 
+        elif search_type == 'title_content':
+            anonymous_list = Anonymous.objects.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword)).order_by('-id') 
+        elif search_type == 'title':
+            anonymous_list = Anonymous.objects.filter(title__icontains=search_keyword).order_by('-id')  
+        elif search_type == 'content':
+            anonymous_list = Anonymous.objects.filter(content__icontains=search_keyword).order_by('-id')
 
-    if anonymous_list.count() == 0:
-        messages.error(request, '일치하는 검색 결과가 없습니다.')
-        return redirect('/anonymous/')
+        if anonymous_list.count() == 0:
+            messages.error(request, '일치하는 검색 결과가 없습니다.')
+            return redirect('/anonymous/')
+        else:
+            context = {
+                'anonymous_list': anonymous_list,
+                'q': search_keyword,
+            }
+            return render(request, 'anonymous/anonymous_list.html', context)
     else:
-        context = {
-            'anonymous_list': anonymous_list,
-            'q': search_keyword,
-        }
-        return render(request, 'anonymous/anonymous_list.html', context)
+        messages.error(request, '검색어는 2글자 이상 입력해주세요.')
+        return redirect('/anonymous/')
 
 
 @login_message_required

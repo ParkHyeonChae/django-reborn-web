@@ -34,24 +34,26 @@ class NoticeListView(ListView):
         search_keyword = self.request.GET.get('q', '')
         search_type = self.request.GET.get('type', '')
         notice_list = Notice.objects.order_by('-id') 
-
+        
         if search_keyword :
-            if search_type == 'all':
-                notice_list = notice_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
-            elif search_type == 'title_content':
-                notice_list = notice_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
-            elif search_type == 'title':
-                notice_list = notice_list.filter(title__icontains=search_keyword)    
-            elif search_type == 'content':
-                notice_list = notice_list.filter(content__icontains=search_keyword)    
-            elif search_type == 'writer':
-                notice_list = notice_list.filter(writer__user_id__icontains=search_keyword)
-        if notice_list :
-            return notice_list
-        else:
-            messages.error(self.request, '일치하는 검색 결과가 없습니다.')
-            notice_list = Notice.objects.order_by('-id')
-            return notice_list
+            if len(search_keyword) > 1 :
+                if search_type == 'all':
+                    search_notice_list = notice_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
+                elif search_type == 'title_content':
+                    search_notice_list = notice_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
+                elif search_type == 'title':
+                    search_notice_list = notice_list.filter(title__icontains=search_keyword)    
+                elif search_type == 'content':
+                    search_notice_list = notice_list.filter(content__icontains=search_keyword)    
+                elif search_type == 'writer':
+                    search_notice_list = notice_list.filter(writer__user_id__icontains=search_keyword)
+
+                # if not search_notice_list :
+                #     messages.error(self.request, '일치하는 검색 결과가 없습니다.')
+                return search_notice_list
+            else:
+                messages.error(self.request, '검색어는 2글자 이상 입력해주세요.')
+        return notice_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -74,7 +76,8 @@ class NoticeListView(ListView):
         search_type = self.request.GET.get('type', '')
         notice_fixed = Notice.objects.filter(top_fixed=True).order_by('-registered_date')
 
-        context['q'] = search_keyword
+        if len(search_keyword) > 1 :
+            context['q'] = search_keyword
         context['type'] = search_type
         context['notice_fixed'] = notice_fixed
 

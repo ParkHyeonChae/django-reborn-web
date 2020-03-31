@@ -36,6 +36,7 @@
                 </tr>
             </thead>
             <tbody>
+                {% if free_list %}
                 {% for free in free_list %}
                 <tr class="text-center" style="cursor:pointer;" onclick="location.href='/free/{{ free.id }}/'">
                     <td style="font-weight: 500;">{{ free.id }}</td>
@@ -62,6 +63,21 @@
                     <td style="font-weight: 500;">{{ free.hits }}</td>
                 </tr>
                 {% endfor %}
+                {% else %}
+                    {% if q %}
+                    <tr class="text-center">
+                        <td style="font-weight: bold; color:gray;" colspan="5">
+                            <i class="fas fa-info-circle"></i>&nbsp;일치하는 검색 결과가 없습니다.
+                        </td>
+                    </tr>
+                    {% else %}
+                        <tr class="text-center">
+                            <td style="font-weight: bold; color:gray;" colspan="5">
+                                <i class="fas fa-info-circle"></i>&nbsp;작성된 게시글이 없습니다.
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endif %}
             </tbody>
         </table>
     </div>

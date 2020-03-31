@@ -298,7 +298,7 @@ def ajax_find_pw_view(request):
                 'auth_num': auth_num,
             }),
         )
-    print(auth_num)
+    # print(auth_num)
     return HttpResponse(json.dumps({"result": result_pw.user_id}, cls=DjangoJSONEncoder), content_type = "application/json")
 
 

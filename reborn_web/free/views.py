@@ -56,22 +56,22 @@ class AllListView(ListView):
         free_list = Free.objects.order_by('-id') 
 
         if search_keyword :
-            if search_type == 'all':
-                free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
-            elif search_type == 'title_content':
-                free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
-            elif search_type == 'title':
-                free_list = free_list.filter(title__icontains=search_keyword)    
-            elif search_type == 'content':
-                free_list = free_list.filter(content__icontains=search_keyword)    
-            elif search_type == 'writer':
-                free_list = free_list.filter(writer__user_id__icontains=search_keyword)
-        if free_list :
-            return free_list
-        else:
-            messages.error(self.request, '일치하는 검색 결과가 없습니다.')
-            # free_list = Free.objects.order_by('-id')
-            return free_list
+            if len(search_keyword) > 1 :
+                if search_type == 'all':
+                    search_free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
+                elif search_type == 'title_content':
+                    search_free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
+                elif search_type == 'title':
+                    search_free_list = free_list.filter(title__icontains=search_keyword)    
+                elif search_type == 'content':
+                    search_free_list = free_list.filter(content__icontains=search_keyword)    
+                elif search_type == 'writer':
+                    search_free_list = free_list.filter(writer__user_id__icontains=search_keyword)
+                
+                return search_free_list
+            else:
+                messages.error(self.request, '검색어는 2글자 이상 입력해주세요.')
+        return free_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -91,9 +91,10 @@ class AllListView(ListView):
         context['page_range'] = page_range
 
         search_keyword = self.request.GET.get('q', '')
-        search_type = self.request.GET.get('type', '') 
-
-        context['q'] = search_keyword
+        search_type = self.request.GET.get('type', '')
+         
+        if len(search_keyword) > 1 :
+            context['q'] = search_keyword
         context['type'] = search_type
 
         return context
@@ -106,22 +107,22 @@ class FreeListView(AllListView):
         free_list = Free.objects.filter(category='자유').order_by('-id')
         
         if search_keyword :
-            if search_type == 'all':
-                free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
-            elif search_type == 'title_content':
-                free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
-            elif search_type == 'title':
-                free_list = free_list.filter(title__icontains=search_keyword)    
-            elif search_type == 'content':
-                free_list = free_list.filter(content__icontains=search_keyword)    
-            elif search_type == 'writer':
-                free_list = free_list.filter(writer__user_id__icontains=search_keyword)
-        if free_list :
-            return free_list
-        else:
-            messages.error(self.request, '일치하는 검색 결과가 없습니다.')
-            # free_list = Free.objects.order_by('-id')
-            return free_list
+            if len(search_keyword) > 1 :
+                if search_type == 'all':
+                    search_free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
+                elif search_type == 'title_content':
+                    search_free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
+                elif search_type == 'title':
+                    search_free_list = free_list.filter(title__icontains=search_keyword)    
+                elif search_type == 'content':
+                    search_free_list = free_list.filter(content__icontains=search_keyword)    
+                elif search_type == 'writer':
+                    search_free_list = free_list.filter(writer__user_id__icontains=search_keyword)
+
+                return search_free_list
+            else:
+                messages.error(self.request, '검색어는 2글자 이상 입력해주세요.')
+        return free_list
 
 
 class QuestionListView(AllListView):
@@ -131,22 +132,22 @@ class QuestionListView(AllListView):
         free_list = Free.objects.filter(category='질문').order_by('-id')
 
         if search_keyword :
-            if search_type == 'all':
-                free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
-            elif search_type == 'title_content':
-                free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
-            elif search_type == 'title':
-                free_list = free_list.filter(title__icontains=search_keyword)    
-            elif search_type == 'content':
-                free_list = free_list.filter(content__icontains=search_keyword)    
-            elif search_type == 'writer':
-                free_list = free_list.filter(writer__user_id__icontains=search_keyword)
-        if free_list :
-            return free_list
-        else:
-            messages.error(self.request, '일치하는 검색 결과가 없습니다.')
-            # free_list = Free.objects.order_by('-id')
-            return free_list
+            if len(search_keyword) > 1 :
+                if search_type == 'all':
+                    search_free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
+                elif search_type == 'title_content':
+                    search_free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
+                elif search_type == 'title':
+                    search_free_list = free_list.filter(title__icontains=search_keyword)    
+                elif search_type == 'content':
+                    search_free_list = free_list.filter(content__icontains=search_keyword)    
+                elif search_type == 'writer':
+                    search_free_list = free_list.filter(writer__user_id__icontains=search_keyword)
+        
+                return search_free_list
+            else:
+                messages.error(self.request, '검색어는 2글자 이상 입력해주세요.')
+        return free_list
 
 
 class InformationListView(AllListView):
@@ -156,22 +157,22 @@ class InformationListView(AllListView):
         free_list = Free.objects.filter(category='정보').order_by('-id')
 
         if search_keyword :
-            if search_type == 'all':
-                free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
-            elif search_type == 'title_content':
-                free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
-            elif search_type == 'title':
-                free_list = free_list.filter(title__icontains=search_keyword)    
-            elif search_type == 'content':
-                free_list = free_list.filter(content__icontains=search_keyword)    
-            elif search_type == 'writer':
-                free_list = free_list.filter(writer__user_id__icontains=search_keyword)
-        if free_list :
-            return free_list
-        else:
-            messages.error(self.request, '일치하는 검색 결과가 없습니다.')
-            # free_list = Free.objects.order_by('-id')
-            return free_list
+            if len(search_keyword) > 1 :
+                if search_type == 'all':
+                    free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
+                elif search_type == 'title_content':
+                    free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
+                elif search_type == 'title':
+                    free_list = free_list.filter(title__icontains=search_keyword)    
+                elif search_type == 'content':
+                    free_list = free_list.filter(content__icontains=search_keyword)    
+                elif search_type == 'writer':
+                    free_list = free_list.filter(writer__user_id__icontains=search_keyword)
+                    
+                return search_free_list
+            else:
+                messages.error(self.request, '검색어는 2글자 이상 입력해주세요.')
+        return free_list
 
 
 @login_message_required
