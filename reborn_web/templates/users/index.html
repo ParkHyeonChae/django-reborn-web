@@ -23,6 +23,8 @@
     
 
     <link rel="stylesheet" href="{% static 'css/index/style.css' %}">
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
     
   </head>
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -154,62 +156,79 @@
       </div>
     </div>  
 
-    
+    <!--바로가기-->
     <section class="site-section" id="classes-section">
 
       <div class="clearfix mb-5 pb-5">
         <div class="container">
           <div class="row">
             <div class="col-md-7 text-left heading-wrap">
-              <h2 class="mt-0">Featured Classes</h2>
-              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+              <h2 class="mt-0">Shortcuts</h2>
+              <!-- <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p> -->
+              <p>인제대학교에서 제공하는 서비스를 사이트마다 어디에 있는지 찾아다닐 필요가 없습니다. 찾고 계신 서비스를 우측의 이전/다음 버튼을 통해 넘겨보며 원하시는 링크를 클릭하세요.</p>
             </div>
             <div class="col-md-5 align-self-center text-md-right">
-              <a href="#" class="btn btn-primary customPrevBtn">Previous</a>
-              <a href="#" class="btn btn-primary customNextBtn">Next</a>
+              <a href="#" class="btn btn-primary customPrevBtn">이전</a>
+              <a href="#" class="btn btn-primary customNextBtn">다음</a>
             </div>
           </div>
         </div>
       </div>
 
       <div class="owl-carousel centernonloop">
-        <a href="#" class="item-class">
+        <a href="https://www.inje.ac.kr/kor/covid19/main.asp?mnNum=1" target="_blank" class="item-class">
           <div class="text">
-            <p class="class-price">$29.99</p>
-            <h2 class="class-heading">Ashtanga Foundations</h2>
+            <!-- <p class="class-price">$29.99</p> -->
+            <h2 class="class-heading">코로나19 운영지침</h2>
           </div>
           <img src="{% static 'img/logo1.jpg' %}" alt="" class="img-fluid">
         </a>
-        <a href="#" class="item-class">
+        <a href="https://www.inje.ac.kr/kor/Template/Bsub_page.asp?Ltype=5&Ltype2=0&Ltype3=0&Tname=S_News&Ldir=board/S_News&Lpage=Tboard_L&div=6&d1n=5&d2n=1&d3n=2&d4n=0" target="_blank" class="item-class">
           <div class="text">
-            <p class="class-price">$32.99</p>
-            <h2 class="class-heading">Surya Vinyasa</h2>
+            <!-- <p class="class-price">$32.99</p> -->
+            <h2 class="class-heading">학사공지</h2>
           </div>
           <img src="{% static 'img/logo1.jpg' %}" alt="" class="img-fluid">
         </a>
-        <a href="#" class="item-class">
+        <a href="https://www.inje.ac.kr/kor/Template/Bsub_page.asp?Ltype=5&Ltype2=0&Ltype3=0&Tname=S_News&Ldir=board/S_News&Lpage=Tboard_L&div=10&d1n=5&d2n=1&d3n=6&d4n=0" target="_blank" class="item-class">
           <div class="text">
-            <p class="class-price">$22.99</p>
-            <h2 class="class-heading">Chandra Vinyasa</h2>
+            <!-- <p class="class-price">$22.99</p> -->
+            <h2 class="class-heading">장학공지</h2>
           </div>
           <img src="{% static 'img/logo1.jpg' %}" alt="" class="img-fluid">
         </a>
-        <a href="#" class="item-class">
+        <a href="https://www.inje.ac.kr/kor/Template/Bsub_page.asp?Ltype=5&Ltype2=0&Ltype3=0&Tname=S_News&Ldir=board/S_News&Lpage=Tboard_L&div=8&d1n=5&d2n=1&d3n=3&d4n=0" target="_blank" class="item-class">
           <div class="text">
-            <p class="class-price">$34.99</p>
-            <h2 class="class-heading">Yinyasa</h2>
+            <!-- <p class="class-price">$22.99</p> -->
+            <h2 class="class-heading">취업/모집</h2>
+          </div>
+          <img src="{% static 'img/logo1.jpg' %}" alt="" class="img-fluid">
+        </a>
+        <a href="https://www.inje.ac.kr/kor/Template/Bsub_page.asp?Ltype=5&Ltype2=3&Ltype3=3&Tname=S_Food&Ldir=board/S_Food&Lpage=s_food_view&d1n=5&d2n=4&d3n=4&d4n=0" target="_blank" class="item-class">
+          <div class="text">
+            <!-- <p class="class-price">$34.99</p> -->
+            <h2 class="class-heading">학식정보</h2>
+          </div>
+          <img src="{% static 'img/logo1.jpg' %}" alt="" class="img-fluid">
+        </a>
+        <a href="http://bus.inje.ac.kr/" target="_blank" class="item-class">
+          <div class="text">
+            <!-- <p class="class-price">$34.99</p> -->
+            <h2 class="class-heading">통학버스</h2>
           </div>
           <img src="{% static 'img/logo1.jpg' %}" alt="" class="img-fluid">
         </a>
       </div>
     </section> <!-- .section -->
 
+    <!--사이트 소개-->
     <section class="site-section" id="schedule-section">
         <div class="container">
           <div class="row mb-5">
             <div class="col-md-7 text-left heading-wrap mb-5">
-              <h2 class="mt-0">Schedule</h2>
-              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+              <h2 class="mt-0">Site introduction</h2>
+              <!-- <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p> -->
+              <p>RE:BORN은 '새롭게 다시 태어나다' 라는 뜻으로 인제대학교 컴퓨터공학부 36대 학생회의 이름입니다. 학생회 소속의 개발부에서 진행한 컴퓨터공학부와 인제대학우들을 위한 프로젝트로 컴퓨터공학부 학생들을 위한 서비스가 중심이지만, 아래와 같이 각 커뮤니티 게시판은 누구든지 사용하실 수 있습니다.</p>
             </div>
             
           </div>
@@ -220,30 +239,30 @@
           <div class="row no-gutters">
             <div class="col-md-6">
               <div class="sched d-block d-lg-flex">
-                <div class="bg-image order-2" style="background-image: url('{{ STATIC_URL }}img/logo1.jpg')"></div>
+                <div class="bg-image order-2" style="background-image: url('/static/img/index/anonymous.jpg')"></div>
                 <div class="text order-1">
-                  <h3>Yinyasa</h3>
-                  <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts...</p>
-                  <p class="sched-time">
+                  <h3>자유게시판</h3>
+                  <p>컴퓨터공학부의 자유게시판입니다. 여러가지 질문을 올릴 수 있는 질문카테고리, 세미나 또는 정보 공유가 가능한 정보카테고리로 나누어져 있습니다.</p>
+                  <!-- <p class="sched-time">
                     <span><span class="fa fa-clock-o"></span> 5:30 PM</span> <br>
                     <span><span class="fa fa-calendar"></span> April 22, 2019</span> <br>
-                  </p>
-                  <p><a href="#" class="btn btn-primary btn-sm">Join from $15</a></p>
+                  </p> -->
+                  <p><a href="/free/" class="btn btn-primary btn-sm">바로가기</a></p>
                   
                 </div>
                 
               </div>
 
               <div class="sched d-block d-lg-flex">
-                <div class="bg-image" style="background-image: url('{{ STATIC_URL }}img/logo1.jpg')"></div>
+                <div class="bg-image" style="background-image: url('/static/img/index/free.jpg')"></div>
                 <div class="text">
-                  <h3>Chandra Vinyasa</h3>
-                  <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts...</p>
-                  <p class="sched-time">
+                  <h3>익명게시판</h3>
+                  <p>대학생 커뮤니티인 에브리타임을 모티브로 한 타임라인형 익명게시판입니다. 작성자가 표시되지 않는 익명게시판이지만 매너는 지켜주세요.</p>
+                  <!-- <p class="sched-time">
                     <span><span class="fa fa-clock-o"></span> 5:30 PM</span> <br>
                     <span><span class="fa fa-calendar"></span> April 22, 2019</span> <br>
-                  </p>
-                  <p><a href="#" class="btn btn-primary btn-sm">Join from $15</a></p>
+                  </p> -->
+                  <p><a href="/anonymous/" class="btn btn-primary btn-sm">바로가기</a></p>
                   
                 </div>
                 
@@ -253,30 +272,30 @@
 
             <div class="col-md-6">
               <div class="sched d-block d-lg-flex">
-                <div class="bg-image order-2" style="background-image: url('{{ STATIC_URL }}img/logo1.jpg')"></div>
+                <div class="bg-image order-2" style="background-image: url('/static/img/index/timetable.jpg')"></div>
                 <div class="text order-1">
-                  <h3>Surya Vinyasa</h3>
-                  <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts...</p>
-                  <p class="sched-time">
+                  <h3>컴퓨터공학부 챗봇</h3>
+                  <p>컴퓨터공학부 신입생분들을 위한 카카오톡을 연동한 챗봇입니다. 궁금해하거나 질문이나 알고 싶은 내용 무엇이든 챗봇을 통해 물어보세요.</p>
+                  <!-- <p class="sched-time">
                     <span><span class="fa fa-clock-o"></span> 5:30 PM</span> <br>
                     <span><span class="fa fa-calendar"></span> April 22, 2019</span> <br>
-                  </p>
-                  <p><a href="#" class="btn btn-primary btn-sm">Join from $15</a></p>
+                  </p> -->
+                  <p><a href="https://pf.kakao.com/_xgJeuxb" target="_blank" class="btn btn-primary btn-sm">바로가기</a></p>
                   
                 </div>
                 
               </div>
 
               <div class="sched d-block d-lg-flex">
-                <div class="bg-image" style="background-image: url('{{ STATIC_URL }}img/logo1.jpg')"></div>
+                <div class="bg-image" style="background-image: url('/static/img/index/chatbot.jpg')"></div>
                 <div class="text">
-                  <h3>Ashtanga Foundations</h3>
-                  <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts...</p>
-                  <p class="sched-time">
+                  <h3>시험시간표</h3>
+                  <p>컴퓨터공학부의 시험시간표 서비스입니다. 시험기간이 되면 관리자가 업데이트를 하고, 컴퓨터공학부 학생들은 그저 수강하시는 과목만 체크하면 됩니다.</p>
+                  <!-- <p class="sched-time">
                     <span><span class="fa fa-clock-o"></span> 5:30 PM</span> <br>
                     <span><span class="fa fa-calendar"></span> April 22, 2019</span> <br>
-                  </p>
-                  <p><a href="#" class="btn btn-primary btn-sm">Join from $15</a></p>
+                  </p> -->
+                  <p><a href="/timetable/" class="btn btn-primary btn-sm">바로가기</a></p>
                   
                 </div>
                 
@@ -289,7 +308,7 @@
       </div>
     </section> <!-- .section -->
 
-    <section class="site-section" id="about-section">
+    <!-- <section class="site-section" id="about-section">
       <div class="container">
         <div class="row">
           <div class="col-md-5 mr-auto">
@@ -305,9 +324,9 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <section class="site-section" id="events-section">
+    <!-- <section class="site-section" id="events-section">
       <div class="container">
 
         <div class="row">
@@ -350,18 +369,19 @@
         
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <section class="site-section" id="gallery-section">
+    <!--사이트 정보-->
+    <!-- <section class="site-section" id="gallery-section">
       <div class="container">
 
         <div class="row">
           <div class="col-12 heading-wrap text-center mb-5">
-            <h2 class="mb-5">Yoga Gallery</h2>
+            <h2 class="mb-5">Site information</h2>
           </div>
-        </div>
+        </div> -->
 
-        <div class="row justify-content-center mb-5" data-aos="fade">
+        <!-- <div class="row justify-content-center mb-5" data-aos="fade">
           <div id="filters" class="filters text-center button-group col-md-7">
             <button class="btn btn-primary active" data-filter="*">All</button>
             <button class="btn btn-primary" data-filter=".web">Classes</button>
@@ -457,10 +477,10 @@
           </div>
 
         </div>
-      </div>
-    </section> 
+      </div> -->
+    <!-- </section>  -->
 
-    <section class="site-section element-animate" id="contact-section">
+    <!-- <section class="site-section element-animate" id="contact-section">
       <div class="mb-5">
         <div class="container-fluid">
           <div class="row">
@@ -533,24 +553,22 @@
         </div>
       </div>
 
-    </section>
+    </section> -->
 
 
     <footer class="site-footer">
       <div class="container">
-        <div class="row">
-          <div class="col-lg-4 mb-5 mb-lg-0">
+        <!-- <div class="row"> -->
+          <!-- <div class="col-lg-4 mb-5 mb-lg-0">
             <div class="row mb-5">
               <div class="col-12">
                 <h3 class="footer-heading mb-4">About Us</h3>
                 <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
               </div>
             </div>
-            
-
-            
-          </div>
-          <div class="col-lg-4">
+          </div> -->
+          
+          <!-- <div class="col-lg-4">
            
             <div class="row mb-5">
               <div class="col-md-12">
@@ -574,12 +592,12 @@
               </div>
             </div>
             
-          </div>
+          </div> -->
           
 
-          <div class="col-lg-4 mb-5 mb-lg-0">
+          <!-- <div class="col-lg-4 mb-5 mb-lg-0"> -->
 
-            <div class="mb-5">
+            <!-- <div class="mb-5">
               <h3 class="footer-heading mb-2">Subscribe Newsletter</h3>
               <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
 
@@ -592,9 +610,9 @@
                 </div>
               </form>
 
-            </div>
+            </div> -->
 
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-md-12">
                 <h3 class="footer-heading mb-4">Follow Us</h3>
 
@@ -605,17 +623,23 @@
                   <a href="#" class="pl-3 pr-3"><span class="icon-linkedin"></span></a>
                 </div>
               </div>
-            </div>
+            </div> -->
 
 
-          </div>
+          <!-- </div> -->
           
-        </div>
-        <div class="row pt-5 mt-5 text-center">
+        <!-- </div> -->
+        <!-- <div class="row pt-5 mt-5 text-center"> -->
+        <div class="row text-center">
           <div class="col-md-12">
+            <span>사이트의 소스코드와 개발기록은&nbsp;</span>
+            <a href="https://github.com/ParkHyeonChae/Re-Born-Web" target="_blank"><i class="fab fa-github"></i>&nbsp;Github</a>
+            <span>&nbsp;&</span>
+            <a href="https://parkhyeonchae.github.io/" target="_blank">&nbsp;<i class="fab fa-blogger"></i>&nbsp;HexoBlog</a>
+            <span>&nbsp;에서 확인하실 수 있습니다.</span>
             <p>
               <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
           </p>
           </div>

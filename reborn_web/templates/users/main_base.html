@@ -81,9 +81,10 @@
                 {% endif %}
                 {% else %}
                 <p>이 유저는 로그아웃 되어 있습니다..</p>
-                <br>
+                
                 <a href="{% url 'users:login' %}">로그인</a>&nbsp;&middot;
                 <a href="{% url 'users:agreement' %}">회원가입</a>
+                <br>
                 {% endif %}
                 <br>
                 <ul class="list-unstyled components mb-5 allMenuComponents" id="allMenuHide">
