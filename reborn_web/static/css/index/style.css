@@ -874,11 +874,17 @@ button {
 }
 
 button:hover {
-  background: #fff;
-  color:#d14040f2;
+  background: #a52020f2;
+  /* border: 1px solid #d14040f2; */
+  /* color:#d14040f2; */
 }
 
-button:before,
+button:focus {
+  outline : none;
+}
+
+
+/* button:before,
 button:after {
   content: '';
   position: absolute;
@@ -888,9 +894,9 @@ button:after {
   width: 0;
   background: #d14040f2;
   transition: 400ms ease all;
-}
+} */
 
-button:after {
+/* button:after {
   right: inherit;
   top: inherit;
   left: 0;
@@ -901,4 +907,4 @@ button:hover:before,
 button:hover:after {
   width: 100%;
   transition: 800ms ease all;
-}
+} */
