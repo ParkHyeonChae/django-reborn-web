@@ -68,7 +68,7 @@
         <div class="col-sm-6">
             <div class="shadow p-3 mb-5 bg-white rounded" style="height: 90%; width:98%;">
                 <span style="font-size: 20px; font-weight: bold; float:left;"><i
-                        class="fas fa-bullhorn"></i>&nbsp;&nbsp;최근 공지사항</span>
+                        class="fas fa-check"></i>&nbsp;&nbsp;최근 공지사항</span>
                 <div style="text-align: right; margin-bottom: 50px; padding-top: -5px;">
                     <a href="{% url 'notice:notice_list' %}" style="background-color: #d14040f2; color:white; font-size: 13px; margin-top: -5px; margin-right: -5px;" class="btn btn btn-sm">전체보기</a>
                 </div>
@@ -78,30 +78,39 @@
                 <div class="notice_box">
                     <div class="shadow-none mb-5 bg-light rounded" onclick="location.href='/notice/{{ notice.id }}'"
                         style="padding: 12px; margin-top: -36px; margin-bottom: -36px; cursor:pointer; height:52px;">
-                        <span style="color: gray; font-size:16px;">&nbsp;&nbsp;{{ notice.title|truncatechars:30 }}</span>
-                        <div style="float:right">
+                        <span style="color: gray; font-size:16px;"><i
+                            class="fas fa-bullhorn"></i>&nbsp;&nbsp;{{ notice.title|truncatechars:30 }}</span>
+                        <!-- <div style="float:right">
                             <span style="color: gray; font-size:16px">{{ notice.registered_date|date:'Y. m. d' }}</span>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 {% endfor %}
                 </div>
             </div>
         </div>
-        <!-- <div class="col-sm-6" style="height: 45vh;"> -->
+
+        <!-- <div class="col-sm-6">
+            <div class="shadow p-3 mb-5 bg-white rounded" style="height: 88.9%; width:98%">
+                <span style="font-size: 20px; font-weight: bold; float:left;"><i
+                        class="fas fa-calendar-check"></i>&nbsp;&nbsp;<span id="mainpageCalenderId">컴퓨터공학부 학사일정</span>
+                <div style="text-align: right; margin-bottom: 10px;">
+                    <a href="{% url 'calendar:calendar' %}" style="background-color: #d14040f2; color:white; font-size: 13px; margin-top: -5px; margin-right: -15px; margin-bottom:-25px;" class="btn btn btn-sm">전체보기</a>
+                </div> -->
+
         <div class="col-sm-6">
             <div class="shadow p-3 mb-5 bg-white rounded" style="height: 88.9%; width:98%">
                 <span style="font-size: 20px; font-weight: bold; float:left;"><i
-                        class="fas fa-calendar-check"></i>&nbsp;&nbsp;컴퓨터공학부 학사일정</span>
+                        class="fas fa-calendar-check"></i>&nbsp;&nbsp;<span id="mainpageCalenderId">컴퓨터공학부 학사일정</span></span>
                 <div style="text-align: right; margin-bottom: 10px;">
-                    <a href="{% url 'calendar:calendar' %}" style="background-color: #d14040f2; color:white; font-size: 13px; margin-top: -5px; margin-right: -5px; margin-bottom:-25px;" class="btn btn btn-sm">전체보기</a>
-                </div>
-                
+                    <a href="{% url 'calendar:calendar' %}" style="background-color: #d14040f2; color:white; font-size: 13px; margin-top: -5px; margin-right: -5px;" class="btn btn btn-sm">전체보기</a>
+                </div>     
+
                 <div style="margin-bottom: -47.56px">
                 {% for calendar in calendar_list %}
                 <div class="notice_box">
                     <div class="shadow-none mb-5 bg-light rounded" onclick="location.href='/calender/'"
-                        style="padding: 12px; margin-top: 47px; margin-bottom: -36px !important; cursor:pointer; height:52px;">
+                        style="padding: 12px; margin-top: 0px; margin-bottom: 12px !important; cursor:pointer; height:52px;">
                         {% if calendar.d_day == 'D-DAY' %}
                         <span style="font-weight: bold; color: #d14040f2">{{ calendar.d_day }}</span>
                         {% else %}
@@ -130,7 +139,19 @@
                     <a href="{% url 'free:information_list' %}" style="background-color: #d14040f2; color:white; font-size: 13px; margin-top: -5px; margin-right: -5px;" class="btn btn btn-sm">전체보기</a>
                 </div>
 
-                
+                <div style="margin-bottom: -13px;">
+                {% for free in free_list %}
+                <div class="notice_box">
+                    <div class="shadow-none mb-5 bg-light rounded" onclick="location.href='/free/{{ free.id }}/'"
+                        style="padding: 12px; margin-top: 0px; margin-bottom: 12px !important; cursor:pointer; height:52px;">
+                        <span style="color: gray; font-size:16px;"><i class="fas fa-splotch"></i>&nbsp;&nbsp;{{ free.title|truncatechars:30 }}</span>
+                        <!-- <div style="float:right">
+                            <span style="color: gray; font-size:16px">{{ free.registered_date|date:'Y. m. d' }}</span>
+                        </div> -->
+                    </div>
+                </div>
+                {% endfor %}
+                </div>
 
             </div>
         </div>
@@ -138,11 +159,25 @@
         <div class="col-sm-6">
             <div class="shadow p-3 mb-5 bg-white rounded" style="height: 90%; width:98%">
                 <span style="font-size: 20px; font-weight: bold; float:left;"><i
-                        class="fas fa-fire-alt"></i>&nbsp;&nbsp;익명게시판 HOT</span>
+                        class="fas fa-pepper-hot"></i>&nbsp;&nbsp;익명게시판 HOT</span>
                 <div style="text-align: right; margin-bottom: 10px;">
                     <a href="{% url 'anonymous:anonymous_list' %}" style="background-color: #d14040f2; color:white; font-size: 13px; margin-top: -5px; margin-right: -5px;" class="btn btn btn-sm">전체보기</a>
                 </div>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+                <div style="margin-bottom: -13px;">
+                {% for anonymous in anonymous_list %}
+                <div class="notice_box">
+                    <div class="shadow-none mb-5 bg-light rounded" onclick="location.href='/anonymous/{{ anonymous.id }}/'"
+                        style="padding: 12px; margin-top: 0px; margin-bottom: 12px !important; cursor:pointer; height:52px;">
+                        <span style="color: gray; font-size:16px;"><i class="fas fa-fire-alt"></i>&nbsp;&nbsp;{{ anonymous.title|truncatechars:30 }}</span>
+                        <div style="float:right">
+                            <span style="color: gray; font-size:16px"><i class="fas fa-thumbs-up" style="opacity: 80%;"></i>&nbsp;&nbsp;{{ anonymous.like_count }}&nbsp;&nbsp;<i class="fas fa-comments" style="opacity: 80%;"></i>&nbsp;&nbsp;{{ anonymous.comments }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                </div>
+
             </div>
         </div>
     </div>

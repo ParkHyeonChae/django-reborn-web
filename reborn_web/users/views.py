@@ -48,10 +48,13 @@ def main_view(request):
     notice_list = Notice.objects.order_by('-id')[:5]
     calendar_property = [x.event_id for x in Calender.objects.all() if x.d_day == False]
     calendar_list = Calender.objects.exclude(event_id__in=calendar_property).order_by('start_date')[:5]
-    
+    free_list = Free.objects.filter(category='정보').order_by('-id')[:5]
+    anonymous_list = sorted(Anonymous.objects.all(), key=lambda t: t.like_count, reverse=True)[:5]
     context = {
         'notice_list' : notice_list,
         'calendar_list' : calendar_list,
+        'free_list' : free_list,
+        'anonymous_list' : anonymous_list,
     }
     return render(request, 'users/main.html', context)
 

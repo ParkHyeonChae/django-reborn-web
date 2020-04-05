@@ -13,6 +13,7 @@ $(document).ready(function(){
         $('#carouselContainer').css({
             'margin-bottom': "15px",
         });
+        $('#mainpageCalenderId').text('컴공 학사일정')
     }
     else {
         if ($.cookie('sidebar_cookie') == 'true') {
