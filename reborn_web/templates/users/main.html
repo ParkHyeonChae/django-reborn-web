@@ -1,8 +1,69 @@
 {% extends "users/main_base.html" %}
 {% load static %}
 
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/index/owl.carousel.min.css' %}">
+
+{% endblock %}
+
 {% block contents %}
+
+
 <div style="margin: 55px -10px -40px 5px;">
+    <div class="container">
+        <div>
+            <a href="#" class="customPrevBtn carouselHover" style="float:left;"><i class="fas fa-chevron-circle-left fa-2x"></i></a>
+        </div>
+        <div class="container" style="width: 91%; float:left;">
+            <div class="owl-carousel centernonloop">
+                <a href="https://www.inje.ac.kr/kor/covid19/main.asp?mnNum=1" target="_blank" class="item-class">
+                    <div class="text" style="text-align: center;">
+                        <h5 class="class-heading carouselFont"><i class="fas fa-notes-medical"></i>&nbsp;코로나19 운영지침</h5>
+                    </div>
+                </a>
+                <a href="https://www.inje.ac.kr/kor/Template/Bsub_page.asp?Ltype=5&Ltype2=0&Ltype3=0&Tname=S_News&Ldir=board/S_News&Lpage=Tboard_L&div=6&d1n=5&d2n=1&d3n=2&d4n=0" target="_blank" class="item-class">
+                    <div class="text" style="text-align: center;">
+                        <h5 class="class-heading carouselFont"><i class="fas fa-user-check"></i>&nbsp;인제대학교 학사공지</h5>
+                    </div>
+                </a>
+                <a href="https://www.inje.ac.kr/kor/Template/Bsub_page.asp?Ltype=5&Ltype2=0&Ltype3=0&Tname=S_News&Ldir=board/S_News&Lpage=Tboard_L&div=10&d1n=5&d2n=1&d3n=6&d4n=0" target="_blank" class="item-class">
+                    <div class="text" style="text-align: center;">
+                        <h5 class="class-heading carouselFont"><i class="fas fa-user-graduate"></i>&nbsp;인제대학교 장학공지</h5>
+                    </div>
+                </a>
+                <a href="https://www.inje.ac.kr/kor/Template/Bsub_page.asp?Ltype=5&Ltype2=0&Ltype3=0&Tname=S_News&Ldir=board/S_News&Lpage=Tboard_L&div=8&d1n=5&d2n=1&d3n=3&d4n=0" target="_blank" class="item-class">
+                    <div class="text" style="text-align: center;">
+                        <h5 class="class-heading carouselFont"><i class="fas fa-user-tie"></i>&nbsp;인제대학교 취업/모집</h5>
+                    </div>
+                </a>
+                <a href="https://dorm.inje.ac.kr/" target="_blank" class="item-class">
+                    <div class="text" style="text-align: center;">
+                        <h5 class="class-heading carouselFont"><i class="fas fa-bed"></i>&nbsp;인제대학교 생활관</h5>
+                    </div>
+                </a>
+                <a href="http://library.inje.ac.kr/" target="_blank" class="item-class">
+                    <div class="text" style="text-align: center;">
+                        <h5 class="class-heading carouselFont"><i class="fas fa-book-open"></i>&nbsp;백인제기념도서관</h5>
+                    </div>
+                </a>
+                <a href="http://bus.inje.ac.kr/" target="_blank" class="item-class">
+                    <div class="text" style="text-align: center;">
+                        <h5 class="class-heading carouselFont"><i class="fas fa-bus"></i>&nbsp;통학버스 예약하기</h5>
+                    </div>
+                </a>
+                <a href="https://www.inje.ac.kr/kor/Template/Bsub_page.asp?Ltype=5&Ltype2=3&Ltype3=3&Tname=S_Food&Ldir=board/S_Food&Lpage=s_food_view&d1n=5&d2n=4&d3n=4&d4n=0" target="_blank" class="item-class">
+                    <div class="text" style="text-align: center;">
+                        <h5 class="class-heading carouselFont"><i class="fas fa-utensils"></i>&nbsp;오늘의 식단보기</h5>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div>
+            <a href="#" class="customNextBtn carouselHover"><i class="fas fa-chevron-circle-right fa-2x"></i></a>
+        </div>
+    </div>
+    
+    <br>
     <div class="row">
         <div class="col-sm-6">
             <div class="shadow p-3 mb-5 bg-white rounded" style="height: 90%; width:98%;">
@@ -63,4 +124,9 @@
         </div>
     </div>
 </div>
+
+<script src="{% static 'js/index/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/index/aos.js' %}"></script>
+<script src="{% static 'js/index/jquery.sticky.js' %}"></script>
+<script src="{% static 'js/index/main.js' %}"></script>
 {% endblock %}
