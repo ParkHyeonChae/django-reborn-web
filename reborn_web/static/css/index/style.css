@@ -67,7 +67,7 @@ h1, h2, h3, h4, h5, h6 {
     background: rgba(0, 0, 0, 0.2); }
 
 .btn {
-  border-width: 2px; }
+  border-width: 0px; }
   .btn:active, .btn:focus {
     outline: none;
     -webkit-box-shadow: none !important;
@@ -78,8 +78,10 @@ h1, h2, h3, h4, h5, h6 {
   .btn.btn-primary {
     color: #fff; }
     .btn.btn-primary:hover, .btn.btn-primary:focus, .btn.btn-primary:active {
-      color: #000;
-      background-color: transparent !important; }
+      /* color: #000; */
+      outline : none;
+      background-color: #a52020f2 !important;
+    }
 
 .bg-black {
   background: #000; }
