@@ -17,6 +17,7 @@ from .models import User
 from free.models import Free, Comment
 from anonymous.models import Anonymous, AnonymousComment
 from notice.models import Notice
+from calender.models import Calender
 from .forms import CsRegisterForm, RegisterForm, LoginForm, CustomUserChangeForm, CustomCsUserChangeForm, CheckPasswordForm, RecoveryIdForm, RecoveryPwForm, CustomSetPasswordForm, CustomPasswordChangeForm
 from django.http import HttpResponse
 import json
@@ -33,6 +34,7 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.contrib.auth.tokens import default_token_generator
+from datetime import datetime
 
 
 # 메인화면(로그인 전)
@@ -44,8 +46,12 @@ def index(request):
 @login_message_required
 def main_view(request):
     notice_list = Notice.objects.order_by('-id')[:5]
+    calendar_property = [x.event_id for x in Calender.objects.all() if x.d_day == False]
+    calendar_list = Calender.objects.exclude(event_id__in=calendar_property).order_by('start_date')[:5]
+    
     context = {
-        'notice_list' : notice_list
+        'notice_list' : notice_list,
+        'calendar_list' : calendar_list,
     }
     return render(request, 'users/main.html', context)
 

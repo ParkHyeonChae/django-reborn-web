@@ -1,9 +1,17 @@
 $(document).ready(function(){
-    if (screen.width <= 991.98) {
+    // if (screen.width <= 991.98) {
+    if (screen.width <= 1024) {
         btnHide();
         
         $('#navbar').css({
             left: "48px",
+        });
+
+        $('#injeLink1').text('인제대 학사공지')
+        $('#injeLink2').text('인제대 장학공지')
+        $('#injeLink3').text('인제대 취업/모집')
+        $('#carouselContainer').css({
+            'margin-bottom': "15px",
         });
     }
     else {
