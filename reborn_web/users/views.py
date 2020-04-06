@@ -35,10 +35,17 @@ from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.contrib.auth.tokens import default_token_generator
 from datetime import datetime
+# from ipware.ip import get_ip
 
 
 # 메인화면(로그인 전)
 def index(request):
+    # ip = get_ip(request)
+    # if ip is not None:
+    #     print (ip)
+    # else:
+    #     print ("IP FIND ERROR")
+
     return render(request, 'users/index.html')
 
 
@@ -50,6 +57,7 @@ def main_view(request):
     calendar_list = Calender.objects.exclude(event_id__in=calendar_property).order_by('start_date')[:5]
     free_list = Free.objects.filter(category='정보').order_by('-id')[:5]
     anonymous_list = sorted(Anonymous.objects.all(), key=lambda t: t.like_count, reverse=True)[:5]
+
     context = {
         'notice_list' : notice_list,
         'calendar_list' : calendar_list,

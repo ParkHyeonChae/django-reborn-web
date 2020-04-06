@@ -204,3 +204,46 @@ DEFAULT_FROM_MAIL = 'injecs2020'
 
 # IMAGE UPLOAD FILE SIZE MAXIMUM = 10MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
+
+
+# DEBUG LOGGING
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'default': {
+            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            # 'format': '[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] - %(username)s: %(message)s',
+            'datefmt': "%Y-%m-%d %H:%M:%S"
+        },
+    },
+    'handlers': {
+        # 'file': {
+        #     'level': 'INFO',
+        #     'class': 'logging.FileHandler',
+        #     'filename': 'debug.log',
+        #     'formatter': 'default',
+        # },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'debug.log',
+            'formatter': 'default',
+            'maxBytes': 1024 * 1024 * 10,  # 10 MB
+            'backupCount': 10,
+            # 개발환경시 --noreload run
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'default'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
