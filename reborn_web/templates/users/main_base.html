@@ -5,7 +5,9 @@
     <title>INJE:REBORN</title>
     <meta charset='utf-8'>
     <!-- <meta name='viewport' content='width=device-width, initial-scale=1'> -->
-    <meta name="viewport" content="width=800, user-scalable=yes">
+    {% block mobileView %}
+    <!-- <meta name="viewport" content="width=800, user-scalable=yes"> -->
+    {% endblock %}
     <link rel="shortcut icon" href="{% static 'img/reborn_favicon.ico' %}">
     
     <!-- JQuery -->

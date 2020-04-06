@@ -1,6 +1,11 @@
 {% extends "users/main_base.html" %}
 {% load humanize %}
 {% load static %}
+
+{% block mobileView %}
+<meta name="viewport" content="width=800, user-scalable=yes">
+{% endblock %}
+
 {% block summernote %}
 <!-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote-bs4.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote-bs4.min.js"></script> -->

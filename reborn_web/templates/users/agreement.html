@@ -1,5 +1,10 @@
 {% extends "users/user_base.html" %}
 {% load static %}
+
+{% block mobileView %}
+<meta name="viewport" content="width=570, user-scalable=yes">
+{% endblock %}
+
 {% block contents %}
 <div class="container">
     <div class="row justify-content-md-center">

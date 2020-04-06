@@ -1,6 +1,10 @@
 {% extends "users/main_base.html" %}
 {% load humanize %}
 
+{% block mobileView %}
+<meta name="viewport" content="width=800, user-scalable=yes">
+{% endblock %}
+
 {% block header %}
 {% load static %}
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" /> -->

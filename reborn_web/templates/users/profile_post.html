@@ -2,6 +2,10 @@
 {% load humanize %}
 {% load static %}
 
+{% block mobileView %}
+<meta name="viewport" content="width=800, user-scalable=yes">
+{% endblock %}
+
 {% block header %}
 <link rel="stylesheet" href="{% static 'css/timetable/timetable.css' %}" type="text/css">
 {% endblock %}

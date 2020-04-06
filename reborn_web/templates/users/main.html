@@ -1,14 +1,15 @@
 {% extends "users/main_base.html" %}
 {% load static %}
 
+{% block mobileView %}
+<meta name="viewport" content="width=800, user-scalable=yes">
+{% endblock %}
+
 {% block header %}
 <link rel="stylesheet" href="{% static 'css/index/owl.carousel.min.css' %}">
-
 {% endblock %}
 
 {% block contents %}
-
-
 <div style="margin: 55px -10px -40px 4px;">
     <div class="container" id="carouselContainer" style="margin-bottom: 5px;">
         <div>
@@ -66,7 +67,8 @@
     <br>
     <div class="row">
         <div class="col-sm-6">
-            <div class="shadow p-3 mb-5 bg-white rounded" style="height: 90%; width:98%;">
+            <!-- <div class="shadow p-3 mb-5 bg-white rounded" style="height: 90%; width:98%;"> -->
+            <div class="shadow p-3 mb-5 bg-white rounded" style="width:98%;">
                 <span style="font-size: 20px; font-weight: bold; float:left;"><i
                         class="fas fa-bullhorn"></i>&nbsp;&nbsp;최근 공지사항</span>
                 <div style="text-align: right; margin-bottom: 50px; padding-top: -5px;">
@@ -79,7 +81,7 @@
                     <div class="shadow-none mb-5 bg-light rounded" onclick="location.href='/notice/{{ notice.id }}'"
                         style="padding: 12px; margin-top: -36px; margin-bottom: -36px; cursor:pointer; height:52px;">
                         <!-- <span style="color: gray; font-size:16px;"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;{{ notice.title|truncatechars:30 }}</span> -->
-                        <span style="color: gray; font-size:16px; font-weight:550;">&nbsp;&nbsp;{{ notice.title|truncatechars:30 }}</span>
+                        <span style="color: gray; font-size:16px; font-weight:550;">&nbsp;&nbsp;{{ notice.title|truncatechars:24 }}</span>
                         <!-- <div style="float:right">
                             <span style="color: gray; font-size:16px">{{ notice.registered_date|date:'Y. m. d' }}</span>
                         </div> -->
@@ -91,14 +93,16 @@
         </div>
 
         <div class="col-sm-6">
-            <div class="shadow p-3 mb-5 bg-white rounded" style="height: 88.9%; width:98%">
+            <!-- <div class="shadow p-3 mb-5 bg-white rounded" style="height: 88.9%; width:98%"> -->
+            <div class="shadow p-3 mb-5 bg-white rounded" style="width:98%">
                 <span style="font-size: 20px; font-weight: bold; float:left;"><i
                         class="fas fa-calendar-check"></i>&nbsp;&nbsp;<span id="mainpageCalenderId">컴퓨터공학부 학사일정</span></span>
                 <div style="text-align: right; margin-bottom: 10px;">
                     <a href="{% url 'calendar:calendar' %}" style="background-color: #d14040f2; color:white; font-size: 13px; margin-top: -5px; margin-right: -5px;" class="btn btn btn-sm">전체보기</a>
                 </div>     
 
-                <div style="margin-bottom: -47.56px">
+                <!-- <div style="margin-bottom: -47.56px"> -->
+                <div style="margin-bottom: -9px">
                 {% for calendar in calendar_list %}
                 <div class="notice_box">
                     <div class="shadow-none mb-5 bg-light rounded" onclick="location.href='/calender/'"
@@ -108,7 +112,7 @@
                         {% else %}
                         <span style="font-weight: bold; color:rgb(88, 88, 88)">{{ calendar.d_day }}</span>
                         {% endif %}
-                        <span style="color: gray; font-size:16px; font-weight: 550;">&nbsp;&nbsp;{{ calendar.event_name|truncatechars:20 }}</span>
+                        <span style="color: gray; font-size:16px; font-weight: 550;">&nbsp;&nbsp;{{ calendar.event_name|truncatechars:11 }}</span>
                         <div style="float:right">
                             <span style="color: gray; font-size:16px">{{ calendar.start_date }}</span>
                         </div>
@@ -124,7 +128,8 @@
     <div class="row">
         <!-- <div class="col-sm-6" style="height: 45vh;"> -->
         <div class="col-sm-6">
-            <div class="shadow p-3 mb-5 bg-white rounded" style="height: 90%; width:98%">
+            <!-- <div class="shadow p-3 mb-5 bg-white rounded" style="height: 90%; width:98%"> -->
+            <div class="shadow p-3 mb-5 bg-white rounded" style="width:98%">
                 <span style="font-size: 20px; font-weight: bold; float:left;"><i
                         class="fas fa-info-circle"></i>&nbsp;&nbsp;자유게시판 정보글</span>
                 <div style="text-align: right; margin-bottom: 10px;">
@@ -137,7 +142,7 @@
                     <div class="shadow-none mb-5 bg-light rounded" onclick="location.href='/free/{{ free.id }}/'"
                         style="padding: 12px; margin-top: 0px; margin-bottom: 12px !important; cursor:pointer; height:52px;">
                         <!-- <span style="color: gray; font-size:16px;"><i class="fas fa-splotch"></i>&nbsp;&nbsp;{{ free.title|truncatechars:30 }}</span> -->
-                        <span style="color: gray; font-size:16px; font-weight:550;">&nbsp;&nbsp;{{ free.title|truncatechars:30 }}</span>
+                        <span style="color: gray; font-size:16px; font-weight:550;">&nbsp;&nbsp;{{ free.title|truncatechars:24 }}</span>
                         <!-- <div style="float:right">
                             <span style="color: gray; font-size:16px">{{ free.registered_date|date:'Y. m. d' }}</span>
                         </div> -->
@@ -150,7 +155,8 @@
         </div>
         <!-- <div class="col-sm-6" style="height: 45vh;"> -->
         <div class="col-sm-6">
-            <div class="shadow p-3 mb-5 bg-white rounded" style="height: 90%; width:98%">
+            <!-- <div class="shadow p-3 mb-5 bg-white rounded" style="height: 90%; width:98%"> -->
+            <div class="shadow p-3 mb-5 bg-white rounded" style="width:98%">
                 <!-- <span style="font-size: 20px; font-weight: bold; float:left;"><i class="fas fa-pepper-hot"></i>&nbsp;&nbsp;익명게시판 HOT</span> -->
                 <span style="font-size: 20px; font-weight: bold; float:left;"><i class="fas fa-fire-alt"></i>&nbsp;&nbsp;익명게시판 HOT</span>
                 <div style="text-align: right; margin-bottom: 10px;">
@@ -163,7 +169,7 @@
                     <div class="shadow-none mb-5 bg-light rounded" onclick="location.href='/anonymous/{{ anonymous.id }}/'"
                         style="padding: 12px; margin-top: 0px; margin-bottom: 12px !important; cursor:pointer; height:52px;">
                         <!-- <span style="color: gray; font-size:16px;"><i class="fas fa-fire-alt"></i>&nbsp;&nbsp;{{ anonymous.title|truncatechars:30 }}</span> -->
-                        <span style="color: gray; font-size:16px; font-weight:550;">&nbsp;&nbsp;{{ anonymous.title|truncatechars:30 }}</span>
+                        <span style="color: gray; font-size:16px; font-weight:550;">&nbsp;&nbsp;{{ anonymous.title|truncatechars:24 }}</span>
                         <div style="float:right">
                             <span style="color: gray; font-size:16px"><i class="fas fa-thumbs-up" style="opacity: 80%;"></i>&nbsp;&nbsp;{{ anonymous.like_count }}&nbsp;&nbsp;<i class="fas fa-comments" style="opacity: 80%;"></i>&nbsp;&nbsp;{{ anonymous.comments }}</span>
                         </div>

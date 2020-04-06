@@ -1,5 +1,10 @@
 {% extends "users/main_base.html" %}
 {% load static %}
+
+{% block mobileView %}
+<meta name="viewport" content="width=800, user-scalable=yes">
+{% endblock %}
+
 {% block header %}
 <!-- Font Awesome served from CDN -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />

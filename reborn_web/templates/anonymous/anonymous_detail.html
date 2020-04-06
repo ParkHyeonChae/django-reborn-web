@@ -1,6 +1,10 @@
 {% extends "users/main_base.html" %}
 {% load humanize %}
 
+{% block mobileView %}
+<meta name="viewport" content="width=800, user-scalable=yes">
+{% endblock %}
+
 {% block header %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/anonymous/anonymous-detail.css' %}" type="text/css">
@@ -14,7 +18,8 @@
             
             <div class="row justify-content-center">
             <!--본문-->
-                <div class="card" style="width: 70%;">
+                <!-- <div class="card" style="width: 70%"> -->
+                <div class="card" style="width: 775px">
                     <!--제목,분류,작성일-->
                     <div class="card-header">
                         <strong style="font-size: 18px;">{{ anonymous.title }}</strong>
@@ -62,7 +67,8 @@
 
             <div class="row justify-content-center">
             <!--댓글-->
-                <div class="card" style="width: 70%;">
+                <!-- <div class="card" style="width: 70%"> -->
+                <div class="card" style="width: 775px">
                     <div class="card-header">
                         <div class="col-md-12">
                             </form>

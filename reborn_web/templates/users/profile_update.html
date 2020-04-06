@@ -1,12 +1,16 @@
 {% extends "users/main_base.html" %}
 
+{% block mobileView %}
+<meta name="viewport" content="width=550, user-scalable=yes">
+{% endblock %}
+
 {% block contents %}
 <div class="container">
     <div style="margin-top: 5rem !important;">
         <div class="col-12">
 
             <div class="row justify-content-center">
-                <div class="card" style="width: 50%;">
+                <div class="card">
                     <div class="card-header" style="padding-bottom:8px;">
                         <strong style="font-size: 18px;"><i class="fas fa-user-edit"></i>&nbsp;&nbsp;내 정보수정</strong>
                     </div>
@@ -52,7 +56,7 @@
                                 </tr> -->
                                 <tr>
                                     <td class="profile_title">이메일</td>
-                                    <td class="profile_content">{{ user.email }}</td>
+                                    <td class="profile_content">&nbsp;&nbsp;{{ user.email }}</td>
                                 </tr>
                                 <tr>
                                     <td class="profile_title">이름</td>

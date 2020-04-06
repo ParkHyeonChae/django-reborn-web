@@ -1,6 +1,11 @@
 {% extends "users/main_base.html" %}
 {% load humanize %}
 {% load static %}
+
+{% block mobileView %}
+<meta name="viewport" content="width=800, user-scalable=yes">
+{% endblock %}
+
 {% block summernote %}
 <link rel="stylesheet" href="{% static 'css/summernote/summernote.css' %}" type="text/css">
 <script src="{% static 'js/summernote/summernote.js' %}"></script>
