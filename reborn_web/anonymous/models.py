@@ -26,8 +26,8 @@ class Anonymous(models.Model):
         return self.title
 
     def delete(self, *args, **kargs):
-        if self.files:
-            os.remove(os.path.join(settings.MEDIA_ROOT, self.files.path))
+        if self.image_files:
+            os.remove(os.path.join(settings.MEDIA_ROOT, self.image_files.path))
         super(Anonymous, self).delete(*args, **kargs)
 
     @property
