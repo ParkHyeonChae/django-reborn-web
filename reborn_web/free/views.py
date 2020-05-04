@@ -159,15 +159,15 @@ class InformationListView(AllListView):
         if search_keyword :
             if len(search_keyword) > 1 :
                 if search_type == 'all':
-                    free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
+                    search_free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
                 elif search_type == 'title_content':
-                    free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
+                    search_free_list = free_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
                 elif search_type == 'title':
-                    free_list = free_list.filter(title__icontains=search_keyword)    
+                    search_free_list = free_list.filter(title__icontains=search_keyword)    
                 elif search_type == 'content':
-                    free_list = free_list.filter(content__icontains=search_keyword)    
+                    search_free_list = free_list.filter(content__icontains=search_keyword)    
                 elif search_type == 'writer':
-                    free_list = free_list.filter(writer__user_id__icontains=search_keyword)
+                    search_free_list = free_list.filter(writer__user_id__icontains=search_keyword)
                     
                 return search_free_list
             else:
