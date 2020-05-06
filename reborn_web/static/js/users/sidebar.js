@@ -1,5 +1,4 @@
 $(document).ready(function(){
-    // if (screen.width <= 991.98) {
     if (screen.width <= 1024) {
         btnHide();
         
@@ -11,10 +10,11 @@ $(document).ready(function(){
         $('#injeLink2').text('인제대 장학공지')
         $('#injeLink3').text('인제대 취업/모집')
         $('#carouselContainer').css({
-            'margin-bottom': "15px",
+            'margin-bottom': "5px",
         });
         $('#mainpageCalenderId').text('컴공 학사일정')
     }
+    
     else {
         if ($.cookie('sidebar_cookie') == 'true') {
             document.getElementById('sidebar').setAttribute('class', 'active')
