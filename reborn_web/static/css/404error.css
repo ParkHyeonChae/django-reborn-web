@@ -5,7 +5,7 @@ body {
     text-align: center;
 }
 
-button {
+/* button {
     background: rgb(167, 3, 3);
     color: #fff;
     border: none;
@@ -47,4 +47,28 @@ button:hover:before,
 button:hover:after {
     width: 100%;
     transition: 800ms ease all;
+} */
+
+
+button {
+    background: #d14040f2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    position: relative;
+    width: 165px;
+    height: 40px;
+    font-size: 1.1em;
+    padding: 0 2em;
+    cursor: pointer;
+    transition: 800ms ease all;
+    outline: none;
+  }
+  
+button:hover {
+background: #a52020f2;
+}
+
+button:focus {
+outline : none;
 }
