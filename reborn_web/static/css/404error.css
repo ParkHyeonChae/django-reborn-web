@@ -63,12 +63,12 @@ button {
     cursor: pointer;
     transition: 800ms ease all;
     outline: none;
-  }
+}
   
 button:hover {
-background: #a52020f2;
+    background: #a52020f2;
 }
 
 button:focus {
-outline : none;
+    outline : none;
 }
