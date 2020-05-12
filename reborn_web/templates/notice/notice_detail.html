@@ -72,6 +72,10 @@
 </div>
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        $('img').css('width', '100%');
+    });
+
     function delete_modal() {
         location.replace('/notice/{{ notice.id }}/delete/');
     }
