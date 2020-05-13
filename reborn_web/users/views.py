@@ -363,6 +363,7 @@ def auth_pw_reset_view(request):
 
 
 # 내가 쓴 글 보기
+@login_message_required
 @require_GET
 def profile_post_view(request):
     free_list = Free.objects.filter(writer=request.user.id).order_by('-registered_date')
@@ -379,6 +380,7 @@ def profile_post_view(request):
 
 
 # 댓글 단 글 보기
+@login_message_required
 @require_GET
 def profile_comment_view(request):
     comment_list = Comment.objects.select_related('post').filter(writer=request.user).exclude(deleted=True).order_by('-created')
