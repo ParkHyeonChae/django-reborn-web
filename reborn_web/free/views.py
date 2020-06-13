@@ -44,6 +44,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 # 9. 댓글과 답글 입력, 삭제는 비동기로 구현한다.
 
 
+# 자유게시판 모두보기
 class AllListView(ListView):
     model = Free
     paginate_by = 15
@@ -100,6 +101,7 @@ class AllListView(ListView):
         return context
 
 
+# 카테고리 자유만 보기
 class FreeListView(AllListView):
     def get_queryset(self):
         search_keyword = self.request.GET.get('q', '')
@@ -125,6 +127,7 @@ class FreeListView(AllListView):
         return free_list
 
 
+# 카테고리 질문만 보기
 class QuestionListView(AllListView):
     def get_queryset(self):
         search_keyword = self.request.GET.get('q', '')
@@ -150,6 +153,7 @@ class QuestionListView(AllListView):
         return free_list
 
 
+# 카테고리 정보만 보기
 class InformationListView(AllListView):
     def get_queryset(self):
         search_keyword = self.request.GET.get('q', '')
@@ -175,6 +179,7 @@ class InformationListView(AllListView):
         return free_list
 
 
+# 자유게시판 글 상세보기
 @login_message_required
 def free_detail_view(request, pk):
     free = get_object_or_404(Free, pk=pk)
@@ -215,6 +220,7 @@ def free_detail_view(request, pk):
     return render(request, 'free/free_detail.html', context)
 
 
+# 자유게시판 글 쓰기
 @login_message_required
 def free_write_view(request):
     if request.method == "POST":
@@ -237,6 +243,7 @@ def free_write_view(request):
     return render(request, "free/free_write.html", {'form': form})
 
 
+# 자유게시판 글 수정
 @login_message_required
 def free_edit_view(request, pk):
     free = Free.objects.get(id=pk)
@@ -278,6 +285,7 @@ def free_edit_view(request, pk):
             return redirect('/free/'+str(pk))
 
 
+# 자유게시판 글 삭제
 @login_message_required
 def free_delete_view(request, pk):
     free = Free.objects.get(id=pk)
@@ -290,6 +298,7 @@ def free_delete_view(request, pk):
         return redirect('/free/'+str(pk))
 
 
+# 자유게시판 게시글 첨부파일 다운로드
 @login_message_required
 def free_download_view(request, pk):
     free = get_object_or_404(Free, pk=pk)
@@ -305,7 +314,7 @@ def free_download_view(request, pk):
         raise Http404
 
 
-# 댓글
+# 게시글 댓글달기
 @login_message_required
 def comment_write_view(request, pk):
     post = get_object_or_404(Free, id=pk)
@@ -331,6 +340,7 @@ def comment_write_view(request, pk):
         return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
 
 
+# 게시글 댓글 삭제
 @login_message_required
 def comment_delete_view(request, pk):
     post = get_object_or_404(Free, id=pk)

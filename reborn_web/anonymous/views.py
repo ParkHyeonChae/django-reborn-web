@@ -17,6 +17,7 @@ from django.views.decorators.http import require_GET, require_POST
 import os
 
 
+# 익명게시판 글 리스트
 class AnonymousListView(ListView):
     model = Anonymous
     paginate_by = 10
@@ -28,6 +29,7 @@ class AnonymousListView(ListView):
         return anonymous_list
 
 
+# 익명게시판 글 검색
 @require_GET
 def anonymous_search_view(request):
     search_keyword = request.GET.get('q', '')
@@ -57,6 +59,7 @@ def anonymous_search_view(request):
         return redirect('/anonymous/')
 
 
+# 익명게시판 글 상세보기
 @login_message_required
 def anonymous_detail_view(request, pk):
     anonymous = get_object_or_404(Anonymous, pk=pk)
@@ -83,6 +86,7 @@ def anonymous_detail_view(request, pk):
     return render(request, 'anonymous/anonymous_detail.html', context)
 
 
+# 익명게시파 글 쓰기
 @login_message_required
 def anonymous_write_view(request):
     if request.method == "POST":
@@ -101,6 +105,7 @@ def anonymous_write_view(request):
     return render(request, "anonymous/anonymous_write.html", {'form': form})
 
 
+# 익명게시판 글 수정
 @login_message_required
 def anonymous_edit_view(request, pk):
     anonymous = Anonymous.objects.get(id=pk)
@@ -138,6 +143,7 @@ def anonymous_edit_view(request, pk):
             return redirect('/anonymous/'+str(pk))
 
 
+# 익명게시판 글 삭제
 @login_message_required
 def anonymous_delete_view(request, pk):
     anonymous = Anonymous.objects.get(id=pk)
@@ -150,6 +156,7 @@ def anonymous_delete_view(request, pk):
         return redirect('/anonymous/'+str(pk))
 
 
+# 익명게시판 댓글달기
 @login_message_required
 def comment_write_view(request, pk):
     post = get_object_or_404(Anonymous, id=pk)
@@ -174,6 +181,7 @@ def comment_write_view(request, pk):
         return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
 
 
+# 익명게시판 댓글삭제
 @login_message_required
 def comment_delete_view(request, pk):
     post = get_object_or_404(Anonymous, id=pk)
@@ -193,7 +201,7 @@ def comment_delete_view(request, pk):
         return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
 
 
-# 추천하기
+# 익명게시판 글 추천
 @login_message_required
 @require_POST
 def post_like_view(request):
