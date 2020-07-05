@@ -15,7 +15,7 @@ This is a Django framework-based academic homepage project aimed at improving th
 
 ## Technology
 
-- Framework : Django 3.0.2, Bootstraop 3.4
+- Framework : Django 3.0.2, Bootstrap 3.4
 - Language : Python 3.7.4, JavaScript
 - Database : SQLite3
 - OS : Window10
