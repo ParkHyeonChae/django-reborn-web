@@ -1,6 +1,6 @@
-# **Django Project - RE:BORN WEB **
+# Django Project - RE:BORN WEB
 
-------
+
 
 ## Description
 
@@ -8,10 +8,10 @@
 
 This is a Django framework-based academic homepage project aimed at improving the inconvenience of the existing academic homepage and for smooth communication and communication among undergraduate students.
 
-- Website Address : **http://inje-reborn.com/**
-- Development Record : **https://parkhyeonchae.github.io/**
+- **Website Address : http://inje-reborn.com/**
+- **Development Record : https://parkhyeonchae.github.io/**
 
-------
+
 
 ## Technology
 
@@ -23,7 +23,7 @@ This is a Django framework-based academic homepage project aimed at improving th
 - Distribute : CentOS 7.6
 - Library : [Summernote](https://summernote.org/), [Waypoints](http://imakewebthings.com/waypoints/)
 
-------
+
 
 ## Directory Structure
 
@@ -105,7 +105,7 @@ The standard Django `manage.py`.
 
 Detach the `secret key` of django here. In addition, you add hidden values, such as the password used by smtp.
 
-------
+
 
 ## Execution
 
@@ -158,9 +158,9 @@ $ python manage.py createsuperuser
 $ python manage.py runserver
 ```
 
-------
+
 
 ## License
 
-- MIT License
-- Copyright (c) 2020 ParkHyeonChae
+- **MIT License**
+- **Copyright (c) 2020 ParkHyeonChae**
