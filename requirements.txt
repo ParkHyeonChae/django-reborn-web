@@ -4,5 +4,6 @@ django-env==0.2.1
 pytz==2019.3
 sqlparse==0.3.0
 virtualenv==16.7.9
-django-ipware==2.1.0
 Pillow==7.0.0
+psycopg2==2.8.5
+urllib3==1.25.8
