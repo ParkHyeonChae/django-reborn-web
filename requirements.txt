@@ -12,5 +12,4 @@ whitenoise==5.2.0
 public==2019.4.13
 query-string==2019.4.13
 requests==2.24.0
-get==2019.4.13
 gunicorn==20.0.4
