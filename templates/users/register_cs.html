@@ -1,0 +1,267 @@
+{% extends "users/user_base.html" %}
+{% load static %}
+
+{% block mobileView %}
+<meta name="viewport" content="width=570, user-scalable=yes">
+{% endblock %}
+
+{% block contents %}
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div style="position: absolute; top: 50%; height: 876.39px; margin-top: -438.195px;">
+            <div class="card" style="width: 40rem;">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img src="{% static 'img/logo2.jpg' %}"
+                            style="width: 30%; margin-top:10px; margin-bottom: -30px;">
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <form action="" id="signup" method="POST" novalidate>
+                                {% csrf_token %}
+
+                                <!--아이디-->
+                                <div class="mb-4 md-form">
+                                    <label name="label_user_id" for="{{ form.user_id.id_for_label }}"><i
+                                            class="fas fa-user"></i>&nbsp;&nbsp;{{ form.user_id.label }}</label>
+                                    {{ form.user_id }}
+                                    <script type="text/javascript">
+                                        if (document.getElementsByName('user_id')[0].value != '') {
+                                            document.getElementsByName('label_user_id')[0].setAttribute('class',
+                                                'active');
+                                        }
+                                    </script>
+                                    {% if form.user_id.errors %}
+                                    <script type="text/javascript">
+                                        document.getElementsByName('user_id')[0].setAttribute('class',
+                                            'form-control is-invalid')
+                                    </script>
+                                    {% for error in form.user_id.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <small class="form-text text-muted">
+                                        로그인 시 사용할 아이디를 입력해주세요.
+                                    </small>
+                                </div>
+                                <!--비밀번호-->
+                                <div class="form-row">
+                                    <div class="col-md-6" style="margin-top:-25px; margin-bottom: -25px;">
+                                        <div class="mb-4 md-form">
+                                            <label name="label_password2" for="{{ form.password2.id_for_label }}"><i
+                                                    class="fas fa-unlock"></i>&nbsp;&nbsp;비밀번호</label>
+                                            {{ form.password2 }}
+                                            <script type="text/javascript">
+                                                if (document.getElementsByName('password2')[0].value != '') {
+                                                    document.getElementsByName('label_password2')[0].setAttribute('class', 'active');
+                                                }
+                                            </script>
+                                            {% if form.password2.errors %}
+                                            <script type="text/javascript">
+                                                document.getElementsByName('password2')[0].setAttribute('class',
+                                                    'form-control is-invalid')
+                                            </script>
+                                            {% for error in form.password2.errors %}
+                                            <div style="white-space: nowrap;" class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <!--비밀번호확인-->
+                                    <div class="col-md-6" style="margin-top:-25px; margin-bottom: -25px;">
+                                        <div class="mb-4 md-form">
+                                            <label name="label_password1" for="{{ form.password1.id_for_label }}"><i
+                                                    class="fas fa-unlock-alt"></i>&nbsp;&nbsp;비밀번호 확인</label>
+                                            {{ form.password1 }}
+                                            <script type="text/javascript">
+                                                if (document.getElementsByName('password1')[0].value != '') {
+                                                    document.getElementsByName('label_password1')[0].setAttribute('class','active');
+                                                }
+                                            </script>
+                                            {% if form.password1.errors %}
+                                            <script type="text/javascript">
+                                                document.getElementsByName('password1')[0].setAttribute('class',
+                                                    'form-control is-invalid')
+                                            </script>
+                                            {% for error in form.password1.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <small style="margin-left: 4px; margin-top:8px;" class="form-text text-muted">
+                                        최소 8개의 숫자와 문자 또는 특수기호를 입력해주세요. 일상적인 비밀번호는 사용할 수 없습니다.
+                                    </small>
+                                </div>
+                                <!--이메일-->
+                                <div class="mb-4 md-form">
+                                    <label name="label_email" for="{{ form.email.id_for_label }}"><i
+                                            class="fas fa-envelope"></i>&nbsp;&nbsp;{{ form.email.label }}</label>
+                                    {{ form.email }}
+                                    <script type="text/javascript">
+                                        if (document.getElementsByName('email')[0].value != '') {
+                                            document.getElementsByName('label_email')[0].setAttribute('class',
+                                                'active');
+                                        }
+                                    </script>
+                                    {% if form.email.errors %}
+                                    <script type="text/javascript">
+                                        document.getElementsByName('email')[0].setAttribute('class',
+                                            'form-control is-invalid')
+                                    </script>
+                                    {% for error in form.email.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <small class="form-text text-muted">
+                                        회원가입 후 입력하신 메일주소로 본인인증 메일이 전송됩니다.
+                                    </small>
+                                </div>
+                                <!--이름-->
+                                <div class="mb-4 md-form">
+                                    <label name="label_name" for="{{ form.name.id_for_label }}"><i
+                                            class="fas fa-user-edit"></i>&nbsp;&nbsp;{{ form.name.label }}</label>
+                                    {{ form.name }}
+                                    <script type="text/javascript">
+                                        if (document.getElementsByName('name')[0].value != '') {
+                                            document.getElementsByName('label_name')[0].setAttribute('class', 'active');
+                                        }
+                                    </script>
+                                    {% if form.name.errors %}
+                                    <script type="text/javascript">
+                                        document.getElementsByName('name')[0].setAttribute('class',
+                                            'form-control is-invalid')
+                                    </script>
+                                    {% for error in form.name.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <small class="form-text text-muted">
+                                        아이디, 비밀번호 찾기에 사용됩니다.
+                                    </small>
+                                </div>
+                                <!--휴대폰번호-->
+                                <div class="mb-4 md-form">
+                                    <label name="label_hp" for="{{ form.hp.id_for_label }}"><i
+                                            class="fas fa-phone"></i>&nbsp;&nbsp;{{ form.hp.label }}</label>
+                                    {{ form.hp }}
+                                    <script type="text/javascript">
+                                        if (document.getElementsByName('hp')[0].value != '') {
+                                            document.getElementsByName('label_hp')[0].setAttribute('class', 'active');
+                                        }
+                                    </script>
+                                    {% if form.hp.errors %}
+                                    <script type="text/javascript">
+                                        document.getElementsByName('hp')[0].setAttribute('class',
+                                            'form-control is-invalid')
+                                    </script>
+                                    {% for error in form.hp.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <small class="form-text text-muted">
+                                        하이픈(-)을 제외한 숫자로 입력해주세요.
+                                    </small>
+                                </div>
+                                <!--학번-->
+                                <div class="mb-4 md-form">
+                                    <label name="label_student_id" for="{{ form.student_id.id_for_label }}"><i
+                                            class="fas fa-address-card"></i>&nbsp;&nbsp;{{ form.student_id.label }}</label>
+                                    {{ form.student_id }}
+                                    <script type="text/javascript">
+                                        if (document.getElementsByName('student_id')[0].value != '') {
+                                            document.getElementsByName('label_student_id')[0].setAttribute('class',
+                                                'active');
+                                        }
+                                    </script>
+                                    {% if form.student_id.errors %}
+                                    <script type="text/javascript">
+                                        document.getElementsByName('student_id')[0].setAttribute('class',
+                                            'form-control is-invalid')
+                                    </script>
+                                    {% for error in form.student_id.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <small class="form-text text-muted">
+                                        본인의 학번을 입력해주세요.
+                                    </small>
+                                </div>
+                                <!--학년-->
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label style="color:gray;" name="label_grade"
+                                                for="{{ form.grade.id_for_label }}"><i
+                                                    class="fas fa-graduation-cap"></i>&nbsp;&nbsp;{{ form.grade.label }}</label>
+                                            {{ form.grade }}
+                                            <script type="text/javascript">
+                                                document.getElementsByTagName('option')[1].remove();
+                                            </script>
+                                            {% if form.grade.errors %}
+                                            <script type="text/javascript">
+                                                document.getElementsByName('grade')[0].setAttribute('class',
+                                                    'form-control is-invalid')
+                                            </script>
+                                            {% for error in form.grade.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <!--동아리-->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label style="color:gray;" name="label_circles"
+                                                for="{{ form.circles.id_for_label }}"><i
+                                                    class="fas fa-users"></i>&nbsp;&nbsp;{{ form.circles.label }}</label>
+                                            {{ form.circles }}
+
+                                            {% if form.circles.errors %}
+                                            <script type="text/javascript">
+                                                document.getElementsByName('circles')[0].setAttribute('class',
+                                                    'form-control is-invalid')
+                                            </script>
+                                            {% for error in form.circles.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <small style="margin-left: 5px; margin-top:-10px;" class="form-text text-muted">
+                                        본인의 학년과, 컴퓨터공학부 학술동아리를 선택해주세요.
+                                    </small>
+                                </div>
+
+                                <br>
+                                <button type="submit" style="opacity: 90%; font-size: 16px; margin-top: -5px;"
+                                    class="btn btn-red btn-md btn-block">회원가입</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

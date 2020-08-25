@@ -1,0 +1,79 @@
+{% extends "users/user_base.html" %}
+{% load static %}
+
+{% block mobileView %}
+<meta name="viewport" content="width=480, user-scalable=yes">
+{% endblock %}
+
+{% block contents %}
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div style="position: absolute; top: 40%; height: 476.06px; margin-top: -238.03px;">
+            <div class="card" style="width: 30rem;">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img src="{% static 'img/logo2.jpg' %}" style="width:60%; margin:30px;">
+                    </div>
+
+                    <form method="POST" action="." novalidate>
+                        {% csrf_token %}
+
+                        <div class="mb-4 md-form">
+                            <label name="label_user_id" for="{{ form.user_id.id_for_label }}"><i class="fas fa-user"></i>&nbsp;&nbsp;{{ form.user_id.label }}</label>
+                            {{ form.user_id }}
+                            <script type="text/javascript">
+                                if (document.getElementsByName('user_id')[0].value != '') {
+                                    document.getElementsByName('label_user_id')[0].setAttribute('class', 'active');
+                                }
+                            </script>
+                            {% if form.user_id.errors %}
+                            <script type="text/javascript">
+                                document.getElementsByName('user_id')[0].setAttribute('class',
+                                    'form-control is-invalid')
+                            </script>
+                            {% for error in form.user_id.errors %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4 md-form">
+                            <label for="{{ form.password.id_for_label }}"><i class="fas fa-lock"></i>&nbsp;&nbsp;{{ form.password.label }}</label>
+                            {{ form.password }}
+
+                            {% if form.password.errors %}
+                            <script type="text/javascript">
+                                document.getElementsByName('password')[0].setAttribute('class', 'form-control is-invalid')
+                            </script>
+                            {% for error in form.password.errors %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <!-- {{ login_form }} -->
+                        <label>
+                            <input type="checkbox" name="remember_session"/>
+                            <span style="padding-bottom: 35px;">로그인 상태 유지</span>
+                        </label>
+                        <br>
+                        <!-- <input type="checkbox" name="remember_session" > 로그인 상태 유지<br><br> -->
+
+                        <button type="submit" style="opacity: 90%; font-size: 16px; margin-top: -5px;" class="btn btn-red btn-lg btn-block">로그인</button>
+                    </form>
+                    <div style="text-align: center;">
+                        <a style="color:gray; font-size: 14px;" href="{% url 'users:recovery_id' %}">아이디</a>&nbsp;&middot;
+                        <a style="color:gray; font-size: 14px;" href="{% url 'users:recovery_pw' %}">비밀번호찾기</a>&nbsp;&middot;
+                        <a style="color:gray; font-size: 14px;" href="{% url 'users:agreement' %}">회원가입</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

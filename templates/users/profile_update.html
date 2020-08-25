@@ -1,0 +1,151 @@
+{% extends "users/main_base.html" %}
+
+{% block mobileView %}
+<meta name="viewport" content="width=550, user-scalable=yes">
+{% endblock %}
+
+{% block contents %}
+<div class="container">
+    <div style="margin-top: 5rem !important;">
+        <div class="col-12">
+
+            <div class="row justify-content-center">
+                <div class="card">
+                    <div class="card-header" style="padding-bottom:8px;">
+                        <strong style="font-size: 18px;"><i class="fas fa-user-edit"></i>&nbsp;&nbsp;내 정보수정</strong>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <table style="color:black; margin-left:10px;">
+                                <tr>
+                                    <td class="profile_title">아이디</td>
+                                    {% if user.level == '0'%}
+                                    <td class="profile_content">&nbsp;&nbsp;{{ user.user_id }}&nbsp;&nbsp;(개발자)</td>
+                                    {% elif user.level == '1' %}
+                                    <td class="profile_content">&nbsp;&nbsp;{{ user.user_id }}&nbsp;&nbsp;(관리자)</td>
+                                    {% else %}
+                                    <td class="profile_content">&nbsp;&nbsp;{{ user.user_id }}</td>
+                                    {% endif %}
+                                </tr>
+                                {% if user.department == '컴퓨터공학부' %}
+                                <tr>
+                                    <td class="profile_title">학과</td>
+                                    <td class="profile_content">&nbsp;&nbsp;{{ user.department }}</td>
+                                </tr>
+                                {% endif %}
+                                <!-- <tr>
+                                    <td class="profile_title">이메일</td>
+                                    <td class="profile_content"><div class="mb-4 md-form" style="margin-bottom:-20px; margin-top:-10px;">{{ user_change_form.email }}</div></td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">이름</td>
+                                    <td class="profile_content"><div class="mb-4 md-form" style="margin-bottom:-20px; margin-top:-10px;">{{ user_change_form.name }}</div></td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">연락처</td>
+                                    <td class="profile_content"><div class="mb-4 md-form" style="margin-bottom:-20px; margin-top:-10px;">{{ user_change_form.hp }}</div></td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">학번</td>
+                                    <td class="profile_content"><div class="mb-4 md-form" style="margin-bottom:-20px; margin-top:-10px;">{{ user_change_form.student_id }}</div></td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">학년</td>
+                                    <td class="profile_content"><div class="mb-4 md-form" style="margin-bottom:-20px; margin-top:-10px;">{{ user_change_form.grade }}</div></td>
+                                </tr> -->
+                                <tr>
+                                    <td class="profile_title">이메일</td>
+                                    <td class="profile_content">&nbsp;&nbsp;{{ user.email }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">이름</td>
+                                    <td class="profile_content">{{ user_change_form.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">연락처</td>
+                                    <td class="profile_content">{{ user_change_form.hp }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">학번</td>
+                                    <td class="profile_content">{{ user_change_form.student_id }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">학년</td>
+                                    <td class="profile_content">{{ user_change_form.grade }}</td>
+                                </tr>
+                                {% if user.department == '컴퓨터공학부' %}
+                                <tr>
+                                    <td class="profile_title">동아리</td>
+                                    <td class="profile_content">{{ user_change_form.circles }}</td>
+                                </tr>
+                                {% elif user.department != '컴퓨터공학부' %}
+                                <tr>
+                                    <td class="profile_title">학과</td>
+                                    <td class="profile_content">{{ user_change_form.department }}</td>
+                                </tr>
+                                {% endif %}
+                            </table>
+                            {% if user.department == '컴퓨터공학부' %}
+                            <script type="text/javascript">
+                                cs_update(this.form)
+
+                                function cs_update(form) {
+                                    document.getElementsByTagName('option')[0].remove();
+                                    // document.getElementsByName('student_id')[0].setAttribute('required', 'True')
+                                }
+                            </script>
+                            {% elif user.department != '컴퓨터공학부' %}
+                            <script type="text/javascript">
+                                form_update(this.form)
+
+                                function form_update(form) {
+                                    document.getElementsByTagName('option')[8].remove();
+                                }
+                            </script>
+                            {% endif %}
+                            <br>
+                            <div style="text-align: center; margin-bottom:-15px;">
+                                <a onclick="location.href='/users/profile/'" class="btn btn-sm" id="back_btn"><i class="fa fa-reply"></i>&nbsp;돌아가기</a>
+                                <button type="submit" class="btn btn-sm" id="detail_btn"><i class="fas fa-check"></i>&nbsp;수정하기</button>
+                            </div>
+                        </form>
+                        
+                        <script type = "text/javascript">
+                            function maxLengthCheck(object){
+                                if (object.value.length > object.maxLength) {
+                                    object.value = object.value.slice(0, object.maxLength);
+                                    }   
+                                }
+                        </script>
+
+
+                        <!-- <form method="POST">
+                            {% csrf_token %}
+                            아이디 : {{ user.user_id }}<br><br>
+                            학과 : {{ user.department }}<br><br>
+                            {{ user_change_form.as_p }}
+
+                            {% if user.department == '컴퓨터공학부' %}
+                            <script type="text/javascript">
+                                cs_update(this.form)
+
+                                function cs_update(form) {
+                                    document.getElementsByTagName('option')[0].remove();
+                                    document.getElementsByName('name')[0].setAttribute('required', 'True')
+                                    document.getElementsByName('student_id')[0].setAttribute('required', 'True')
+                                }
+                            </script>
+                            동아리 : {{ user.circles }}
+                            {% endif %}<br><br>
+
+                            <button type="submit" class="btn btn-sm" id="detail_btn"><i class="fas fa-check"></i>&nbsp;수정하기</button>
+                        </form> -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

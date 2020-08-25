@@ -1,0 +1,75 @@
+{% extends "users/main_base.html" %}
+{% load static %}
+
+{% block summernote %}
+<!-- CheckBoxCSS -->
+<link rel="stylesheet" href="{% static 'css/users/checkbox.css' %}" type="text/css"> 
+{% endblock %}
+
+{% block mobileView %}
+<meta name="viewport" content="width=550, user-scalable=yes">
+{% endblock %}
+
+{% block contents %}
+<div class="container">
+    <div style="margin-top: 5rem !important;">
+        <div class="col-12">
+
+            <div class="row justify-content-center">
+                <div class="card">
+                    <div class="card-header" style="padding-bottom:8px;">
+                        <strong style="font-size: 18px;"><i class="fas fa-user-slash"></i>&nbsp;&nbsp;회원탈퇴</strong>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" novalidate>
+                            {% csrf_token %}
+                            <p>Reborn 웹사이트에서 <strong>{{ user.user_id }}</strong> 회원님의 계정이 삭제됩니다.<br>탈퇴시 개인정보 및 이용정보가 삭제되며 복구할 수 없습니다. <br>본인의 비밀번호를 입력한 후 하단의 유의사항 동의에 체크하세요.</p>
+                            <div class="mb-4 md-form">
+                                <label name="label_password" for="{{ password_form.password.id_for_label }}"><i
+                                        class="fas fa-lock"></i>&nbsp;&nbsp;{{ password_form.password.label }}</label>
+                                {{ password_form.password }}
+                                {% if password_form.password.errors %}
+                                <script type="text/javascript">
+                                    document.getElementsByName('password')[0].setAttribute('class',
+                                        'form-control is-invalid')
+                                </script>
+                                {% for error in password_form.password.errors %}
+                                <div class="invalid-feedback" style="margin-bottom:-10px;">
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                                <small style="margin-left: 4px; margin-top:8px; margin-bottom: 30px;" class="form-text text-muted">
+                                    본인인증을 위해 비밀번호를 입력해주세요.
+                                </small>
+                            </div>
+
+                            <label>
+                                <input type="checkbox" name="ck" onClick="checkDisable(this.form)">
+                                <span style="color:#d14040f2; font-weight: bold;">유의사항 동의</span>
+                            </label>
+                            <!-- <input class="btn btn-danger" type="submit" name="bt" value="탈퇴하기" disabled="true" /> -->
+
+                            <div style="text-align: center; margin-bottom:-15px;">
+                                <p style="color:gray; margin-bottom: 4px;"><i class="fas fa-exclamation-triangle"></i>&nbsp;{{ user.user_id }} 계정이 삭제됩니다.</p>
+                                <a onclick="location.href='/users/profile/'" class="btn btn-sm" id="back_btn"><i class="fa fa-reply"></i>&nbsp;돌아가기</a>
+                                <button type="submit" class="btn btn-sm" name="bt" id="detail_btn" disabled="true" ><i class="fas fa-check"></i>&nbsp;탈퇴하기</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function checkDisable(form) {
+        if (form.ck.checked == true) {
+            form.bt.disabled = false;
+        } else {
+            form.bt.disabled = true;
+        }
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "users/main_base.html" %}
+
+{% block mobileView %}
+<meta name="viewport" content="width=550, user-scalable=yes">
+{% endblock %}
+
+{% block contents %}
+<div class="container">
+    <div style="margin-top: 5rem !important;">
+        <div class="col-12">
+
+            <div class="row justify-content-center">
+                <div class="card">
+                    <div class="card-header" style="padding-bottom:8px;">
+                        <strong style="font-size: 18px;"><i class="fas fa-user-cog"></i>&nbsp;&nbsp;내 정보</strong>
+                    </div>
+                    <div class="card-body">
+                        <table style="color:black; margin-left:10px;">
+                            <tr>
+                                <td class="profile_title">아이디</td>
+                                {% if user.level == '0'%}
+                                <td class="profile_content">{{ user.user_id }}&nbsp;&nbsp;(개발자)</td>
+                                {% elif user.level == '1' %}
+                                <td class="profile_content">{{ user.user_id }}&nbsp;&nbsp;(관리자)</td>
+                                {% else %}
+                                <td class="profile_content">{{ user.user_id }}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td class="profile_title">이메일</td>
+                                <td class="profile_content">{{ user.email }}</td>
+                            </tr>
+                            <tr>
+                                <td class="profile_title">이름</td>
+                                <td class="profile_content">{{ user.name }}</td>
+                            </tr>
+                            <tr>
+                                <td class="profile_title">연락처</td>
+                                <td class="profile_content">0{{ user.hp }}</td>
+                            </tr>
+                            <tr>
+                                <td class="profile_title">학번</td>
+                                <td class="profile_content">{{ user.student_id|default:'작성안함' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="profile_title">학년</td>
+                                <td class="profile_content">{{ user.grade|default:'선택안함' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="profile_title">학과</td>
+                                <td class="profile_content">{{ user.department|default:'선택안함' }}</td>
+                            </tr>
+                            {% if user.department == '컴퓨터공학부' %}
+                            <tr>
+                                <td class="profile_title">동아리</td>
+                                <td class="profile_content">{{ user.circles }}</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+    
+                        <hr>
+                        <div style="text-align: center;">
+                        <!-- <div style="margin-left: 10px;"> -->
+                            <a href="{% url 'users:profile_update' %}" style="color:#d14040f2; font-size:15px;"><i class="fas fa-user-edit"></i>&nbsp;내정보수정</a>&nbsp;&middot;&nbsp;
+                            <a href="{% url 'users:password_edit' %}" style="color:#d14040f2; font-size:15px;"><i class="fas fa-user-lock"></i>&nbsp;비밀번호변경</a>&nbsp;&middot;&nbsp;
+                            <a href="{% url 'users:profile_delete' %}" style="color:#d14040f2; font-size:15px;"><i class="fas fa-user-slash"></i>&nbsp;회원탈퇴</a> <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

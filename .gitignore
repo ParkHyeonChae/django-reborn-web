@@ -7,3 +7,4 @@ db.sqlite3
 media
 secrets.json
 debug.log
+django_env

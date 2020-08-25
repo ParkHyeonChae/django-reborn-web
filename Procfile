@@ -1,1 +1,1 @@
-web: gunicorn reborn_web.wsgi --log-file -
+web: gunicorn reborn_web.wsgi
