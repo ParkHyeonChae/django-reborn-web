@@ -45,8 +45,8 @@ INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
 AUTH_USER_MODEL = "users.User"
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -117,7 +117,6 @@ STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# STATIC_ROOT = os.path.join(BASE_DIR, '.static')
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
