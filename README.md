@@ -8,7 +8,7 @@
 
 This is a Django framework-based academic homepage project aimed at improving the inconvenience of the existing academic homepage and for smooth communication and communication among undergraduate students.
 
-- **Website Address : http://inje-reborn.com/**
+- **Website Address : https://inje-reborn.herokuapp.com/**
 - **Development Record : https://parkhyeonchae.github.io/**
 
 
@@ -17,10 +17,10 @@ This is a Django framework-based academic homepage project aimed at improving th
 
 - Framework : Django 3.0.2, Bootstrap 3.4
 - Language : Python 3.7.4, JavaScript
-- Database : SQLite3
+- Database : SQLite3(dev), PostgreSQL(prod)
 - OS : Window10
 - IDE : VsCode
-- Distribute : CentOS 7.6
+- Distribute : Heroku
 - Library : [Summernote](https://summernote.org/), [Waypoints](http://imakewebthings.com/waypoints/)
 
 
@@ -30,24 +30,23 @@ This is a Django framework-based academic homepage project aimed at improving th
 ```
 Re-Born-Web/
 	reborn_web/
-		reborn_web/
-			settings.py
-			urls.py
-		users/
-		notice/
-		free/
-		anonymous/
-		calender/
-		timetable/
-		about/
-		templates/
-		static/
-		media/
-		manage.py
-		secrets.json
-		debug.log
-		db.sqlite3
-	django_env/
+		settings			
+		urls.py
+		wsgi.py
+	users/
+	notice/
+	free/
+	anonymous/
+	calender/
+	timetable/
+	about/
+	templates/
+	static/
+	media/
+	manage.py
+	secrets.json
+	Procfile
+	runtime.txt
 	gitignore
 	LICENSE
 	requirements.txt
@@ -129,10 +128,19 @@ $ cd Scripts
 $ activate
 ```
 
+**Edit Dev Mode**
+
+```
+# manage.py
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reborn_web.settings.dev')
+
+# wsgi.py
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reborn_web.settings.dev')
+```
+
 ### Create Media Directory & Secrets File
 
 ```
-$ cd reborn_web
 $ mkdir media
 $ type NUL > secrets.json // Window
 $ touch secrets.json // Linux
@@ -141,7 +149,6 @@ $ touch secrets.json // Linux
 ### DB Migration
 
 ```
-$ cd reborn_web
 $ python manage.py makemigrations
 $ python manage.py migrate
 ```
